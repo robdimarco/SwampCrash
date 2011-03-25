@@ -12,4 +12,5 @@ end
 group :test do
 	gem 'sqlite3'
 	gem 'factory_girl'
+	gem 'factory_girl_rails'
 end
