@@ -1,6 +1,13 @@
 <h1>Listing quizzes</h1>
-
-<table>
+<%= table_for @quizzes do |t|
+  t.column :id, :sortable=>false
+  t.column :name, :sortable=>false
+  t.association :owner, :first_name, :sortable=>false
+  t.action do |record|
+    link_to "Edit", edit_quiz_path(record)
+  end
+end %>
+<!-- <table>
   <tr>
     <th>Name</th>
     <th>Description</th>
@@ -16,12 +23,12 @@
     <td><%= quiz.description %></td>
     <td><%= quiz.owner_id %></td>
     <td><%= link_to 'Show', quiz %></td>
-    <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
+    <td><%= link_to 'Edit', %></td>
     <td><%= link_to 'Destroy', quiz, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
-<br />
+<br /> -->
 
 <%= link_to 'New Quiz', new_quiz_path %>
