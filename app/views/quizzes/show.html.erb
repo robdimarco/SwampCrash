@@ -11,10 +11,14 @@
 </p>
 
 <p>
-  <b>Owner:</b>
-  <%= @quiz.owner_id %>
+  <b>Quizmaster:</b>
+  <%= @quiz.owner.email %>
 </p>
-
+<ol>
+<% @quiz.quiz_questions.each do |qq|%>
+<li><%= qq.question.value%></li>
+<% end%>
+</ol>
 
 <%= link_to 'Edit', edit_quiz_path(@quiz) %> |
 <%= link_to 'Back', quizzes_path %>
