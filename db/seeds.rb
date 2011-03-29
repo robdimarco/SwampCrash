@@ -6,3 +6,5 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 User.create! :email=>'rob.dimarco@416software.com', :password=>'changeme', :password_confirmation=>'changeme'
+
+Question.import_from_file!(File.join(File.dirname(__FILE__), "base_questions.tsv"))
