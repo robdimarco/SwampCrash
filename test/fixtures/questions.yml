@@ -9,3 +9,18 @@ two:
   quiz_id: 1
   position: 
   value: MyText
+
+
+
+
+# == Schema Information
+#
+# Table name: questions
+#
+#  id            :integer         not null, primary key
+#  value         :text            not null
+#  reference_url :text
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+

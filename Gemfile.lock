@@ -29,6 +29,7 @@ GEM
       activesupport (= 3.0.5)
     activesupport (3.0.5)
     acts-as-taggable-on (2.0.6)
+    annotate (2.4.0)
     arel (2.0.9)
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
@@ -89,6 +90,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on
+  annotate
   devise
   factory_girl
   factory_girl_rails

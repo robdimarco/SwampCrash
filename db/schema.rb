@@ -22,15 +22,11 @@ ActiveRecord::Schema.define(:version => 20110325202427) do
   add_index "answers", ["question_id"], :name => "index_answers_on_question_id"
 
   create_table "questions", :force => true do |t|
-    t.integer  "quiz_id",    :null => false
-    t.integer  "position",   :null => false
-    t.text     "value",      :null => false
+    t.text     "value",         :null => false
+    t.text     "reference_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "questions", ["quiz_id", "position"], :name => "index_questions_on_quiz_id_and_position", :unique => true
-  add_index "questions", ["quiz_id"], :name => "index_questions_on_quiz_id"
 
   create_table "quizzes", :force => true do |t|
     t.string   "name",        :null => false
@@ -39,6 +35,8 @@ ActiveRecord::Schema.define(:version => 20110325202427) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "quizzes", ["name"], :name => "index_quizzes_on_name", :unique => true
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

@@ -6,3 +6,17 @@ class QuizTest < ActiveSupport::TestCase
     assert true
   end
 end
+
+
+# == Schema Information
+#
+# Table name: quizzes
+#
+#  id          :integer         not null, primary key
+#  name        :string(255)     not null
+#  description :text
+#  owner_id    :integer         not null
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
