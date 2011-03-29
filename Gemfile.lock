@@ -33,6 +33,7 @@ GEM
     arel (2.0.9)
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
+    cancan (1.6.3)
     devise (1.2.0)
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
@@ -91,6 +92,7 @@ PLATFORMS
 DEPENDENCIES
   acts-as-taggable-on
   annotate
+  cancan
   devise
   factory_girl
   factory_girl_rails
