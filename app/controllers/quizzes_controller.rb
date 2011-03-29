@@ -1,4 +1,5 @@
 class QuizzesController < ApplicationController
+  before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create]
   # GET /quizzes
   # GET /quizzes.xml
   def index
@@ -24,7 +25,7 @@ class QuizzesController < ApplicationController
   # GET /quizzes/new
   # GET /quizzes/new.xml
   def new
-    @quiz = Quiz.new
+    @quiz = Quiz.new(:owner=>current_user)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,7 +42,7 @@ class QuizzesController < ApplicationController
   # POST /quizzes.xml
   def create
     @quiz = Quiz.new(params[:quiz])
-
+    @quiz.owner = current_user
     respond_to do |format|
       if @quiz.save
         format.html { redirect_to(@quiz, :notice => 'Quiz was successfully created.') }
