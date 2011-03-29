@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class QuizzesControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
   setup do
-    @quiz = quizzes(:one)
+    @quiz = Factory.create :quiz
+    @user = Factory.create(:user)
+    sign_in @user
   end
 
   test "should get index" do
@@ -18,7 +21,7 @@ class QuizzesControllerTest < ActionController::TestCase
 
   test "should create quiz" do
     assert_difference('Quiz.count') do
-      post :create, :quiz => @quiz.attributes
+      post :create, :quiz => {:name=>'Bogus'}
     end
 
     assert_redirected_to quiz_path(assigns(:quiz))
