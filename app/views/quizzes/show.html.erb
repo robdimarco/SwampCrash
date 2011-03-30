@@ -15,8 +15,8 @@
   <%= @quiz.owner.email %>
 </p>
 <ol>
-<% @quiz.quiz_questions.each do |qq|%>
-<li><%= qq.question.value%></li>
+<% @quiz.questions.each do |qq|%>
+<li><%= qq.value%> (<%= pluralize(qq.answers.count, "correct  answer") %>)</li>
 <% end%>
 </ol>
 
