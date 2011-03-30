@@ -4,7 +4,7 @@
   t.column :name, :sortable=>false
   t.association :owner, :email, :sortable=>false
   t.action do |record|
-    link_to "Edit", edit_quiz_path(record)
+    link_to "Go", quiz_path(record)
   end
 end %>
 

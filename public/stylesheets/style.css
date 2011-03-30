@@ -198,13 +198,11 @@ article header{
 	padding:10px;
 }
 
-#jquery-test{
-	top:45px;
+.open_question footer {
+	font-style: italic;
+	margin-left: 5px;
+	font-size:90%;
 }
-
-
-
-
 
 
 

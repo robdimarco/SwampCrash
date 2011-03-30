@@ -14,7 +14,7 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1
   # GET /quizzes/1.xml
   def show
-    @quiz = Quiz.find(params[:id])
+    @quiz = Quiz.find(params[:id], :include=>{quiz_questions:{question: :answers}})
 
     respond_to do |format|
       format.html # show.html.erb
@@ -58,7 +58,7 @@ class QuizzesController < ApplicationController
   # PUT /quizzes/1.xml
   def update
     @quiz = Quiz.find(params[:id])
-
+    redirect_to root_path and return unless @quiz and @quiz.owner == current_user
     respond_to do |format|
       if @quiz.update_attributes(params[:quiz])
         format.html { redirect_to(@quiz, :notice => 'Quiz was successfully updated.') }
