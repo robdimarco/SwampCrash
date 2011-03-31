@@ -16,3 +16,24 @@ Factory.define :quiz do |q|
   q.name {Factory.next(:quiz_name)}
   q.association :owner, :factory=>:user
 end
+
+Factory.define :question do |q|
+  q.value 'Foo'
+  q.reference_url nil
+end
+
+Factory.define :answer do |a|
+  a.value 'Bar'
+  a.association :question
+end
+
+Factory.define :answer_sheet do |a|
+  a.association :user, :factory=>:user
+  a.association :quiz, :factory=>:quiz
+end
+
+Factory.define :quiz_question do |qq|
+  qq.association :quiz
+  qq.association :question
+  qq.position {|qqq| qqq.quiz.questions.count + 1}
+end

@@ -8,13 +8,14 @@ class AnswerSheet < ActiveRecord::Base
       answers.inject({}){|hsh, a| hsh[a.question_id] = a.value;hsh}
     else
       args.each_pair do |k,v|
-        a = answers.where(:question_id=>q).first
+        a = answers.where(:question_id=>k).first
         if a.nil?
-          a = UserAnswer.new(:answer_sheet=>self)
+          a = UserAnswer.new(:answer_sheet=>self, :question=>Question.find(k))
           self.answers << a
         end
         a.value = v
       end
+      args
     end
   end
   alias :answers_hash= :answers_hash

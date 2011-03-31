@@ -54,10 +54,6 @@ class QuizzesControllerTest < ActionController::TestCase
     assert_redirected_to quizzes_path
   end
   
-  test "should fail nicely if invalid quiz id" do
-    fail "Unimplemented"
-  end
-  
   {edit: :get, update: :put, destroy: :delete, :new=>:get}.each_pair do |k,v|
     test "Need to be logged in to perform #{k}" do
       assert_no_difference 'Quiz.count' do
