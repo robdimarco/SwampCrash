@@ -35,12 +35,12 @@
 	</div>
 	<div id="footer-container">
 		<footer class="wrapper">
-			Copyright &copy; 2011 - 416 Software Inc.
+			Copyright &copy; 2011 - 416 Software, LLC
 		</footer>
 	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-	<%= javascript_tag do -%> !window.jQuery && document.write(unescape('%3Cscript src="/javascripts/jquery.min.js"%3E%3C/script%3E'))<% end -%>
+	<%# javascript_tag do !window.jQuery && document.write(unescape('%3Cscript src="/javascripts/jquery.min.js"%3E%3C/script%3E'))<% end -%>
     <%= javascript_include_tag "rails", "application"%>
     <%= content_for :footer_js%>
   </body>

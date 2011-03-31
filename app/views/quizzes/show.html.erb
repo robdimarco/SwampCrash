@@ -20,10 +20,10 @@
 			<ul class="navigation_buttons">
 			  <li>
 				<span class="questions_left"></span>
-				<input type='Submit' style="display:none;" class="submit_answer_sheet">
 			  </li>
-			  <li><%= button_to_function :Previous, "navigate_question('previous', #{qq.id})" if i > 0%></li>
-			  <li><%= button_to_function :Next, "navigate_question('next', #{qq.id})" if i < ( @quiz.questions.count - 1)%></li>
+			  <li><%= button_to_function :"Previous Question", "navigate_question('previous', #{qq.id})" if i > 0%></li>
+			  <li><%= button_to_function :"Next Question", "navigate_question('next', #{qq.id})" if i < ( @quiz.questions.count - 1)%></li>
+			  <li class="submit_answer_sheet" style="display:none;"><input type='submit' value="Submit"></li>
 			</ul>
 		</div>
 	</div>
@@ -33,7 +33,7 @@
 </div>
 <div>
 <table class="quiz_information">
-	<caption>About This Quiz</caption>
+	<caption>About This Crash</caption>
 	<tbody>
 		<tr>
 			<td class="description"># of Questions</td>

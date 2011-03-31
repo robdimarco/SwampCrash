@@ -4,14 +4,16 @@ class QuizzesController < ApplicationController
   def answer
     @quiz = Quiz.find(params[:id])
     
-    if signed_in?
-      @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id @user, @quiz
-      @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id] = params[:"question_#{q.id}"];hsh}
+    if user_signed_in?
+      @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user, @quiz
+      @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id] = params[:"answer_#{q.id}"];hsh}
+      Rails.logger.debug @answer_sheet.inspect
+      @answer_sheet.save!
     else
       @answer_sheet = AnswerSheet.new :quiz=>@quiz
     end
     respond_to do |format|
-      format.html { redirect_to(@quiz, :notice => 'Answers Saved')}
+      format.html { redirect_to(@quiz, :notice => 'Your answers have been saved.  We will let you know when everyone has entered and your score is ready.')}
       format.js  { render :text => "OK".to_json }
     end
     
@@ -31,7 +33,7 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1.xml
   def show
     @quiz = Quiz.find(params[:id])
-    @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id @user, @quiz
+    @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user, @quiz
     @answer_sheet.answers_hash = @quiz.questions.inject(@answer_sheet.answers_hash){|hsh,q|hsh[q.id] ||= '';hsh}
     respond_to do |format|
       format.html # show.html.erb
