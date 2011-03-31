@@ -1,10 +1,26 @@
 class QuizzesController < ApplicationController
   before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create]
+  
+  def answer
+    @quiz = Quiz.find(params[:id])
+    
+    if signed_in?
+      @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id @user, @quiz
+      @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id] = params[:"question_#{q.id}"];hsh}
+    else
+      @answer_sheet = AnswerSheet.new :quiz=>@quiz
+    end
+    respond_to do |format|
+      format.html { redirect_to(@quiz, :notice => 'Answers Saved')}
+      format.js  { render :text => "OK".to_json }
+    end
+    
+  end
+  
   # GET /quizzes
   # GET /quizzes.xml
   def index
     @quizzes = Quiz.find_for_table :all
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @quizzes }
@@ -14,8 +30,7 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1
   # GET /quizzes/1.xml
   def show
-    @quiz = Quiz.find(params[:id], :include=>{quiz_questions:{question: :answers}})
-
+    @quiz = Quiz.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @quiz }
