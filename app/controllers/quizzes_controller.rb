@@ -1,5 +1,5 @@
 class QuizzesController < ApplicationController
-  before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create]
+  before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new]
   
   def answer
     @quiz = Quiz.find(params[:id])

@@ -17,5 +17,5 @@ class AnswerSheet < ActiveRecord::Base
       end
     end
   end
-  alias :answers_hash :answers_hash=
+  alias :answers_hash= :answers_hash
 end
