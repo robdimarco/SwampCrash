@@ -85,8 +85,10 @@ a:hover { color: #036; }
    ||                                              ||
     \\ ========================================== //
 */
-#questions, ul.navigation_buttons {list-style-type: none;
-margin: 0.5em 0;}
+#questions, ul.navigation_buttons, #answer_list {
+	list-style-type: none;
+	margin: 0.5em 0;
+}
 ul.navigation_buttons li {
 	display:inline;
 }
@@ -110,6 +112,23 @@ ul.navigation_buttons {
     font-weight: bold;
 }
 
+.quiz_information .description {
+    font-weight: bold;
+}
+.quiz_information caption {
+    font-weight: bold;
+    text-align: left;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+.quiz_information {
+    width: 100px;
+    border: 1px solid;
+}
+.quiz_information td{
+    width: 50px;
+}
+
 #QuestionBox label {
 padding-bottom: 10px;
 padding-left: 30px;
@@ -119,6 +138,22 @@ font-weight:bold;
 .user_answer {
 	width:250px;
 }
+
+#answer_list li {
+	display:inline;
+	height:125px;
+	width:125px;
+}
+ 
+#answer_list li.answered {
+	background-image:	url('/images/Ok-icon.png')
+	background-repeat: no-repeat;
+}
+#answer_list li.unanswered {
+	background-image:	url('/images/Cancel-icon.png');
+	background-repeat: no-repeat;
+}
+
 body{
 	font-family:Helvetica, Helvetica Neue, Arial, sans-serif;
 }

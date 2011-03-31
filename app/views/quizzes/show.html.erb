@@ -18,6 +18,10 @@
 		<%  end%>
 		<div>
 			<ul class="navigation_buttons">
+			  <li>
+				<span class="questions_left"></span>
+				<input type='Submit' style="display:none;" class="submit_answer_sheet">
+			  </li>
 			  <li><%= button_to_function :Previous, "navigate_question('previous', #{qq.id})" if i > 0%></li>
 			  <li><%= button_to_function :Next, "navigate_question('next', #{qq.id})" if i < ( @quiz.questions.count - 1)%></li>
 			</ul>
@@ -27,9 +31,33 @@
 <% end%>
 </ul>
 </div>
+<div>
+<table class="quiz_information">
+	<caption>About This Quiz</caption>
+	<tbody>
+		<tr>
+			<td class="description"># of Questions</td>
+			<td><%= @quiz.questions.count%></td>
+		</tr>
+			<tr>
+				<td class="description">Categories</td>
+				<td><%= @quiz.questions.collect(&:tags).flatten.uniq.collect( &:name).sort.join(", ")%></td>
+			</tr>
+				<tr>
+					<td class="description">Current Participants</td>
+					<td><%= AnswerSheet.where(:quiz_id=>@quiz.id).count%></td>
+				</tr>
+	</tbody>
+</table>
+</div>
 <% end %>
 <% content_for :footer_js do%>
   <%= javascript_tag do %>
 	var QUESTION_IDS = <%= @quiz.questions.collect(&:id).to_json%>;
+	$(document).ready(function() {
+		$(".user_answer").change(function() {setup_submit()});
+		$(".user_answer").keypress(function() {setup_submit()});
+		setup_submit();
+	})
   <% end %>
 <% end%>
