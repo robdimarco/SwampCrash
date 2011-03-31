@@ -24,7 +24,8 @@
 				<ul>
 					<li><a href="#">Home</a></li>
 					<li><a href="#">About</a></li>
-					<li><a href="#">Sign In</a></li>
+					<%= content_tag :li, link_to('Sign In', new_user_session_path) unless user_signed_in?%>
+					<%= content_tag :li, link_to('Log Out', destroy_user_session_path) if user_signed_in?%>
 				</ul>
 			</nav>
 		</header>
@@ -34,7 +35,7 @@
 	</div>
 	<div id="footer-container">
 		<footer class="wrapper">
-			<h3>A nice footer</h3>
+			Copyright &copy; 2011 - 416 Software Inc.
 		</footer>
 	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
