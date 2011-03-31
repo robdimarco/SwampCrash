@@ -1,5 +1,9 @@
 Swampcrash::Application.routes.draw do
-  resources :quizzes
+  resources :quizzes do
+    member do
+      post :answer
+    end
+  end
 
   devise_for :users
 

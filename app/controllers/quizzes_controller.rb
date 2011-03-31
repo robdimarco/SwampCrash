@@ -31,6 +31,8 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1.xml
   def show
     @quiz = Quiz.find(params[:id])
+    @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id @user, @quiz
+    @answer_sheet.answers_hash = @quiz.questions.inject(@answer_sheet.answers_hash){|hsh,q|hsh[q.id] ||= '';hsh}
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @quiz }

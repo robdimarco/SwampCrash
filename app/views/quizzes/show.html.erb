@@ -1,31 +1,35 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @quiz.name %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @quiz.description %>
-</p>
-
-<p>
-  <b>Quizmaster:</b>
-  <%= @quiz.owner.email %>
-</p>
+<h3><%= @quiz.name %></h3>
+<h4>Brought to you by <%= @quiz.owner.email %></h4>
+<%= content_tag :p, @quiz.description unless @quiz.description.blank?%>
+<%= form_for @answer_sheet, :url=>answer_quiz_path do |f|%>
+<div id="QuestionBox">
+<ul id="questions">
 <% @quiz.questions.each_with_index do |qq, i|%>
-<div class="open_question">
-	<header>
-		<h3>Question <%= i + 1%></h3>
-	</header>
-	<section>
-	<%= qq.value%>
-	<input type="text" class="quiz_answer">
-	</section>
-	<footer><%= pluralize(qq.answers.count, "correct answer") %></footer>
-</div>
+<%= content_tag_for :li, qq, :style=>(i == 0 ? '' : "display:none;") do %>
+	<div>
+		<h3>Question #<%= i + 1%></h3>
+		<%= content_tag :div, qq.value, :class=>'question_text'%>
+		<%= content_tag :div, pluralize(qq.answers.count, "correct answer"), :class=>'correct_answer_count' %>
+		<%= content_tag :div do%>
+		  <%= label_tag "answer_#{qq.id}", 'Your Answer' %>
+		  <%= text_field_tag "answer_#{qq.id}", @answer_sheet.answers_hash[qq.id], :class=>'user_answer'%>
+		<%  end%>
+		<div>
+			<ul class="navigation_buttons">
+			  <li><%= button_to_function :Previous, "navigate_question('previous', #{qq.id})" if i > 0%></li>
+			  <li><%= button_to_function :Next, "navigate_question('next', #{qq.id})" if i < ( @quiz.questions.count - 1)%></li>
+			</ul>
+		</div>
+	</div>
+<% end %>
 <% end%>
-
-<%= link_to_if current_user == @quiz.owner, 'Edit', edit_quiz_path(@quiz) %> |
-<%= link_to 'Back', quizzes_path %>
+</ul>
+</div>
+<% end %>
+<% content_for :footer_js do%>
+  <%= javascript_tag do %>
+	var QUESTION_IDS = <%= @quiz.questions.collect(&:id).to_json%>;
+  <% end %>
+<% end%>
