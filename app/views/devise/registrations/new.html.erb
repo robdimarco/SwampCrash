@@ -14,7 +14,4 @@
 
   <p><%= f.submit "Sign up" %></p>
 <% end %>
-<%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
-<%= link_to "sign in with google", user_omniauth_authorize_path(:open_id, :openid_url => "https://www.google.com/accounts/o8/id") %>
-<%= link_to 'GMail', user_omniauth_authorize_path(:google_apps) %>
 <%= render :partial => "devise/shared/links" %>
