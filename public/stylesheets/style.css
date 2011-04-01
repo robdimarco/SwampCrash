@@ -85,11 +85,11 @@ a:hover { color: #036; }
    ||                                              ||
     \\ ========================================== //
 */
-#questions, ul.navigation_buttons, #answer_list {
+#questions, ul.navigation_buttons, #answer_list, #social-icons {
 	list-style-type: none;
 	margin: 0.5em 0;
 }
-ul.navigation_buttons li {
+ul.navigation_buttons li, #social-icons li {
 	display:inline;
 }
 ul.navigation_buttons {
