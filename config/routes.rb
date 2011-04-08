@@ -2,6 +2,7 @@ Swampcrash::Application.routes.draw do
   resources :quizzes do
     member do
       post :answer
+      get :answer
     end
   end
 

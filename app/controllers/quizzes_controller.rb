@@ -2,21 +2,28 @@ class QuizzesController < ApplicationController
   before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new]
   
   def answer
-    @quiz = Quiz.find(params[:id])
+    params_to_use = (session[:answer_sheet] || {}).merge(params)
+    params_to_use.symbolize_keys!
+    Rails.logger.debug "Using params #{params_to_use.inspect} have id of #{params_to_use[:id]}"
+    @quiz = Quiz.find(params_to_use[:id])
     
     if user_signed_in?
       @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user, @quiz
-      @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id] = params[:"answer_#{q.id}"];hsh}
+      @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id] = params_to_use[:"answer_#{q.id}"];hsh}
       Rails.logger.debug @answer_sheet.inspect
       @answer_sheet.save!
+
+      session.delete(:answer_sheet)
+
+      respond_to do |format|
+        format.html { redirect_to(@quiz, :notice => 'Your answers have been saved.  We will let you know when everyone has entered and your score is ready.')}
+        format.js  { render :text => "OK".to_json }
+      end
     else
-      @answer_sheet = AnswerSheet.new :quiz=>@quiz
+      session[:answer_sheet] = params_to_use
+      session[:redirect_after_sign_in_url] = answer_quiz_path
+      redirect_to new_user_session_path
     end
-    respond_to do |format|
-      format.html { redirect_to(@quiz, :notice => 'Your answers have been saved.  We will let you know when everyone has entered and your score is ready.')}
-      format.js  { render :text => "OK".to_json }
-    end
-    
   end
   
   # GET /quizzes
