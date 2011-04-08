@@ -7,6 +7,7 @@ Swampcrash::Application.routes.draw do
   end
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  match 'content/:action', :as=>:content, :controller=>:content
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
