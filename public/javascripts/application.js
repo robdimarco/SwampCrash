@@ -16,6 +16,7 @@ function navigate_question(trans_type, question_id) {
 		question_id = QUESTION_IDS[idx];
 		if ($('#question_' + question_id).length > 0) {
 			$('#question_' + question_id).fadeIn();
+			$('#question_' + question_id + ' .user_answer').focus();
 		}
 	});
 }	

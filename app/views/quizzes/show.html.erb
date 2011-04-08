@@ -3,7 +3,7 @@
 <h3><%= @quiz.name %></h3>
 <h4>Brought to you by <%= @quiz.owner.email %></h4>
 <%= content_tag :p, @quiz.description unless @quiz.description.blank?%>
-<%= form_for @answer_sheet, :url=>answer_quiz_path do |f|%>
+<%= form_tag answer_quiz_path do |f|%>
 <div id="QuestionBox">
 <ul id="questions">
 <% @quiz.questions.each_with_index do |qq, i|%>
@@ -14,7 +14,7 @@
 		<%= content_tag :div, pluralize(qq.answers.count, "correct answer"), :class=>'correct_answer_count' %>
 		<%= content_tag :div do%>
 		  <%= label_tag "answer_#{qq.id}", 'Your Answer' %>
-		  <%= text_field_tag "answer_#{qq.id}", @answer_sheet.answers_hash[qq.id], :class=>'user_answer'%>
+		  <%= answer_text_field(qq)%>
 		<%  end%>
 		<div>
 			<ul class="navigation_buttons">

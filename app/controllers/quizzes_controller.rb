@@ -8,7 +8,7 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.find(params_to_use[:id])
     
     if user_signed_in?
-      @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user, @quiz
+      @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user.id, @quiz.id
       @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id] = params_to_use[:"answer_#{q.id}"];hsh}
       Rails.logger.debug @answer_sheet.inspect
       @answer_sheet.save!
@@ -40,8 +40,7 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1.xml
   def show
     @quiz = Quiz.find(params[:id])
-    @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user, @quiz
-    @answer_sheet.answers_hash = @quiz.questions.inject(@answer_sheet.answers_hash){|hsh,q|hsh[q.id] ||= '';hsh}
+    @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id( current_user.id, @quiz.id ) if user_signed_in?
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @quiz }
