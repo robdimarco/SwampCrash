@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110401181231) do
+ActiveRecord::Schema.define(:version => 20110412001548) do
 
   create_table "answer_sheets", :force => true do |t|
     t.integer  "quiz_id"
@@ -44,11 +44,12 @@ ActiveRecord::Schema.define(:version => 20110401181231) do
   end
 
   create_table "quizzes", :force => true do |t|
-    t.string   "name",        :null => false
+    t.string   "name",                               :null => false
     t.text     "description"
-    t.integer  "owner_id",    :null => false
+    t.integer  "owner_id",                           :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status",      :default => "pending"
   end
 
   add_index "quizzes", ["name"], :name => "index_quizzes_on_name", :unique => true

@@ -15,6 +15,7 @@ end
 Factory.define :quiz do |q|
   q.name {Factory.next(:quiz_name)}
   q.association :owner, :factory=>:user
+  q.status 'pending'
 end
 
 Factory.define :question do |q|

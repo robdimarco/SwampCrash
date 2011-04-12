@@ -2,6 +2,9 @@ class Quiz < ActiveRecord::Base
   belongs_to :owner, :class_name=>"User", :foreign_key=>"owner_id"
   has_many :quiz_questions, :order=>"position"
   has_many :questions, :through=>:quiz_questions
+  before_validation(:on=>:create) {self.status ||= 'pending'}
+  validates_inclusion_of :status, :in => %w( pending active complete )
+    
   def to_param
     "#{id}-#{name.parameterize}"
   end

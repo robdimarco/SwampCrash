@@ -1,11 +1,11 @@
-<h1>Listing quizzes</h1>
-<%= table_for @quizzes do |t|
-  t.column :id, :sortable=>false
-  t.column :name, :sortable=>false
-  t.association :owner, :email, :sortable=>false
-  t.action do |record|
-    link_to "Go", quiz_path(record)
-  end
-end %>
-
-<%= link_to 'New Quiz', new_quiz_path %>
+<div id="AnsweredCrashesBox">
+	
+</div>
+<div id="CurrentCrashBox">
+	
+</div>
+<div id="OwnerCrashBox">
+	<ul>
+		<li></li>
+	</ul>
+</div>
