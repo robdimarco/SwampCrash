@@ -1,21 +1,21 @@
 = if user_signed_in?
-	%section#id
-		%caption Your Answers
-		%ul
-			- current_user.answered_quizzes.each do |q|
-				li= link_to(q.name, quiz_path(q))
+    %section#id
+        %caption Your Answers
+        %ul
+            - current_user.answered_quizzes.each do |q|
+                li= link_to(q.name, quiz_path(q))
 
 %section#CurrentCrashBox
-	%caption Ongoing Crashes
-	%ul
-		- Quiz.active.each do |q|
-			%li{:class=>"quiz_#{q.id}"}= link_to(q.name, quiz_path(q))
-
+    %caption Ongoing Crashes
+    %ul
+        - Quiz.active.each do |q|
+            %li{:class=>"quiz_#{q.id}"}= link_to(q.name, quiz_path(q))
+            
 %section#OwnerCrashBox
-	%caption Your Authored Crashes
-	- if owns_quizzes?(current_user)
-		%ul
-		- current_user.owned_quizzes.each do |q|
-			%li= link_to(q.name, quiz_path(q))
-	- else
-		%h4.none_found None (Yet....)
+    %caption Your Authored Crashes
+    - if owns_quizzes?(current_user)
+        %ul
+            - current_user.owned_quizzes.each do |q|
+                %li= link_to(q.name, quiz_path(q))
+    - else
+        %h4.none_found None (Yet....)
