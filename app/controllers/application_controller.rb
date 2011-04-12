@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, :alert => exception.message
   end
   
+  helper_method :user_signed_in?, :current_user
+  
   protected
   def after_sign_in_path_for(resource)
     if session.include?(:redirect_after_sign_in_url)
