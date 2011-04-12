@@ -35,6 +35,8 @@ GEM
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
     cancan (1.6.4)
+    compass (0.10.6)
+      haml (>= 3.0.4)
     devise (1.2.1)
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
@@ -49,6 +51,7 @@ GEM
       addressable (~> 2.2.4)
       multipart-post (~> 1.1.0)
       rack (< 2, >= 1.1.0)
+    haml (3.0.25)
     hoptoad_notifier (2.4.9)
       activesupport
       builder
@@ -123,9 +126,11 @@ DEPENDENCIES
   acts-as-taggable-on
   annotate
   cancan
+  compass
   devise
   factory_girl
   factory_girl_rails
+  haml
   hoptoad_notifier
   jquery-rails
   oa-oauth

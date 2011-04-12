@@ -8,6 +8,8 @@ gem 'hoptoad_notifier'
 gem "jquery-rails"
 gem "oa-oauth", :require => "omniauth/oauth"
 gem 'oa-openid', :require => 'omniauth/openid'
+gem 'compass'
+gem 'haml'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
