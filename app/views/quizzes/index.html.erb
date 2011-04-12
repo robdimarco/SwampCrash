@@ -1,21 +1,30 @@
-<div id="AnsweredCrashesBox">
-	
-</div>
-<div id="CurrentCrashBox">
+<% if user_signed_in?%>
+<section id="AnsweredCrashesBox">
+	<caption>Your Answers</caption>
+	<ul>
+		<% current_user.answered_quizzes.each do |q|%>
+		<%= content_tag(:li, link_to(q.name, quiz_path(q))) %>
+	    <% end %>
+	</ul>
+</section>
+<% end %>
+<section id="CurrentCrashBox">
+	<caption>Ongoing Crashes</caption>
 	<ul>
 		<% Quiz.active.each do |q| %>
-		<%= content_tag(:li, link_to(q.name, quizzes_path(q)), :class=>"quiz_#{q.id}") %>
+		<%= content_tag(:li, link_to(q.name, quiz_path(q)), :class=>"quiz_#{q.id}") %>
 		<% end %>
 	</ul>
-</div>
-<div id="OwnerCrashBox">
+</section>
+<section id="OwnerCrashBox">
+	<caption>Your Authored Crashes</caption>
     <% if owns_quizzes?(current_user) %>
 		<ul>
 			<% current_user.owned_quizzes.each do |q|%>
-			<%= content_tag(:li, link_to(q.name, quizzes_path(q))) %>
+			<%= content_tag(:li, link_to(q.name, quiz_path(q))) %>
 		    <% end %>
  		</ul>
     <% else %>
- <h4 class="none_found">None</h4>
+ <h4 class="none_found">None (Yet....)</h4>
     <% end%>
-</div>
+</section>
