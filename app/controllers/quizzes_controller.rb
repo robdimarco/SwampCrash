@@ -29,7 +29,6 @@ class QuizzesController < ApplicationController
   # GET /quizzes
   # GET /quizzes.xml
   def index
-    @quizzes = Quiz.find_for_table :all
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @quizzes }
