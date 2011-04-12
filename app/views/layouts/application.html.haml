@@ -6,7 +6,10 @@
     %meta{:name=>"description", :content=>""}
     %meta{:name=>"author", :content=>"Rob Di Marco, 416 Software, LLC"}
     %title SwampCrash...chomp
-    = stylesheet_link_tag :all
+    = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
+    = stylesheet_link_tag 'print.css', :media => 'print'
+    /[if IE]
+        = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
     = csrf_meta_tag
     = hoptoad_javascript_notifier
 %body

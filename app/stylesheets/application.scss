@@ -1,0 +1,7 @@
+@import "base";
+
+#wrapper {
+  @include container;
+}
+
+@include tabs;
