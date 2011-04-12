@@ -27,16 +27,7 @@ class User < ActiveRecord::Base
     #self.name = omniauth['user_info']['name'] if name.blank?
     #self.nickname = omniauth['user_info']['nickname'] if nickname.blank?
     
-    unless omniauth['credentials'].blank?
-      user_tokens.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
-      #user_tokens.build(:provider => omniauth['provider'],
-      # :uid => omniauth['uid'],
-      # :token => omniauth['credentials']['token'],
-      # :secret => omniauth['credentials']['secret'])
-    else
-      user_tokens.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
-    end
-    #self.confirm!# unless user.email.blank?
+    user_tokens.build(:provider => omniauth['provider'], :uid => omniauth['uid'], :details=>omniauth)
   end
 
   def password_required?

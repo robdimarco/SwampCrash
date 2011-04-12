@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110412001548) do
+ActiveRecord::Schema.define(:version => 20110412023258) do
 
   create_table "answer_sheets", :force => true do |t|
     t.integer  "quiz_id"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20110412001548) do
     t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "details"
   end
 
   create_table "users", :force => true do |t|
