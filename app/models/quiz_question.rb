@@ -5,3 +5,16 @@ class QuizQuestion < ActiveRecord::Base
   validates_numericality_of :position
   validates_presence_of :quiz, :question
 end
+
+# == Schema Information
+#
+# Table name: quiz_questions
+#
+#  id          :integer         not null, primary key
+#  question_id :integer
+#  quiz_id     :integer
+#  position    :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+

@@ -11,6 +11,7 @@ class Quiz < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: quizzes
@@ -21,5 +22,6 @@ end
 #  owner_id    :integer         not null
 #  created_at  :datetime
 #  updated_at  :datetime
+#  status      :string(255)     default("pending")
 #
 

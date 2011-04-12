@@ -20,3 +20,15 @@ class AnswerSheet < ActiveRecord::Base
   end
   alias :answers_hash= :answers_hash
 end
+
+# == Schema Information
+#
+# Table name: answer_sheets
+#
+#  id         :integer         not null, primary key
+#  quiz_id    :integer
+#  user_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+

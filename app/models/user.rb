@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   has_many :user_tokens
   has_many :answer_sheets
+  has_many :answered_quizzes, :through=>:answer_sheets, :source=>:quiz
+  has_many :owned_quizzes, :class_name=>'Quiz', :foreign_key=>'owner_id'
+  
   # Include default devise modules. Others available are:
   # :encryptable, :lockable, :timeoutable and :omniauthable, :confirmable
   devise :database_authenticatable, :registerable,
@@ -46,13 +49,14 @@ class User < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: users
 #
 #  id                   :integer         not null, primary key
-#  email                :string(255)     default(""), not null
-#  encrypted_password   :string(128)     default(""), not null
+#  email                :string(255)
+#  encrypted_password   :string(128)
 #  reset_password_token :string(255)
 #  remember_created_at  :datetime
 #  sign_in_count        :integer         default(0)
@@ -60,6 +64,11 @@ end
 #  last_sign_in_at      :datetime
 #  current_sign_in_ip   :string(255)
 #  last_sign_in_ip      :string(255)
+#  password_salt        :string(255)
+#  confirmation_token   :string(255)
+#  confirmed_at         :datetime
+#  confirmation_sent_at :datetime
+#  authentication_token :string(255)
 #  created_at           :datetime
 #  updated_at           :datetime
 #

@@ -18,3 +18,15 @@ class AnswerSheetTest < ActiveSupport::TestCase
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: answer_sheets
+#
+#  id         :integer         not null, primary key
+#  quiz_id    :integer
+#  user_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+

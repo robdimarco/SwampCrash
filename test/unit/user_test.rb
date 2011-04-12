@@ -1,9 +1,21 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  test "User can get at their owned quizzes" do
+    u = Factory.create :user
+    q = Factory.create :quiz, :owner=>u
+    u.reload
+    assert_equal 1, u.owned_quizzes.count
+    assert_equal q, u.owned_quizzes.first
+  end
+  test "User can get at their answered quizzes" do
+    q = Factory.create :quiz
+    u = Factory.create :user
+    AnswerSheet.create :quiz=>q, :user=>u
+    
+    u.reload
+    assert_equal 1, u.answered_quizzes.count
+    assert_equal q, u.answered_quizzes.first
   end
 end
 
