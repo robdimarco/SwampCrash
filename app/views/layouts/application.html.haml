@@ -12,24 +12,25 @@
         = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
     = csrf_meta_tag
     = hoptoad_javascript_notifier
-%body
-    #header-container
-        %header.wrapper
+%body.bp
+    %div{:class=>blueprint_container}
+        #header
             %h1#title= content_for(:title).blank? ? "SwampCrash" : content_for(:title)
             %nav
-                %ul
-                    %li= link_to 'Home', root_path
-                    %li= link_to 'About', content_path(:action=>'about')
-                    %li= link_to 'TODOs', content_path(:action=>'todos')
-                    = content_tag :li, link_to('Sign In', new_user_session_path) unless user_signed_in?
-                    = content_tag :li, link_to('Log Out', destroy_user_session_path) if user_signed_in?
-    #main.wrapper
-        %p= yield
-    #footer-container
-        %footer.wrapper
+                %ul.tabs
+                    = menu_tab_link 'Home', root_path
+                    = menu_tab_link 'About', content_path(:action=>'about')
+                    = menu_tab_link 'TODOs', content_path(:action=>'todos')
+                    - if user_signed_in?
+                        = menu_tab_link('Log Out', destroy_user_session_path)
+                    - else 
+                        = menu_tab_link('Sign In', new_user_session_path)
+        #content
+            %p= yield
+        %footer
             Copyright &copy; 2011 - 416 Software, LLC
-    %script{:src=>"//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"}
-    %script{:src=>"//ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"}
-    = javascript_tag %Q[!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/jquery.min.js"%3E%3C/script%3E'))]
-    = javascript_include_tag "rails", "application"
-    = content_for :footer_js
+        %script{:src=>"//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"}
+        %script{:src=>"//ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"}
+        = javascript_tag %Q[!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/jquery.min.js"%3E%3C/script%3E'))]
+        = javascript_include_tag "rails", "application"
+        = content_for :footer_js

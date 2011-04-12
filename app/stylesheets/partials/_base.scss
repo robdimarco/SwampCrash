@@ -13,3 +13,11 @@ $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $b
 @import "compass/reset";
 @import "compass/utilities";
 @import "blueprint";
+
+.quiz_list_box {
+  @include column(8, true);
+}
+
+footer {
+    @include column($blueprint-grid-columns);
+}

@@ -11,15 +11,17 @@
 ----------------------------------------------------------------------- */
 
 .tabs { 
-	border-bottom:1px solid #ccc;
+@include container;
+	border-bottom:1px solid $header-color;
 	height:auto; 
 	margin:0 0 .75em 0;
 	overflow:auto;
 	padding-left:0; 
 }
+
 * html .tabs { height:1%; /* fixing IE 6 */ }
 .tabs li {
-  border:1px solid #ccc;
+  border:1px solid $loud-color;
   border-bottom:none;
   float:left;
   line-height:1.5; 
@@ -28,7 +30,7 @@
   padding:0;
 }
 .tabs li a { 
-	background:#ddd;
+  background:#ddd;
   border:1px solid #eee;
   border-bottom:none;
   color:#222;
