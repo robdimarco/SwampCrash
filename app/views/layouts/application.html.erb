@@ -24,6 +24,7 @@
 				<ul>
 					<li><%= link_to 'Home', root_path%></li>
 					<li><%= link_to 'About', content_path(:action=>'about') %></li>
+					<li><%= link_to 'TODOs', content_path(:action=>'todos') %></li>
 					<%= content_tag :li, link_to('Sign In', new_user_session_path) unless user_signed_in?%>
 					<%= content_tag :li, link_to('Log Out', destroy_user_session_path) if user_signed_in?%>
 				</ul>
