@@ -2,7 +2,7 @@
 // Feel free to delete these if you want keep the defaults:
 
 $blueprint-grid-columns: 24;
-$blueprint-container-size: 950px;
+$blueprint-container-size: 800px;
 $blueprint-grid-margin: 10px;
 $font-color             : #333;
 
@@ -14,10 +14,19 @@ $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $b
 @import "compass/utilities";
 @import "blueprint";
 
-.quiz_list_box {
-  @include column(8, true);
+header, footer {
+    @include column($blueprint-grid-columns);
 }
 
-footer {
-    @include column($blueprint-grid-columns);
+.question_text {
+    $question-columns: ceil(2 * $blueprint-grid-columns / 3);
+    @include column($question-columns); 
+}
+.answer_box    {
+    $answer-columns: floor($blueprint-grid-columns / 3);
+    @include column($answer-columns, true); 
+}
+.quiz_description, .answer_sheet, .quiz_information {
+  @include prepend(2);
+  @include column($blueprint-grid-columns - 2, true);;
 }

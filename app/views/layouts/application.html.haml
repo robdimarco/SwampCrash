@@ -25,12 +25,12 @@
                         = menu_tab_link('Log Out', destroy_user_session_path)
                     - else 
                         = menu_tab_link('Sign In', new_user_session_path)
-        #content
+        .container
             %p= yield
-        %footer
-            Copyright &copy; 2011 - 416 Software, LLC
-        %script{:src=>"//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"}
-        %script{:src=>"//ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"}
-        = javascript_tag %Q[!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/jquery.min.js"%3E%3C/script%3E'))]
-        = javascript_include_tag "rails", "application"
-        = content_for :footer_js
+    %footer
+        %h6 Copyright &copy; 2011 - 416 Software, LLC
+    %script{:src=>"//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"}
+    %script{:src=>"//ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"}
+    = javascript_tag %Q[!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/jquery.min.js"%3E%3C/script%3E'))]
+    = javascript_include_tag "rails", "application"
+    = content_for :footer_js

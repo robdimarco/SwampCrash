@@ -1,47 +1,40 @@
-%p#notice= notice
-%h3= @quiz.name
-%h4
-  Brought to you by #{@quiz.owner.email}
-= content_tag :p, @quiz.description unless @quiz.description.blank?
-= form_tag answer_quiz_path do |f|
-  #QuestionBox
-    %ul#questions
-      - @quiz.questions.each_with_index do |qq, i|
-        = content_tag_for :li, qq, :style=>(i == 0 ? '' : "display:none;") do
-          %div
-            %h3
-              Question ##{i + 1}
-            = content_tag :div, qq.value, :class=>'question_text'
-            = content_tag :div, pluralize(qq.answers.count, "correct answer"), :class=>'correct_answer_count'
-            = content_tag :div do
-              = label_tag "answer_#{qq.id}", 'Your Answer'
-              = answer_text_field(qq)
-            %div
-              %ul.navigation_buttons
-                %li
-                  %span.questions_left
-                %li= button_to_function :"Previous Question", "navigate_question('previous', #{qq.id})" if i > 0
-                %li= button_to_function :"Next Question", "navigate_question('next', #{qq.id})" if i < ( @quiz.questions.count - 1)
-                %li.submit_answer_sheet{:style => "display:none;"}
-                  %input{:type => "submit", :value => "Submit"}/
-  %div
-    %table.quiz_information
-      %caption About This Crash
-      %tbody
-        %tr
-          %td.description # of Questions
-          %td= @quiz.questions.count
-        %tr
-          %td.description Categories
-          %td= @quiz.questions.collect(&:tags).flatten.uniq.collect( &:name).sort.join(", ")
-        %tr
-          %td.description Current Participants
-          %td= AnswerSheet.where(:quiz_id=>@quiz.id).count
+- unless notice.blank?
+    .notice= notice
+
+.quiz_description
+    %h3= @quiz.name
+    %h4 Brought to you by #{@quiz.owner.email}
+    = content_tag :p, @quiz.description unless @quiz.description.blank?
+.answer_sheet
+    = form_tag answer_quiz_path, :class=>"bp" do |f|
+        %fieldset#QuestionBox
+            - @quiz.questions.each_with_index do |qq, i|
+                = content_tag_for :p, qq do
+                    %p
+                        %label
+                            = qq.value
+                    = answer_text_field(qq)
+                    .correct_answer_count= pluralize(qq.answers.count, "correct answer")
+            %input{:type => "submit", :value => "Submit"}
+
+.quiz_information
+    %table
+        %caption About This Crash
+        %tbody
+            %tr
+                %td.description # of Questions
+                %td= @quiz.questions.count
+            %tr
+                %td.description Categories
+                %td= @quiz.questions.collect(&:tags).flatten.uniq.collect( &:name).sort.join(", ")
+            %tr
+                %td.description Current Participants
+                %td= AnswerSheet.where(:quiz_id=>@quiz.id).count
 - content_for :footer_js do
-  = javascript_tag do
-    var QUESTION_IDS = #{@quiz.questions.collect(&:id).to_json};
-    $(document).ready(function() {
-    $(".user_answer").change(function() {setup_submit()});
-    $(".user_answer").keypress(function() {setup_submit()});
-    setup_submit();
-    })
+    = javascript_tag do
+        var QUESTION_IDS = #{@quiz.questions.collect(&:id).to_json};
+        $(document).ready(function() {
+        $(".user_answer").change(function() {setup_submit()});
+        $(".user_answer").keypress(function() {setup_submit()});
+        setup_submit();
+        })
