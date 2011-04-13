@@ -30,11 +30,3 @@
             %tr
                 %td.description Current Participants
                 %td= AnswerSheet.where(:quiz_id=>@quiz.id).count
-- content_for :footer_js do
-    = javascript_tag do
-        var QUESTION_IDS = #{@quiz.questions.collect(&:id).to_json};
-        $(document).ready(function() {
-        $(".user_answer").change(function() {setup_submit()});
-        $(".user_answer").keypress(function() {setup_submit()});
-        setup_submit();
-        })
