@@ -26,7 +26,20 @@ header, footer {
     $answer-columns: floor($blueprint-grid-columns / 3);
     @include column($answer-columns, true); 
 }
-.quiz_description, .answer_sheet, .quiz_information {
+.quiz_description, .answer_sheet, .quiz_information, .padded_full {
   @include prepend(2);
   @include column($blueprint-grid-columns - 2, true);;
 }
+
+.user_login {
+    @include column(10, false);
+}
+.user_links {
+    @include prepend-top(10em);
+    @include column(6, true);
+}
+
+.social-icons {
+    list-style-type:none;
+}
+.social-icons li {	display:inline; }
