@@ -22,13 +22,13 @@ class QuizzesControllerTest < ActionController::TestCase
   
   test "no logged in user results in no owned quizzes" do
     get :index
-    assert_select "#OwnerCrashBox .none_found"
+    assert_select "#OwnerCrashBox", false
   end
 
   test "logged in user results with no owned quizzes" do
     sign_in Factory.create(:user)
     get :index
-    assert_select "#OwnerCrashBox .none_found"
+    assert_select "#OwnerCrashBox", false
   end
 
   test "logged in user results with owned quizzes" do
