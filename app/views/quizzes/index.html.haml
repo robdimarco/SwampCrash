@@ -1,24 +1,25 @@
-- if user_signed_in?
-    %section#YourAnswers.quiz_list_box
-        %h6 Your Crashes
-        - unless current_user.answered_quizzes.empty?
-            %ul
-                - current_user.answered_quizzes.each do |q|
-                    li= link_to(q.name, quiz_path(q))
-        - else
-            %h7 No Crashes Played Yet....
-            
-%section#CurrentCrashBox.quiz_list_box
-    %h6 Ongoing Crashes
-    %ul
-        - Quiz.active.each do |q|
-            %li{:class=>"quiz_#{q.id}"}= link_to(q.name, quiz_path(q))
-            
-%section#OwnerCrashBox.quiz_list_box
-    %h6 Your Authored Crashes
-    - if owns_quizzes?(current_user)
+.content
+    #CurrentCrashBox.open_quiz_list_box
+        %h2 Current Crashes
         %ul
-            - current_user.owned_quizzes.each do |q|
-                %li= link_to(q.name, quiz_path(q))
-    - else
-        %h4.none_found None (Yet....)
+            - Quiz.active.each do |q|
+                %li{:class=>"quiz_#{q.id}"}
+                    = q.name
+                    = link_to("Play Now!!!", quiz_path(q))
+
+    - if user_signed_in?
+        #YourAnswers.quiz_list_box
+            %h6 Your Crashes
+            - unless current_user.answered_quizzes.empty?
+                %ul
+                    - current_user.answered_quizzes.each do |q|
+                        %li= link_to(q.name, quiz_path(q))
+            - else
+                %h7 No Crashes Played Yet....
+            
+    - if owns_quizzes?(current_user)
+        #OwnerCrashBox.quiz_list_box
+            %h6 Your Authored Crashes
+            %ul
+                - current_user.owned_quizzes.each do |q|
+                    %li= link_to(q.name, quiz_path(q))

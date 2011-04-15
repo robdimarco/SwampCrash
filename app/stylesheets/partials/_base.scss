@@ -13,6 +13,13 @@ $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $b
 @import "compass/reset";
 @import "compass/utilities";
 @import "blueprint";
+@import "compass/css3/box-shadow";
+@import "compass/utilities/lists/inline-list";
+
+@mixin quiz-list-box{
+	@include min-height(100px);
+	@include box-shadow;
+}
 
 header, footer {
     @include column($blueprint-grid-columns);
@@ -26,9 +33,33 @@ header, footer {
     $answer-columns: floor($blueprint-grid-columns / 3);
     @include column($answer-columns, true); 
 }
-.quiz_description, .answer_sheet, .quiz_information, .padded_full {
+.quiz_list_box {
+	@include push(2);
+	@include column(8);
+	@include min-height(100px);
+	@include box-shadow;
+}
+.quiz_list_box {
+    @include prepend-top(1em);
+	@include column(8);
+	@include quiz_list_box;
+}
+.open_quiz_list_box {
+  @include column($blueprint-grid-columns - 4, true);
+  @include quiz_list_box;
+}
+.quiz_list_box h2 {
+	@include prepend(1);
+    @include prepend-top(.5em);
+}
+.quiz_list_box ul {
+	@include inline-list;
+}
+.quiz_list_box li {
+}
+.quiz_description, .answer_sheet, .quiz_information, .padded_full, .content {
   @include prepend(2);
-  @include column($blueprint-grid-columns - 2, true);;
+  @include column($blueprint-grid-columns - 2, true);
 }
 
 .user_login {
@@ -39,7 +70,5 @@ header, footer {
     @include column(6, true);
 }
 
-.social-icons {
-    list-style-type:none;
-}
-.social-icons li {	display:inline; }
+.social-icons {@include inline-list;}
+
