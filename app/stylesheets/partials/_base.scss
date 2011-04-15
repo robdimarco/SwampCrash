@@ -21,8 +21,15 @@ $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $b
 	@include box-shadow;
 }
 
-header, footer {
+header {
     @include column($blueprint-grid-columns);
+}
+footer {
+	text-align:center;
+    @include column($blueprint-grid-columns);
+}
+footer ul {
+	@include inline-list;
 }
 
 .question_text {
