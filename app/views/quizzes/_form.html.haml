@@ -16,23 +16,26 @@
         %br/
         = f.text_area :description
     - unless @quiz.quiz_questions.empty?
-        - @quiz.quiz_questions.each do |q|
-            .field
-                = f.label q.question.value
+        %h6 Questions
+        %ol
+            - @quiz.quiz_questions.each do |q|
+                %li
+                    = q.question.value
+                    %ul.inline-list
+                        %li= link_to "Edit", edit_quiz_question_path(q)
+                        %li= link_to "Delete", quiz_question_path(q), :method=>:delete
+                
     .actions
-        %button#AddQuestion Add Question
-        %br/
+        - unless @quiz.new_record?
+            %button#AddQuestion Add Question
+            %br/
         = f.submit
 
 - content_for :footer_js do
     :javascript
         $(document).ready(function() {        
             $("#AddQuestion").click(function() {
-                $.ajax("#{new_quiz_question_path(:quiz_id=>@quiz, :format=>:json)}", 
-                    {dataType:'json',
-                    complete:function() {
-                    
-                    }});
+                document.location.href = "#{new_quiz_question_path(@quiz)}";
                 return false;
             });
         });

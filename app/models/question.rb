@@ -2,6 +2,12 @@ class Question < ActiveRecord::Base
   acts_as_taggable
   has_many :answers
   accepts_nested_attributes_for :answers, :tags
+  def answers_str
+    answers.collect(&:value).join(",")
+  end
+  def answers_str=(a_str)
+    self.answers = a_str.split(/\s*,\s*/).collect{|a|Answer.new(:question=>self, :value=>a)}
+  end
   def self.import_from_file!(file_name, options={})
     require 'csv'
     options = options.merge({col_sep: "\t", headers: true, header_converters: :symbol, skip_blanks: true})

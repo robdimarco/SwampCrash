@@ -9,6 +9,13 @@ class QuestionTest < ActiveSupport::TestCase
       end
     end
   end
+  test "can save answers from hash" do 
+    q = Factory.create :question
+    assert_difference 'Answer.count', 3 do
+      q.answers_str="foo,bar,baz"
+      q.save!
+    end
+  end
 end
 
 

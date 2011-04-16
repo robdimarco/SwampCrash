@@ -1,9 +1,20 @@
 require 'test_helper'
 
 class QuizQuestionTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  %w(value answers_str).each do |m|
+    test "Can delegate question #{m}" do 
+      q = Factory.create :quiz_question
+      assert_not_nil q.send(:"#{m}")
+      assert_equal q.question.send(:"#{m}"), q.send(:"#{m}")
+    end
+  end  
+  {:value=>'foo', :answers_str=>'foo,bar,baz'}.each_pair do |m, v|
+    test "Can delegate question #{m}=" do 
+      q = Factory.create :quiz_question
+      q.send(:"#{m}=", v)
+      assert_equal v, q.question.send(:"#{m}")
+      assert_equal v, q.send(:"#{m}")
+    end
   end
 end
 
