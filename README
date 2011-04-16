@@ -1,1 +1,14 @@
-Check out http://swampcrash.heroku.com for working version, as it is
+Prerequisites
+
+* Ruby 1.9.2
+* Rails 3
+
+Libraries used include
+
+* JQuery
+* Haml
+* Compass
+* Devise
+* OmniAuth
+
+Check out http://www.swampcrash.com for working version, as it is
