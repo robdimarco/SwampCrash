@@ -5,14 +5,19 @@
 .content
     %h3= @quiz.name
     %h4 Brought to you by #{@quiz.owner.email}
-    - unless @quiz.description.blank?
-        %p= @quiz.description
     .share_this <span class='st_twitter_large' ></span><span class='st_facebook_large' ></span><span class='st_yahoo_large' ></span><span class='st_gbuzz_large' ></span><span class='st_email_large' ></span><span class='st_delicious_large' ></span><span class='st_sharethis_large' ></span>
 
 .content
     %table
         %caption About This Crash
         %tbody
+            %tr
+                %td.description Rules To Play
+                %td= link_to 'Rules', content_path(:action=>'about')
+            - unless @quiz.description.blank?
+                %tr
+                    %td.description Details
+                    %td= @quiz.description
             %tr
                 %td.description # of Questions
                 %td= @quiz.questions.count
@@ -22,6 +27,7 @@
             %tr
                 %td.description Current Participants
                 %td= AnswerSheet.where(:quiz_id=>@quiz.id).collect(&:user).collect(&:to_s).join(", ")
+            
 
 .content
     = form_tag answer_quiz_path, :class=>"bp" do |f|
@@ -33,7 +39,7 @@
                             = qq.value
                     = answer_text_field(qq)
                     .correct_answer_count= pluralize(qq.answers.count, "correct answer")
-            %input{:type => "submit", :value => "Submit"}
+            %input{:type => "submit", :value => "Save My Answers"}
 
 
 - content_for :footer_js do
