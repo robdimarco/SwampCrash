@@ -10,13 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110412023258) do
+ActiveRecord::Schema.define(:version => 20110416134027) do
 
   create_table "answer_sheets", :force => true do |t|
     t.integer  "quiz_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status",     :default => "pending", :null => false
   end
 
   create_table "answers", :force => true do |t|

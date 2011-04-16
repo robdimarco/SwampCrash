@@ -1,11 +1,12 @@
 class QuizzesController < ApplicationController
-  before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new]
+  before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new, :grade_answers]
+  before_filter :quiz_from_params, :only=>[:edit, :update, :destroy, :grade_answers, :show, :answer]
+  before_filter :must_be_owner!, :only=>[:edit, :update, :destroy, :grade_answers]
   
   def answer
     params_to_use = (session[:answer_sheet] || {}).merge(params)
     params_to_use.symbolize_keys!
     Rails.logger.debug "Using params #{params_to_use.inspect} have id of #{params_to_use[:id]}"
-    @quiz = Quiz.find(params_to_use[:id])
     
     if user_signed_in?
       @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user.id, @quiz.id
@@ -26,6 +27,15 @@ class QuizzesController < ApplicationController
     end
   end
   
+  def grade_answers
+    @answer_sheet = AnswerSheet.find(params[:answer_sheet_id])
+    raise "Invalid ID" if @answer_sheet.nil? or @answer_sheet.quiz != @quiz
+    if request.post?
+      @answer_sheet.status = 'graded'
+      @answer_sheet.save
+    end
+  end
+  
   # GET /quizzes
   # GET /quizzes.xml
   def index
@@ -38,7 +48,6 @@ class QuizzesController < ApplicationController
   # GET /quizzes/1
   # GET /quizzes/1.xml
   def show
-    @quiz = Quiz.find(params[:id])
     @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id( current_user.id, @quiz.id ) if user_signed_in?
     respond_to do |format|
       format.html # show.html.erb
@@ -59,7 +68,6 @@ class QuizzesController < ApplicationController
 
   # GET /quizzes/1/edit
   def edit
-    @quiz = Quiz.find(params[:id])
   end
 
   # POST /quizzes
@@ -81,7 +89,6 @@ class QuizzesController < ApplicationController
   # PUT /quizzes/1
   # PUT /quizzes/1.xml
   def update
-    @quiz = Quiz.find(params[:id])
     redirect_to root_path and return unless @quiz and @quiz.owner == current_user
     respond_to do |format|
       if @quiz.update_attributes(params[:quiz])
@@ -97,12 +104,19 @@ class QuizzesController < ApplicationController
   # DELETE /quizzes/1
   # DELETE /quizzes/1.xml
   def destroy
-    @quiz = Quiz.find(params[:id])
     @quiz.destroy
 
     respond_to do |format|
       format.html { redirect_to(quizzes_url) }
       format.xml  { head :ok }
     end
+  end
+  private
+  def must_be_owner!
+    raise "Access Denied!" unless current_user == @quiz.owner
+    true
+  end
+  def quiz_from_params
+    @quiz = Quiz.find(params[:id])
   end
 end

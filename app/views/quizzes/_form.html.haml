@@ -17,8 +17,8 @@
         = f.text_area :description
     - unless @quiz.quiz_questions.empty?
         %table
-            %legend Questions #{link_to image_tag("/images/icons/add-icon.png", :alt=>"Add Question", :class=>'icon_link'), new_quiz_question_path(@quiz)}
             %thead
+                %legend Questions #{link_to image_tag("/images/icons/add-icon.png", :alt=>"Add Question", :class=>'icon_link'), new_quiz_question_path(@quiz)}
                 %tr
                     %th #
                     %th Question
@@ -33,8 +33,24 @@
                         %td= q.question.answers_str
                         %td= q.question.tag_list
                         %td
-                            =link_to image_tag("/images/icons/edit-icon.png", :alt=>"Edit Question", :class=>'icon_link'), edit_quiz_question_path(q)
+                            = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Edit Question", :class=>'icon_link'), edit_quiz_question_path(q)
                             = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Question", :class=>'icon_link'), quiz_question_path(q), :method=>:delete, :confirm=>"Do you really want to delete question #{i+1}"
-                
+    - unless @quiz.answer_sheets.empty?
+        %table
+            %thead
+                %legend Submissions
+                %tr
+                    %th User
+                    %th Score
+                    %th Status
+                    %th Actions
+            %tbody
+                - @quiz.answer_sheets.each do |a,i|
+                    %td= a.user
+                    %td -1
+                    %td Bogus
+                    %td
+                        = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Edit Question", :class=>'icon_link'), '/'
+                        = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Question", :class=>'icon_link'), root_path, :method=>:delete, :confirm=>"Do you really want to delete the answer sheet for user #{a.user}"
     .actions
         = f.submit

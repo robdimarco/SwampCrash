@@ -37,6 +37,13 @@ class User < ActiveRecord::Base
   def email_required?
     (user_tokens.empty? || !email.blank?) && super
   end
+  def to_s
+    unless user_tokens.empty?
+      user_info_token = user_tokens.detect{|t|t.details.include?("user_info")}
+      return user_info_token.details["user_info"]["name"] unless user_info_token.nil?
+    end
+    email
+  end
 end
 
 

@@ -3,6 +3,9 @@ class AnswerSheet < ActiveRecord::Base
   belongs_to :quiz
   has_many :answers, :class_name=>"UserAnswer"
   validates_presence_of :user, :quiz
+  before_validation(:on=>:create) {self.status ||= 'pending'}
+  validates_inclusion_of :status, :in => %w( pending graded )
+  
   def answers_hash(args=nil)
     if args.nil?
       answers.inject({}){|hsh, a| hsh[a.question_id] = a.value;hsh}
