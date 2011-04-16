@@ -2,7 +2,7 @@ class UserAnswer < ActiveRecord::Base
   belongs_to :answer_sheet
   belongs_to :question
   belongs_to :correct_answer, :class_name=>'Answer'
-  validates_presence_of :answer_sheet, :question, :value
+  validates_presence_of :answer_sheet, :question
   validate :validate_answer_integrity
   def correct?
     !incorrect?
