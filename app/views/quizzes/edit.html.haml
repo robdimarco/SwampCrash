@@ -4,26 +4,25 @@
         - if flash.include? f
             %div{:class=>"notice", :id=>"flash_#{f}"}= flash[f]
     = render 'form'
-    - unless @quiz.quiz_questions.empty?
-        %table
-            %caption Questions #{link_to image_tag("/images/icons/add-icon.png", :alt=>"Add Question", :class=>'icon_link'), new_quiz_question_path(@quiz)}
-            %thead
+    %table
+        %caption Questions #{link_to image_tag("/images/icons/add-icon.png", :alt=>"Add Question", :class=>'icon_link'), new_quiz_question_path(@quiz)}
+        %thead
+            %tr
+                %th #
+                %th Question
+                %th Answers
+                %th Tags
+                %th Actions
+        %tbody
+            - @quiz.quiz_questions.each_with_index do |q,i|
                 %tr
-                    %th #
-                    %th Question
-                    %th Answers
-                    %th Tags
-                    %th Actions
-            %tbody
-                - @quiz.quiz_questions.each_with_index do |q,i|
-                    %tr
-                        %td= i + 1
-                        %td= q.question.value[0..100]
-                        %td= q.question.answers_str
-                        %td= q.question.tag_list
-                        %td
-                            = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Edit Question", :class=>'icon_link'), edit_quiz_question_path(q)
-                            = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Question", :class=>'icon_link'), quiz_question_path(q), :method=>:delete, :confirm=>"Do you really want to delete question #{i+1}"
+                    %td= i + 1
+                    %td= q.question.value[0..100]
+                    %td= q.question.answers_str
+                    %td= q.question.tag_list
+                    %td
+                        = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Edit Question", :class=>'icon_link'), edit_quiz_question_path(q)
+                        = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Question", :class=>'icon_link'), quiz_question_path(q), :method=>:delete, :confirm=>"Do you really want to delete question #{i+1}"
     - unless @quiz.answer_sheets.empty?
         %table
             %caption Submissions

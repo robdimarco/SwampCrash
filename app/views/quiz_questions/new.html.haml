@@ -1,29 +1,4 @@
 .content
     %h1 Editing #{link_to @quiz.name, edit_quiz_path(@quiz)}
     = form_for(@question, :url=>quiz_questions_path, :html=>{class:"bp"}) do |f|
-        - if @question.errors.any?
-            #error_explanation
-                %h2
-                    = pluralize(@question.errors.count, "error")
-                    prohibited this question from being saved:
-                %ul
-                    - @question.errors.full_messages.each do |msg|
-                        %li= msg
-        .field
-            = f.label :value, "Question"
-            %br/
-            = f.text_field :value
-        .field
-            = f.label :answers_str, "Answers (Comma Separated)"
-            %br/
-            = f.text_field :answers_str
-        .field
-            = f.label :reference_url, "Reference URL"
-            %br/
-            = f.text_field :reference_url
-        .field
-            = f.label :tag_list, "Tag List (Comma Separated)"
-            %br/
-            = f.text_field :tag_list
-        .actions
-            = f.submit
+        = render 'form', :f=>f

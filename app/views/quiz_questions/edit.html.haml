@@ -1,0 +1,4 @@
+.content
+    %h1 Editing #{link_to @quiz.name, edit_quiz_path(@quiz)}
+    = form_for(@question, :url=>quiz_question_path(@quiz_question), :html=>{method: :put, class:"bp"}) do |f|
+        = render 'form', :f=>f

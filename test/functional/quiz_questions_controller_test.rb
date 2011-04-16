@@ -34,7 +34,7 @@ class QuizQuestionsControllerTest < ActionController::TestCase
 
   test "should update quiz_question" do
     put :update, :id => @quiz_question.to_param, :quiz_question => @quiz_question.attributes
-    assert_redirected_to quiz_question_path(assigns(:quiz_question))
+    assert_redirected_to edit_quiz_path(assigns(:quiz))
   end
 
   test "should destroy quiz_question" do

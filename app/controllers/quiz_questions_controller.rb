@@ -33,6 +33,7 @@ class QuizQuestionsController < ApplicationController
 
   # GET /quiz_questions/1/edit
   def edit
+    @question = @quiz_question.question
   end
 
   # POST /quiz_questions
@@ -58,12 +59,12 @@ class QuizQuestionsController < ApplicationController
     @quiz_question = QuizQuestion.find(params[:id])
 
     respond_to do |format|
-      if @quiz_question.update_attributes(params[:quiz_question])
-        format.html { redirect_to(@quiz_question, :notice => 'Quiz question was successfully updated.') }
+      if @quiz_question.question.update_attributes(params[:question])
+        format.html { redirect_to(edit_quiz_path(@quiz), :notice => 'Question was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @quiz_question.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @question.errors, :status => :unprocessable_entity }
       end
     end
   end

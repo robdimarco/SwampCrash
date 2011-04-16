@@ -6,7 +6,7 @@ class Question < ActiveRecord::Base
     answers.collect(&:value).join(",")
   end
   def answers_str=(a_str)
-    self.answers = a_str.split(/\s*,\s*/).collect{|a|Answer.new(:question=>self, :value=>a)}
+    self.answers = a_str.split(/\s*,\s*/).collect{|a|Answer.find_or_initialize_by_question_id_and_value(:question_id=>self, :value=>a)}
   end
   def self.import_from_file!(file_name, options={})
     require 'csv'
