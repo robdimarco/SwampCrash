@@ -6,6 +6,9 @@ class Quiz < ActiveRecord::Base
   has_many :answer_sheets
   before_validation(:on=>:create) {self.status ||= 'pending'}
   validates_inclusion_of :status, :in => %w( pending active complete )
+
+  def calculate_scores
+  end
     
   def to_param
     "#{id}-#{name.parameterize}"

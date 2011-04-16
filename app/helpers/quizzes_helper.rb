@@ -11,4 +11,8 @@ module QuizzesHelper
       user.owned_quizzes.count > 0
     end
   end
+  def correct_answer_select(q, correct_answer_id)
+    select_tag "question_#{q.id}_correct_answer_id", options_from_collection_for_select(q.answers, "id", "value", correct_answer_id), 
+      {:include_blank=>"Incorrect", :class=>"correct_answer"}
+  end
 end

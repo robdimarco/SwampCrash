@@ -1,3 +1,43 @@
 .content
     %h1 Editing #{@quiz.name} #{link_to "View", quiz_path(@quiz)}
+    - [:error, :notice, :alert].each do |f|
+        - if flash.include? f
+            %div{:class=>"notice", :id=>"flash_#{f}"}= flash[f]
     = render 'form'
+    - unless @quiz.quiz_questions.empty?
+        %table
+            %caption Questions #{link_to image_tag("/images/icons/add-icon.png", :alt=>"Add Question", :class=>'icon_link'), new_quiz_question_path(@quiz)}
+            %thead
+                %tr
+                    %th #
+                    %th Question
+                    %th Answers
+                    %th Tags
+                    %th Actions
+            %tbody
+                - @quiz.quiz_questions.each_with_index do |q,i|
+                    %tr
+                        %td= i + 1
+                        %td= q.question.value[0..100]
+                        %td= q.question.answers_str
+                        %td= q.question.tag_list
+                        %td
+                            = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Edit Question", :class=>'icon_link'), edit_quiz_question_path(q)
+                            = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Question", :class=>'icon_link'), quiz_question_path(q), :method=>:delete, :confirm=>"Do you really want to delete question #{i+1}"
+    - unless @quiz.answer_sheets.empty?
+        %table
+            %caption Submissions
+            %thead
+                %tr
+                    %th User
+                    %th Score
+                    %th Status
+                    %th Actions
+            %tbody
+                - @quiz.answer_sheets.each do |a,i|
+                    %td= a.user
+                    %td -1
+                    %td= a.status.capitalize
+                    %td
+                        = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Grade Sheet", :class=>'icon_link'), grade_answers_quiz_path(@quiz, :answer_sheet_id=>a.id)
+                        = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Sheet", :class=>'icon_link'), root_path, :method=>:delete, :confirm=>"Do you really want to delete the answer sheet for user #{a.user}"

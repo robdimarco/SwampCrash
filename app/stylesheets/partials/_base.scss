@@ -21,6 +21,9 @@ $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $b
 	@include box-shadow;
 }
 
+$correct-color : green;
+$incorrect-color : #A00;
+
 header {
     @include column($blueprint-grid-columns);
 }
@@ -81,3 +84,12 @@ footer ul {
 }
 .social-icons, .inline-list {@include inline-list;}
 textarea#quiz_description { height:100px;}
+select.correct_answer {
+	@include column(3);
+}
+table#GradeAnswers .correct {
+	background-color: $correct-color;
+}
+table#GradeAnswers .incorrect {
+	background-color: $incorrect-color;
+}

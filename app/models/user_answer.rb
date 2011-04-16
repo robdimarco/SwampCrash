@@ -1,7 +1,13 @@
 class UserAnswer < ActiveRecord::Base
   belongs_to :answer_sheet
   belongs_to :question
+  belongs_to :correct_answer, :class_name=>'Answer'
   validates_presence_of :answer_sheet, :question, :value
+  validate :validate_answer_integrity
+  private
+  def validate_answer_integrity
+    correct_answer.nil? or correct_answer.question = self.question
+  end
 end
 
 # == Schema Information

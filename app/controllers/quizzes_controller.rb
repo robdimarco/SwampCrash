@@ -13,7 +13,6 @@ class QuizzesController < ApplicationController
       @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id] = params_to_use[:"answer_#{q.id}"];hsh}
       Rails.logger.debug @answer_sheet.inspect
       @answer_sheet.save!
-
       session.delete(:answer_sheet)
 
       respond_to do |format|
@@ -32,7 +31,12 @@ class QuizzesController < ApplicationController
     raise "Invalid ID" if @answer_sheet.nil? or @answer_sheet.quiz != @quiz
     if request.post?
       @answer_sheet.status = 'graded'
+      @answer_sheet.answers.each do |a|
+        a.update_attributes :correct_answer_id => params[:"question_#{a.question.id}_correct_answer_id"]
+      end
+        
       @answer_sheet.save
+      redirect_to(edit_quiz_path(@quiz), :notice => "Answers for #{@answer_sheet.user} have been graded") 
     end
   end
   
