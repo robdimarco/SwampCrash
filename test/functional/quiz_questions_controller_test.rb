@@ -1,27 +1,25 @@
 require 'test_helper'
 
 class QuizQuestionsControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
   setup do
-    @quiz_question = quiz_questions(:one)
-  end
-
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:quiz_questions)
+    @user = Factory.create(:user)
+    @quiz = Factory.create :quiz, :owner=>@user
+    @quiz_question = Factory.create :quiz_question, :quiz=>@quiz
+    sign_in @user
   end
 
   test "should get new" do
-    get :new
+    get :new,:id=>@quiz.id
     assert_response :success
   end
 
   test "should create quiz_question" do
     assert_difference('QuizQuestion.count') do
-      post :create, :quiz_question => @quiz_question.attributes
+      post :create, :question => {:value=>'Test', :reference_url=>'ba'}, :id=>@quiz.id
     end
 
-    assert_redirected_to quiz_question_path(assigns(:quiz_question))
+    assert_redirected_to edit_quiz_path(assigns(:quiz))
   end
 
   test "should show quiz_question" do
@@ -44,6 +42,6 @@ class QuizQuestionsControllerTest < ActionController::TestCase
       delete :destroy, :id => @quiz_question.to_param
     end
 
-    assert_redirected_to quiz_questions_path
+    assert_redirected_to edit_quiz_path(@quiz)
   end
 end

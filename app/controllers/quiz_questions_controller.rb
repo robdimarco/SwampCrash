@@ -6,8 +6,8 @@ class QuizQuestionsController < ApplicationController
   # GET /quiz_questions.xml
   def index
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @quiz_questions }
+      format.html {redirect_to edit_quiz_path(@quiz)}
+      format.xml  { render :xml => @quiz.quiz_questions }
     end
   end
 
