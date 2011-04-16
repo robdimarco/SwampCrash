@@ -1,0 +1,11 @@
+.content
+    = form_tag answer_quiz_path, :class=>"bp" do |f|
+        %fieldset#QuestionBox
+            - @quiz.questions.each_with_index do |qq, i|
+                = content_tag_for :p, qq do
+                    %p
+                        %label
+                            = qq.value
+                    = answer_text_field(qq)
+                    .correct_answer_count= pluralize(qq.answers.count, "correct answer")
+            %input{:type => "submit", :value => "Save My Answers"}

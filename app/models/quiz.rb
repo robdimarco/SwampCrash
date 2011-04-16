@@ -1,11 +1,18 @@
 class Quiz < ActiveRecord::Base
+  VALID_STATUS = %w( pending active complete )
   scope :active, where(:status => "active")
   belongs_to :owner, :class_name=>"User", :foreign_key=>"owner_id"
   has_many :quiz_questions, :order=>"position"
   has_many :questions, :through=>:quiz_questions
   has_many :answer_sheets
   before_validation(:on=>:create) {self.status ||= 'pending'}
-  validates_inclusion_of :status, :in => %w( pending active complete )
+  validates_inclusion_of :status, :in => VALID_STATUS
+
+  VALID_STATUS.each do |st|
+    define_method :"#{st}?" do
+      self.status == st
+    end
+  end
 
   #
   # Current score in a hash with keys as question ids.  For each question id key, the value is a hash

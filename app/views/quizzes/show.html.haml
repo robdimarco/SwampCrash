@@ -27,20 +27,11 @@
             %tr
                 %td.description Current Participants
                 %td= AnswerSheet.where(:quiz_id=>@quiz.id).collect(&:user).collect(&:to_s).join(", ")
-            
 
-.content
-    = form_tag answer_quiz_path, :class=>"bp" do |f|
-        %fieldset#QuestionBox
-            - @quiz.questions.each_with_index do |qq, i|
-                = content_tag_for :p, qq do
-                    %p
-                        %label
-                            = qq.value
-                    = answer_text_field(qq)
-                    .correct_answer_count= pluralize(qq.answers.count, "correct answer")
-            %input{:type => "submit", :value => "Save My Answers"}
-
+- unless @quiz.complete?
+    = render "answer_form"
+- else
+    = render "big_reveal"
 
 - content_for :footer_js do
     %script{:type=>"text/javascript"}> var switchTo5x=true;
