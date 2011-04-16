@@ -6,6 +6,17 @@ class AnswerSheet < ActiveRecord::Base
   before_validation(:on=>:create) {self.status ||= 'pending'}
   validates_inclusion_of :status, :in => %w( pending graded )
 
+  def current_score
+    scorecard = quiz.scorecard_hash
+    answers.inject(0) do |sum, ans|
+      sum += if ans.incorrect?
+        scorecard[ans.question.id].values.max + 5
+      else
+        scorecard[ans.question.id][ans.correct_answer_id]
+      end
+    end
+  end
+
   def grade!
     save!
     answers.each do |a|

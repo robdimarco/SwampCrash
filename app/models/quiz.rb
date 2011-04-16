@@ -7,7 +7,21 @@ class Quiz < ActiveRecord::Base
   before_validation(:on=>:create) {self.status ||= 'pending'}
   validates_inclusion_of :status, :in => %w( pending active complete )
 
-  def calculate_scores
+  #
+  # Current score in a hash with keys as question ids.  For each question id key, the value is a hash
+  # with keys of the answer IDs and values of the count of people with that answer
+  #
+  def scorecard_hash(force_refresh=false)
+    if @card.nil? or force_refresh
+      # For each question...
+      @card = questions.inject({}){|hsh,q| hsh[q.id] = q.answers.inject({}){|hsh2, ans|hsh2[ans.id] = 0;hsh2};hsh}
+      self.answer_sheets.each do |as|
+        as.answers.each do |ua|
+          @card[ua.question.id][ua.correct_answer_id] += 1 unless ua.correct_answer.nil?
+        end
+      end
+    end
+    @card
   end
     
   def to_param

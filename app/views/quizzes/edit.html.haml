@@ -36,7 +36,7 @@
                 - @quiz.answer_sheets.each do |a,i|
                     %tr
                         %td= a.user
-                        %td -1
+                        %td= a.current_score
                         %td= a.status.capitalize
                         %td
                             = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Grade Sheet", :class=>'icon_link'), grade_answers_quiz_path(@quiz, :answer_sheet_id=>a.id)
