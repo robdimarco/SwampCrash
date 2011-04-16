@@ -1,8 +1,8 @@
-.padded_full
+.content
     .user_login
         %h2 Email and Password
         = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html=>{:class=>"bp"}) do |f|
-            / %fieldset
+            = devise_error_messages!
             %p
                 = f.label :email
                 %br/
@@ -17,7 +17,7 @@
                     = f.label :remember_me
             %p= f.submit "Sign in"
     = render :partial => "devise/shared/user_links"
-.padded_full
+.content
     %h2 OR....
-.padded_full
+.content
     = render :partial=>"devise/shared/third_party_links"

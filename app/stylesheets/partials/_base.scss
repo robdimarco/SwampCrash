@@ -76,6 +76,8 @@ footer ul {
     @include prepend-top(10em);
     @include column(6, true);
 }
-
+.icon_link{
+	height:18px;
+}
 .social-icons, .inline-list {@include inline-list;}
 textarea#quiz_description { height:100px;}

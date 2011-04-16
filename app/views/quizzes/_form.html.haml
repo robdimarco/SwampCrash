@@ -16,26 +16,25 @@
         %br/
         = f.text_area :description
     - unless @quiz.quiz_questions.empty?
-        %h6 Questions
-        %ol
-            - @quiz.quiz_questions.each do |q|
-                %li
-                    = q.question.value
-                    %ul.inline-list
-                        %li= link_to "Edit", edit_quiz_question_path(q)
-                        %li= link_to "Delete", quiz_question_path(q), :method=>:delete
+        %table
+            %legend Questions #{link_to image_tag("/images/icons/add-icon.png", :alt=>"Add Question", :class=>'icon_link'), new_quiz_question_path(@quiz)}
+            %thead
+                %tr
+                    %th #
+                    %th Question
+                    %th Answers
+                    %th Tags
+                    %th Actions
+            %tbody
+                - @quiz.quiz_questions.each_with_index do |q,i|
+                    %tr
+                        %td= i + 1
+                        %td= q.question.value[0..100]
+                        %td= q.question.answers_str
+                        %td= q.question.tag_list
+                        %td
+                            =link_to image_tag("/images/icons/edit-icon.png", :alt=>"Edit Question", :class=>'icon_link'), edit_quiz_question_path(q)
+                            = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Question", :class=>'icon_link'), quiz_question_path(q), :method=>:delete, :confirm=>"Do you really want to delete question #{i+1}"
                 
     .actions
-        - unless @quiz.new_record?
-            %button#AddQuestion Add Question
-            %br/
         = f.submit
-
-- content_for :footer_js do
-    :javascript
-        $(document).ready(function() {        
-            $("#AddQuestion").click(function() {
-                document.location.href = "#{new_quiz_question_path(@quiz)}";
-                return false;
-            });
-        });
