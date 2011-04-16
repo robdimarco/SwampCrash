@@ -10,6 +10,13 @@ class UserAnswer < ActiveRecord::Base
   def incorrect?
     correct_answer.nil?
   end
+  def value=(v)
+    unless v == read_attribute(:value)
+      correct_answer = nil 
+      write_attribute(:correct_answer_id, nil)
+    end
+    write_attribute(:value, v)
+  end
   private
   def validate_answer_integrity
     correct_answer.nil? or correct_answer.question = self.question

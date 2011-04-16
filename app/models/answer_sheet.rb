@@ -18,10 +18,10 @@ class AnswerSheet < ActiveRecord::Base
   end
 
   def grade!
-    save!
-    answers.each do |a|
-      next unless a.correct_answer.nil?
-      a.correct_answer = a.question.answers.where(:value=>a.value).first
+    self.save!
+    self.answers.each do |a|
+      a.correct_answer = a.question.answers.where(:value=>a.value).first unless a.correct_answer.nil?
+      Rails.logger.debug "Saving #{a.inspect}"
       a.save!
     end
   end  
@@ -29,17 +29,20 @@ class AnswerSheet < ActiveRecord::Base
   def answer_for_question(q)
     q = q.id if q.is_a?(Question)
     q = q.question.id if q.is_a?(QuizQuestion)
-    answers.where(:question_id=>q).first
+    self.answers.detect{|a|a.question_id.to_s==q.to_s}
   end
   def answers_hash(args=nil)
     if args.nil?
       answers.inject({}){|hsh, a| hsh[a.question_id] = a.value;hsh}
     else
       args.each_pair do |k,v|
-        a = answers.where(:question_id=>k).first
+        a = answer_for_question(k)
         if a.nil?
+          Rails.logger.debug "Creating new user answer"
           a = UserAnswer.new(:answer_sheet=>self, :question=>Question.find(k))
           self.answers << a
+        else
+          Rails.logger.debug "Updating answer #{a.inspect} to value #{v}"
         end
         a.value = v
       end
@@ -47,10 +50,6 @@ class AnswerSheet < ActiveRecord::Base
     end
   end
   alias :answers_hash= :answers_hash
-  def value=(v)
-    correct_answer = nil unless v == self.value
-    super
-  end
 end
 
 # == Schema Information
