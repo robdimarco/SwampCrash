@@ -67,9 +67,11 @@ footer ul {
 }
 .quiz_list_box li {
 }
-.quiz_description, .answer_sheet, .quiz_information, .padded_full, .content {
+.content {
   @include prepend(2);
   @include column($blueprint-grid-columns - 2, true);
+  @include last;
+  @include append(2);
 }
 
 .user_login {

@@ -4,13 +4,13 @@ class AnswerSheet < ActiveRecord::Base
   has_many :answers, :class_name=>"UserAnswer"
   validates_presence_of :user, :quiz
   before_validation(:on=>:create) {self.status ||= 'pending'}
-  before_validation :grade!
   validates_inclusion_of :status, :in => %w( pending graded )
 
   def grade!
+    save!
     answers.each do |a|
-      next unless a.current_answer.nil?
-      a.current_answer = q.answers.where(:value=>a.value).first
+      next unless a.correct_answer.nil?
+      a.correct_answer = a.question.answers.where(:value=>a.value).first
       a.save!
     end
   end  

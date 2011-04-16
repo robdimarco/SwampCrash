@@ -1,0 +1,17 @@
+.content
+    %h1 Answers for #{@answer_sheet.user.to_s} on #{@quiz.name}
+    = form_tag grade_answers_quiz_path(@quiz, :answer_sheet_id=>@answer_sheet.id), :class=>"bp" do |f|
+        %table#GradeAnswers
+            %thead
+                %tr
+                    %th Question
+                    %th User Answer
+                    %th Correct Answers
+            %tbody
+            - @quiz.questions.each_with_index do |q, i|
+                - a = @answer_sheet.answer_for_question(q)
+                %tr
+                    %td= q.value
+                    %td{:class=>a.correct_answer.nil? ? "incorrect" : "correct"}= a.value
+                    %td= correct_answer_select(q, a.correct_answer_id)
+        %input{:type => "submit", :value => "Grade"}    

@@ -1,6 +1,7 @@
 Swampcrash::Application.routes.draw do
   resources :quizzes do
     member do
+      get :answer
       post :answer
       resources :quiz_questions
       get :grade_answers

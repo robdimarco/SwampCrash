@@ -12,7 +12,7 @@ class QuizzesController < ApplicationController
       @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user.id, @quiz.id
       @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id] = params_to_use[:"answer_#{q.id}"];hsh}
       Rails.logger.debug @answer_sheet.inspect
-      @answer_sheet.save!
+      @answer_sheet.grade!
       session.delete(:answer_sheet)
 
       respond_to do |format|

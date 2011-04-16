@@ -1,11 +1,12 @@
 - unless notice.blank?
     .notice= notice
 
-.quiz_description
+.content
     %h3= @quiz.name
     %h4 Brought to you by #{@quiz.owner.email}
     = content_tag :p, @quiz.description unless @quiz.description.blank?
-.answer_sheet
+
+.content
     = form_tag answer_quiz_path, :class=>"bp" do |f|
         %fieldset#QuestionBox
             - @quiz.questions.each_with_index do |qq, i|
@@ -17,7 +18,7 @@
                     .correct_answer_count= pluralize(qq.answers.count, "correct answer")
             %input{:type => "submit", :value => "Submit"}
 
-.quiz_information
+.content
     %table
         %caption About This Crash
         %tbody

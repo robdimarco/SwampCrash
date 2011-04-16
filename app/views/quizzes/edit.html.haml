@@ -35,9 +35,10 @@
                     %th Actions
             %tbody
                 - @quiz.answer_sheets.each do |a,i|
-                    %td= a.user
-                    %td -1
-                    %td= a.status.capitalize
-                    %td
-                        = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Grade Sheet", :class=>'icon_link'), grade_answers_quiz_path(@quiz, :answer_sheet_id=>a.id)
-                        = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Sheet", :class=>'icon_link'), root_path, :method=>:delete, :confirm=>"Do you really want to delete the answer sheet for user #{a.user}"
+                    %tr
+                        %td= a.user
+                        %td -1
+                        %td= a.status.capitalize
+                        %td
+                            = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Grade Sheet", :class=>'icon_link'), grade_answers_quiz_path(@quiz, :answer_sheet_id=>a.id)
+                            = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Sheet", :class=>'icon_link'), root_path, :method=>:delete, :confirm=>"Do you really want to delete the answer sheet for user #{a.user}"
