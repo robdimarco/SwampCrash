@@ -3,6 +3,7 @@ Swampcrash::Application.routes.draw do
     member do
       post :answer
       get :answer
+      resources :quiz_questions
     end
   end
 

@@ -22,4 +22,4 @@
             %h6 Your Authored Crashes
             %ul
                 - current_user.owned_quizzes.each do |q|
-                    %li= link_to(q.name, quiz_path(q))
+                    %li= link_to(q.name, edit_quiz_path(q))

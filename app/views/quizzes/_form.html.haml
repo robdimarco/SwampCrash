@@ -1,19 +1,38 @@
-= form_for(@quiz) do |f|
-  - if @quiz.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@quiz.errors.count, "error")
-        prohibited this quiz from being saved:
-      %ul
-        - @quiz.errors.full_messages.each do |msg|
-          %li= msg
-  .field
-    = f.label :name
-    %br/
-    = f.text_field :name
-  .field
-    = f.label :description
-    %br/
-    = f.text_area :description
-  .actions
-    = f.submit
+= form_for(@quiz, :html=>{class:"bp"}) do |f|
+    - if @quiz.errors.any?
+        #error_explanation
+            %h2
+                = pluralize(@quiz.errors.count, "error")
+                prohibited this quiz from being saved:
+            %ul
+                - @quiz.errors.full_messages.each do |msg|
+                    %li= msg
+    .field
+        = f.label :name
+        %br/
+        = f.text_field :name
+    .field
+        = f.label :description
+        %br/
+        = f.text_area :description
+    - unless @quiz.quiz_questions.empty?
+        - @quiz.quiz_questions.each do |q|
+            .field
+                = f.label q.question.value
+    .actions
+        %button#AddQuestion Add Question
+        %br/
+        = f.submit
+
+- content_for :footer_js do
+    :javascript
+        $(document).ready(function() {        
+            $("#AddQuestion").click(function() {
+                $.ajax("#{new_quiz_question_path(:quiz_id=>@quiz, :format=>:json)}", 
+                    {dataType:'json',
+                    complete:function() {
+                    
+                    }});
+                return false;
+            });
+        });
