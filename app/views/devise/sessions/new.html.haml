@@ -1,4 +1,7 @@
 .content
+    - [:error, :notice, :alert].each do |f|
+        - if flash.include? f
+            %div{:class=>"notice", :id=>"flash_#{f}"}= flash[f]
     .user_login
         %h2 Email and Password
         = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html=>{:class=>"bp"}) do |f|
