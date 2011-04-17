@@ -16,6 +16,19 @@ class QuestionTest < ActiveSupport::TestCase
       q.save!
     end
   end
+  test "can update answers from hash" do 
+    q = Factory.create :question
+    assert_difference 'Answer.count', 3 do
+      q.answers_str="foo,bar,baz"
+      q.save!
+    end
+    assert_no_difference 'Answer.count' do
+      q.answers_str="blah,bags,buff"
+      q.save!
+    end
+    q.reload
+    assert_equal "blah,bags,buff".split(",").sort, q.answers.collect(&:value).sort
+  end
 end
 
 
