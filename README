@@ -11,4 +11,16 @@ Libraries used include
 * Devise
 * OmniAuth
 
+To get fully running, you will need to set the following environment variables:
+
+export FACEBOOK_APP_ID=XXXX
+export FACEBOOK_APP_SECRET=XXXX
+export TWITTER_API_KEY=XXXX
+export TWITTER_APP_SECRET=XXXX
+export SENDGRID_USERNAME=XXXX
+export SENDGRID_PASSWORD=XXXX
+export SENDGRID_DOMAIN=XXXX
+
+with the correct values.
+
 Check out http://www.swampcrash.com for working version, as it is
