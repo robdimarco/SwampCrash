@@ -20,8 +20,7 @@ class AnswerSheet < ActiveRecord::Base
   def grade!
     self.save!
     self.answers.each do |a|
-      a.correct_answer = a.question.answers.where(:value=>a.value).first unless a.correct_answer.nil?
-      Rails.logger.debug "Saving #{a.inspect}"
+      a.correct_answer = a.question.answers.detect{|ans|ans.matches?(a.value)} if a.correct_answer.nil?
       a.save!
     end
   end  

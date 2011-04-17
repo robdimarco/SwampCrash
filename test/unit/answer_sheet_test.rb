@@ -17,6 +17,26 @@ class AnswerSheetTest < ActiveSupport::TestCase
       end
     end
   end
+  
+  test "Can grade answer sheet" do
+    q = Factory.create :quiz
+    qq = Factory.create :quiz_question, :quiz=>q
+    a = Factory.create :answer, :value=>'Test', :question=>qq.question
+    as = AnswerSheet.new(:quiz=>q, :user=>Factory.create(:user))
+    as.answers_hash(a.question.id=>'Bar')
+    assert_equal 'Bar', as.answers_hash[a.question_id]
+    assert_difference ["AnswerSheet.count", "UserAnswer.count"] do
+      as.grade!
+    end
+    assert_nil as.answer_for_question(a.question.id).correct_answer
+    
+    as.answers_hash(a.question.id=>'Test')
+    as.grade!
+    
+    assert_equal 'Test', as.answers_hash[a.question_id]
+    assert_equal a, as.answer_for_question(a.question.id).correct_answer
+  end
+    
 end
 
 # == Schema Information
