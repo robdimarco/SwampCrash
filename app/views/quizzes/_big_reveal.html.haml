@@ -47,7 +47,7 @@
             if (delay_in_milliseconds == null) {
                 delay_in_milliseconds = #{reveal_delay_in_milliseconds};
             }
-            $(".question_reveal:hidden:last").delay(delay_in_milliseconds).slideToggle("slow", showLastHiddenQuestion);
+            $(".question_reveal:hidden:last").delay(delay_in_milliseconds).slideToggle(2000, showLastHiddenQuestion);
         }
         $(document).ready(function(){
             showLastHiddenQuestion(0);
