@@ -42,12 +42,7 @@ footer ul {
 }
 .quiz_list_box {
 	@include push(2);
-	@include column(8);
 	@include min-height(100px);
-	@include box-shadow;
-}
-.quiz_list_box {
-	min-height:100px;
 	@include display-box;
 	@include box-shadow;
     @include prepend-top(1em);
@@ -55,11 +50,9 @@ footer ul {
 }
 .quiz_list_box h2 {
 	@include prepend(1);
-    @include prepend-top(.5em);
+	background:$blueprint_background_color;
 }
-.quiz_list_box ul {
-	@include inline-list;
-}
+
 .content {
   @include prepend(2);
   @include column($blueprint-grid-columns - 2, true);
