@@ -10,6 +10,7 @@ class AnswerSheet < ActiveRecord::Base
     scorecard = quiz.scorecard
     answers.inject(0) do |sum, ans|
       sum += ans.incorrect? ? scorecard.incorrect_points(ans.question.id) : scorecard.correct_points(ans.question.id, ans.id)
+      sum
     end
   end
 
