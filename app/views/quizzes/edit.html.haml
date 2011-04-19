@@ -29,7 +29,8 @@
             %thead
                 %tr
                     %th User
-                    %th Score
+                    %th Total Score
+                    %th Breakdown
                     %th Status
                     %th Actions
             %tbody
@@ -37,6 +38,7 @@
                     %tr
                         %td= a.user
                         %td= a.current_score
+                        %td= a.score_by_question_id_hash.inspect
                         %td= a.status.capitalize
                         %td
                             = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Grade Sheet", :class=>'icon_link'), grade_answers_quiz_path(@quiz, :answer_sheet_id=>a.id)

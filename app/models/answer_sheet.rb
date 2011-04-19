@@ -7,10 +7,14 @@ class AnswerSheet < ActiveRecord::Base
   validates_inclusion_of :status, :in => %w( pending graded )
 
   def current_score
+    score_by_question_id_hash.values.sum
+  end
+  
+  def score_by_question_id_hash
     scorecard = quiz.scorecard
-    answers.inject(0) do |sum, ans|
-      sum += ans.incorrect? ? scorecard.incorrect_points(ans.question.id) : scorecard.correct_points(ans.question.id, ans.id)
-      sum
+    self.answers.inject({}) do |hsh, ans|
+      hsh[ans.question.id] = ans.incorrect? ? scorecard.incorrect_points(ans.question.id) : scorecard.correct_points(ans.question.id, ans.correct_answer_id)
+      hsh
     end
   end
 
