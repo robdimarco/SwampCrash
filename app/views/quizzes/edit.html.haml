@@ -40,4 +40,4 @@
                         %td= a.status.capitalize
                         %td
                             = link_to image_tag("/images/icons/edit-icon.png", :alt=>"Grade Sheet", :class=>'icon_link'), grade_answers_quiz_path(@quiz, :answer_sheet_id=>a.id)
-                            = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Sheet", :class=>'icon_link'), root_path, :method=>:delete, :confirm=>"Do you really want to delete the answer sheet for user #{a.user}"
+                            = link_to image_tag("/images/icons/delete-icon.png", :alt=>"Delete Sheet", :class=>'icon_link'), delete_answer_sheet_quiz_path(@quiz, :answer_sheet_id=>a.id), :method=>:delete, :confirm=>"Do you really want to delete the answer sheet for user #{a.user}"

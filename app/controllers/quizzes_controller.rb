@@ -1,7 +1,7 @@
 class QuizzesController < ApplicationController
-  before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new, :grade_answers]
-  before_filter :quiz_from_params, :only=>[:edit, :update, :destroy, :grade_answers, :show, :answer]
-  before_filter :must_be_owner!, :only=>[:edit, :update, :destroy, :grade_answers]
+  before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new, :grade_answers, :delete_answer_sheet]
+  before_filter :quiz_from_params, :only=>[:edit, :update, :destroy, :grade_answers, :show, :answer, :delete_answer_sheet]
+  before_filter :must_be_owner!, :only=>[:edit, :update, :destroy, :grade_answers, :delete_answer_sheet]
   
   def answer
     params_to_use = (session[:answer_sheet] || {}).merge(params)
@@ -40,6 +40,12 @@ class QuizzesController < ApplicationController
     end
   end
   
+  def delete_answer_sheet
+    @answer_sheet = AnswerSheet.find(params[:answer_sheet_id])
+    raise "Invalid ID" if @answer_sheet.nil? or @answer_sheet.quiz != @quiz
+    @answer_sheet.destroy
+    redirect_to(edit_quiz_path(@quiz), :notice => "Answers for #{@answer_sheet.user} have been graded") 
+  end
   # GET /quizzes
   # GET /quizzes.xml
   def index

@@ -6,6 +6,7 @@ Swampcrash::Application.routes.draw do
       resources :quiz_questions
       get :grade_answers
       post :grade_answers
+      delete :delete_answer_sheet
     end
   end
 
