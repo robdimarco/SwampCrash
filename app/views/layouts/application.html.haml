@@ -7,7 +7,7 @@
     %meta{:name=>"author", :content=>"Rob Di Marco, 416 Software, LLC"}
     %link{:rel=>"sitemap",:href=>"/sitemap.xml", :type=>"application/xml"}
 	
-    %title SwampCrash...chomp
+    %title= page_title("SwampCrash...chomp")
     = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
     = stylesheet_link_tag 'print.css', :media => 'print'
     /[if IE]
@@ -17,7 +17,7 @@
 %body.bp
     %div{:class=>blueprint_container}
         #header
-            %h1#title= content_for(:title).blank? ? "SwampCrash" : content_for(:title)
+            %h1#title= page_title("SwampCrash...")
             %nav
                 %ul.tabs
                     = menu_tab_link 'Home', root_path

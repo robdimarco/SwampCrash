@@ -94,3 +94,6 @@ table#GradeAnswers .incorrect {
 	min-height:300px;
 	@include append-bottom(2);
 }
+#header h1 {
+	padding-left: 1em;
+}
