@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
       user_info_token = user_tokens.detect{|t|t.details.include?("user_info")}
       return user_info_token.details["user_info"]["name"] unless user_info_token.nil?
     end
-    email
+    email.split("@")[0] + "@..."
   end
 end
 

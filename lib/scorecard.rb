@@ -10,6 +10,8 @@ class Scorecard
     end
     @scoring_details_by_question = @quiz.questions.inject({}){|hsh, q| hsh[q.id] = ScoreForQuestion.new(@quiz, q, question_user_answers[q.id]);hsh}
   end
+  def cumulative_score(round=nil)
+  end
   def scoring_details_for_question(question_id)
     @scoring_details_by_question[question_id]
   end
