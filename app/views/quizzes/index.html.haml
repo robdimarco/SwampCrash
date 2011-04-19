@@ -1,6 +1,13 @@
 .content
-    #CurrentCrashBox.open_quiz_list_box
-        %h2 Current Crashes
+    #RecentCrashBox.quiz_list_box
+        %h2 Just Completed
+        %ul
+            - Quiz.completed.limit(3).each do |q|
+                %li{:class=>"quiz_#{q.id}"}
+                    = q.name
+                    = link_to("See who won", quiz_path(q))
+    #CurrentCrashBox.quiz_list_box
+        %h2 Ongoing
         %ul
             - Quiz.active.each do |q|
                 %li{:class=>"quiz_#{q.id}"}
@@ -9,17 +16,17 @@
 
     - if user_signed_in?
         #YourAnswers.quiz_list_box
-            %h6 Your Crashes
-            - unless current_user.answered_quizzes.empty?
-                %ul
+            %h2 Your Crashes
+            %ul
+                - unless current_user.answered_quizzes.empty?
                     - current_user.answered_quizzes.each do |q|
                         %li= link_to(q.name, quiz_path(q))
-            - else
-                %h7 No Crashes Played Yet....
+                - else
+                    %li No Crashes Played Yet....
             
     - if owns_quizzes?(current_user)
         #OwnerCrashBox.quiz_list_box
-            %h6 Your Authored Crashes
+            %h2 Your Authored Crashes
             %ul
                 - current_user.owned_quizzes.each do |q|
                     %li= link_to(q.name, edit_quiz_path(q))

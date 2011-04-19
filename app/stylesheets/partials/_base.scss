@@ -17,10 +17,6 @@ $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $b
 @import "compass/css3/box-shadow";
 @import "compass/utilities/lists/inline-list";
 
-@mixin quiz-list-box{
-	@include min-height(100px);
-	@include box-shadow;
-}
 
 $correct-color : green;
 $incorrect-color : #A00;
@@ -51,13 +47,11 @@ footer ul {
 	@include box-shadow;
 }
 .quiz_list_box {
+	min-height:100px;
+	@include display-box;
+	@include box-shadow;
     @include prepend-top(1em);
-	@include column(8);
-	@include quiz_list_box;
-}
-.open_quiz_list_box {
-  @include column($blueprint-grid-columns - 4, true);
-  @include quiz_list_box;
+	@include column(12,true);
 }
 .quiz_list_box h2 {
 	@include prepend(1);
@@ -65,8 +59,6 @@ footer ul {
 }
 .quiz_list_box ul {
 	@include inline-list;
-}
-.quiz_list_box li {
 }
 .content {
   @include prepend(2);
