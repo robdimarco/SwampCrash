@@ -21,18 +21,18 @@ class Scorecard
     correct_answers.empty? ? 0 : correct_answers.collect{|hsh| hsh[:user_answers].count}.max
   end
   def correct_points(question_id, answer_id)
-    correct_ans_hash = scoring_details_for_question(question_id).correct_answers.detect{|ca|correct_answers[:correct_answer].id == answer_id}
+    correct_ans_hash = scoring_details_for_question(question_id).correct_answers.detect{|ca|ca[:correct_answer].id == answer_id}
     correct_ans_hash.nil? ? 0 : correct_ans_hash[:user_answers].count
   end
   class ScoreForQuestion
     attr_accessor :correct_answers, :missed_answers, :incorrect_user_answers
     def initialize(quiz, question, user_answers)
-      @incorrect_answers, @missed_answers = [], question.answers.to_a
+      @incorrect_user_answers, @missed_answers = [], question.answers.to_a
       correct_answers_hash = {}
       
       user_answers.each do |ua|
         if ua.incorrect?
-          @incorrect_answers << ua
+          @incorrect_user_answers << ua
         else
           if @missed_answers.include?(ua.correct_answer)
             @missed_answers.delete(ua.correct_answer)

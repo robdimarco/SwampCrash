@@ -1,9 +1,19 @@
-- @quiz.questions.each do |q| |
+- @quiz.questions.each do |q|
     .content
         .question
             %p= q.value
-            %p= @quiz.scorecard_hash[q.id].inspect
             %h6 Scoring Answers
+            %ul
+                - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
+                    %li= [pluralize(ca_hsh[:user_answers].count, "point"), ca_hsh[:correct_answer].value, ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user}.join(",")].join " - "
             %h6 Wrong Answers
-            %h6 Missed
+            %ul
+                - @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.each do |ua|
+                    %li= [ua.value, ua.answer_sheet.user].join " - "
+            %h6 No One Guessed
+            %ul
+                - @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.each do |ans|
+                    %li= ans.value
+            - unless q.reference_url.blank?
+                %p= raw("Reference: " + link_to(q.reference_url))
             
