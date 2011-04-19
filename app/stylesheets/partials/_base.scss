@@ -13,6 +13,7 @@ $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $b
 @import "compass/reset";
 @import "compass/utilities";
 @import "blueprint";
+@import "compass/css3/box";
 @import "compass/css3/box-shadow";
 @import "compass/utilities/lists/inline-list";
 
@@ -84,6 +85,12 @@ footer ul {
 .icon_link{
 	height:18px;
 }
+.question_reveal {
+	@include display-box;
+	@include column(2*$blueprint-grid-columns/3);
+	@include box-shadow;
+	display:none;
+}
 .social-icons, .inline-list {@include inline-list;}
 textarea#quiz_description { height:100px;}
 select.correct_answer {
@@ -94,4 +101,11 @@ table#GradeAnswers .correct {
 }
 table#GradeAnswers .incorrect {
 	background-color: $incorrect-color;
+}
+#AboutThisCrash, #QuizMetaBox {
+	@include display-box;
+	@include column($blueprint-grid-columns/2 - 3);
+	@include box-shadow;
+	min-height:300px;
+	@include append-bottom(2);
 }

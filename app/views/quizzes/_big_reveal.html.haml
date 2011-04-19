@@ -1,8 +1,10 @@
-- @quiz.questions.each do |q|
+- @quiz.questions.reverse.each_with_index do |q,i|
     .content
-        .question
-            %p= q.value
-            %h6 Scoring Answers
+        %div{:class=>"question_reveal",:id=>"question_#{q.id}"}
+            %h2 Question #{@quiz.questions.count - i}
+            .question_text= q.value
+            
+            %h6 Correct Answers
             %ul
                 - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
                     %li= [pluralize(ca_hsh[:user_answers].count, "point"), ca_hsh[:correct_answer].value, ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user}.join(",")].join " - "
@@ -16,4 +18,15 @@
                     %li= ans.value
             - unless q.reference_url.blank?
                 %p= raw("Reference: " + link_to(q.reference_url))
+- content_for :footer_js do
+    :javascript
+        function showLastHiddenQuestion(delay_in_milliseconds) {
+            if (delay_in_milliseconds == null) {
+                delay_in_milliseconds = 5000;
+            }
+            $(".question_reveal:hidden:last").delay(delay_in_milliseconds).slideToggle("slow", showLastHiddenQuestion);
+        }
+        $(document).ready(function(){
+            showLastHiddenQuestion(0);
+        });
             

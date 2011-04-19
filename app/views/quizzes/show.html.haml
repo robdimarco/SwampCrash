@@ -3,35 +3,35 @@
         .notice= notice
 
 .content
-    %h3= @quiz.name
-    %h4 Brought to you by #{@quiz.owner.email}
-    .share_this <span class='st_twitter_large' ></span><span class='st_facebook_large' ></span><span class='st_yahoo_large' ></span><span class='st_gbuzz_large' ></span><span class='st_email_large' ></span><span class='st_delicious_large' ></span><span class='st_sharethis_large' ></span>
+    #QuizMetaBox
+        %h1= @quiz.name
+        %p Brought to you by #{@quiz.owner}
+        .share_this <span class='st_twitter_large' ></span><span class='st_facebook_large' ></span><span class='st_yahoo_large' ></span><span class='st_gbuzz_large' ></span><span class='st_email_large' ></span><span class='st_delicious_large' ></span><span class='st_sharethis_large' ></span>
 
-.content
-    %table
-        %caption About This Crash
-        %tbody
-            %tr
-                %td.description Rules To Play
-                %td= link_to 'Rules', content_path(:action=>'about')
-            - unless @quiz.description.blank?
+    #AboutThisCrash
+        %table
+            %caption About This Crash
+            %tbody
                 %tr
-                    %td.description Details
-                    %td= @quiz.description
-            %tr
-                %td.description # of Questions
-                %td= @quiz.questions.count
-            %tr
-                %td.description Categories
-                %td= @quiz.questions.collect(&:tags).flatten.uniq.collect( &:name).sort.join(", ")
-            %tr
-                %td.description Current Participants
-                %td= AnswerSheet.where(:quiz_id=>@quiz.id).collect(&:user).collect(&:to_s).join(", ")
-
-- unless @quiz.complete?
-    = render "answer_form"
-- else
-    = render "big_reveal"
+                    %td.description Rules To Play
+                    %td= link_to 'Rules', content_path(:action=>'about')
+                - unless @quiz.description.blank?
+                    %tr
+                        %td.description Details
+                        %td= @quiz.description
+                %tr
+                    %td.description # of Questions
+                    %td= @quiz.questions.count
+                %tr
+                    %td.description Categories
+                    %td= @quiz.questions.collect(&:tags).flatten.uniq.collect( &:name).sort.join(", ")
+                %tr
+                    %td.description Current Participants
+                    %td= AnswerSheet.where(:quiz_id=>@quiz.id).collect(&:user).collect(&:to_s).join(", ")
+.content
+    %hr
+    
+= render @quiz.complete? ? "big_reveal" : "answer_form"
 
 .content
     #disqus_thread
