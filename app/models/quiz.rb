@@ -5,7 +5,7 @@ class Quiz < ActiveRecord::Base
   scope :completed, where(:status => "complete").order("updated_at").reverse_order
   belongs_to :owner, :class_name=>"User", :foreign_key=>"owner_id"
   has_many :quiz_questions, :order=>"position"
-  has_many :questions, :through=>:quiz_questions
+  has_many :questions, :through=>:quiz_questions, :order=>"position"
   has_many :answer_sheets
   before_validation(:on=>:create) {self.status ||= 'pending'}
   validates_inclusion_of :status, :in => VALID_STATUS
