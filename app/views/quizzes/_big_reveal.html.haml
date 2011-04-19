@@ -1,21 +1,44 @@
+.content
+    .question_reveal
+        %table
+            %thead
+                %caption Final Scores
+                %tr
+                    %th #
+                    %th Name
+                    %th Score
+            %tbody
+                - @quiz.answer_sheets.sort{|a,b|a.current_score <=> b.current_score}.each_with_index do |as, i|
+                    %tr
+                        %td= i + 1
+                        %td= as.user
+                        %td= as.current_score
+
 - @quiz.questions.reverse.each_with_index do |q,i|
     .content
-        %div{:class=>"question_reveal",:id=>"question_#{q.id}"}
+        .question_reveal
             %h2 Question #{@quiz.questions.count - i}
             .question_text= q.value
             
             %h6 Correct Answers
-            %ul
-                - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
-                    %li= [pluralize(ca_hsh[:user_answers].count, "point"), ca_hsh[:correct_answer].value, ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user}.join(",")].join " - "
+            - if @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.empty?
+                None
+            - else
+                %ul
+                    - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
+                        %li= [pluralize(ca_hsh[:user_answers].count, "point"), ca_hsh[:correct_answer].value, ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user}.join(",")].join " - "
             %h6 Wrong Answers
-            %ul
-                - @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.each do |ua|
-                    %li= [ua.value, ua.answer_sheet.user].join " - "
-            %h6 No One Guessed
-            %ul
-                - @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.each do |ans|
-                    %li= ans.value
+            - if @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.empty?
+                None
+            - else
+                %ul
+                    - @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.each do |ua|
+                        %li= [pluralize(@quiz.scorecard.incorrect_points(q.id), "point"), ua.value, ua.answer_sheet.user].join " - "
+            - unless @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.empty?
+                %h6 No One Guessed
+                %ul
+                    - @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.each do |ans|
+                        %li= ans.value
             - unless q.reference_url.blank?
                 %p= raw("Reference: " + link_to(q.reference_url))
 - content_for :footer_js do
