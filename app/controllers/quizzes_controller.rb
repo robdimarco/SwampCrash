@@ -89,7 +89,7 @@ class QuizzesController < ApplicationController
     @quiz.owner = current_user
     respond_to do |format|
       if @quiz.save
-        format.html { redirect_to(@quiz, :notice => 'Quiz was successfully created.') }
+        format.html { redirect_to(edit_quiz_path(@quiz), :notice => 'Quiz was successfully created.') }
         format.xml  { render :xml => @quiz, :status => :created, :location => @quiz }
       else
         format.html { render :action => "new" }
