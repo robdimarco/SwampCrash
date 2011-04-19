@@ -15,4 +15,12 @@ module QuizzesHelper
     select_tag "question_#{q.id}_correct_answer_id", options_from_collection_for_select(q.answers, "id", "value", correct_answer_id), 
       {:include_blank=>"Incorrect", :class=>"correct_answer"}
   end
+  
+  def quiz_view_partial(quiz)
+    (params.include?(:show_big_reveal) or quiz.complete?) ? "big_reveal" : "answer_form"
+  end
+  
+  def reveal_delay_in_milliseconds
+    params.include?(:reveal_delay) ? params[:reveal_delay] : 5000
+  end
 end

@@ -1,8 +1,8 @@
 .content
     .question_reveal
+        %h2 Final Scores
         %table
             %thead
-                %caption Final Scores
                 %tr
                     %th #
                     %th Name
@@ -45,7 +45,7 @@
     :javascript
         function showLastHiddenQuestion(delay_in_milliseconds) {
             if (delay_in_milliseconds == null) {
-                delay_in_milliseconds = 5000;
+                delay_in_milliseconds = #{reveal_delay_in_milliseconds};
             }
             $(".question_reveal:hidden:last").delay(delay_in_milliseconds).slideToggle("slow", showLastHiddenQuestion);
         }

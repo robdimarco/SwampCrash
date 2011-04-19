@@ -31,7 +31,7 @@
 .content
     %hr
     
-= render @quiz.complete? ? "big_reveal" : "answer_form"
+= render quiz_view_partial(@quiz)
 
 .content
     #disqus_thread
