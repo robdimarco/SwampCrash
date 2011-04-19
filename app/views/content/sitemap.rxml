@@ -1,6 +1,6 @@
 xml.instruct!  
 xml.urlset "xmlns" => "http://www.sitemaps.org/schemas/sitemap/0.9" do
-  Quiz.where(:status=>["active", "completed"]).each do |q|
+  Quiz.where(:status=>["active", "complete"]).each do |q|
     xml.url do  
       xml.loc quiz_url(q)  
       xml.lastmod q.updated_at.xmlschema
