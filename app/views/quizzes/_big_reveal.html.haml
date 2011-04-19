@@ -2,6 +2,7 @@
     .content
         .question
             %p= q.value
+            %p= @quiz.scorecard_hash[q.id].inspect
             %h6 Scoring Answers
             %h6 Wrong Answers
             %h6 Missed

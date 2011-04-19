@@ -7,13 +7,9 @@ class AnswerSheet < ActiveRecord::Base
   validates_inclusion_of :status, :in => %w( pending graded )
 
   def current_score
-    scorecard = quiz.scorecard_hash
+    scorecard = quiz.scorecard
     answers.inject(0) do |sum, ans|
-      sum += if ans.incorrect?
-        scorecard[ans.question.id].values.max + 5
-      else
-        scorecard[ans.question.id][ans.correct_answer_id]
-      end
+      sum += ans.incorrect? ? scorecard.incorrect_points(ans.question.id) : scorecard.correct_points(ans.question.id, ans.id)
     end
   end
 
