@@ -4,10 +4,12 @@ class QuizzesController < ApplicationController
   before_filter :must_be_owner!, :only=>[:edit, :update, :destroy, :grade_answers, :delete_answer_sheet]
   
   def answer
+    redirect_to quiz_path(@quiz) and return if @quiz.complete?
+
     params_to_use = (session[:answer_sheet] || {}).merge(params)
     params_to_use.symbolize_keys!
     Rails.logger.debug "Using params #{params_to_use.inspect} have id of #{params_to_use[:id]}"
-    
+
     if user_signed_in?
       @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user.id, @quiz.id
       @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id.to_i] = params_to_use[:"answer_#{q.id}"];hsh}
