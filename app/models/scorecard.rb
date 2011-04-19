@@ -11,10 +11,10 @@ class Scorecard
     @scoring_details_by_question = @quiz.questions.inject({}){|hsh, q| hsh[q.id] = ScoreForQuestion.new(@quiz, q, question_user_answers[q.id]);hsh}
   end
   def scoring_details_for_question(question_id)
-    @scoring_details_for_question[question_id]
+    @scoring_details_by_question[question_id]
   end
   def incorrect_points(question_id)
-    max_points + PENALTY_POINTS
+    max_points_for_question(question_id) + PENALTY_POINTS
   end
   def max_points_for_question(question_id)
     correct_answers = scoring_details_for_question(question_id).correct_answers
@@ -38,7 +38,7 @@ class Scorecard
             @missed_answers.delete(ua.correct_answer)
             correct_answers_hash[ua.correct_answer] = []
           end
-          correct_answers[ua.correct_answer] << ua
+          correct_answers_hash[ua.correct_answer] << ua
         end
       end
       @correct_answers = correct_answers_hash.keys.map{|ca|{:correct_answer=>ca, :user_answers=>correct_answers_hash[ca]}}.sort{|a,b|a[:user_answers].length <=> b[:user_answers].count}
