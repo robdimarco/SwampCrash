@@ -20,4 +20,4 @@
         %br/
         = f.select :status, options_for_select(Quiz::VALID_STATUS, @quiz.status)
     .actions
-        = f.submit
+        = f.submit :class=>"button icon approve"

@@ -37,6 +37,8 @@ GEM
     cancan (1.6.4)
     compass (0.10.6)
       haml (>= 3.0.4)
+    css3buttons (0.9.2)
+      actionpack (>= 3.0.0)
     devise (1.2.1)
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
@@ -127,6 +129,7 @@ DEPENDENCIES
   annotate
   cancan
   compass
+  css3buttons
   devise
   factory_girl
   factory_girl_rails

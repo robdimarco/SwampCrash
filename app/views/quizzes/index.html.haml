@@ -12,7 +12,7 @@
             - Quiz.active.each do |q|
                 %li{:class=>"quiz_#{q.id}"}
                     = q.name
-                    = link_to("Play Now!!!", quiz_path(q))
+                    = arrowright_button_link_to("Play Now!!!", quiz_path(q))
 
     - if user_signed_in?
         #YourAnswers.quiz_list_box
@@ -20,7 +20,7 @@
             %ul.inline-list
                 - unless current_user.answered_quizzes.empty?
                     - current_user.answered_quizzes.each do |q|
-                        %li= link_to(q.name, quiz_path(q))
+                        %li= arrowright_button_link_to(q.name, quiz_path(q))
                 - else
                     %li No Crashes Played Yet....
             
@@ -29,4 +29,4 @@
             %h2 Your Authored Crashes
             %ul.inline-list
                 - current_user.owned_quizzes.each do |q|
-                    %li= link_to(q.name, edit_quiz_path(q))
+                    %li= edit_button_link_to(q.name, edit_quiz_path(q))
