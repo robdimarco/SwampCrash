@@ -17,7 +17,7 @@ module QuizzesHelper
   end
   
   def quiz_view_partial(quiz)
-    (params.include?(:show_big_reveal) or quiz.complete?) ? "big_reveal" : "answer_form"
+    ((Rails.env == "development" and params.include?(:show_big_reveal)) or quiz.complete?) ? "big_reveal" : "answer_form"
   end
   
   def reveal_delay_in_milliseconds
