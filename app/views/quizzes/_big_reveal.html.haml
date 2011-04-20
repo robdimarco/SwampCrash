@@ -27,6 +27,7 @@
                 %ul
                     - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
                         %li= [pluralize(ca_hsh[:user_answers].count, "point"), ca_hsh[:correct_answer].value, ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user}.join(",")].join " - "
+                        
             %h6 Wrong Answers
             - if @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.empty?
                 None
@@ -34,6 +35,7 @@
                 %ul
                     - @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.each do |ua|
                         %li= [pluralize(@quiz.scorecard.incorrect_points(q.id), "point"), ua.value, ua.answer_sheet.user].join " - "
+                        
             - unless @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.empty?
                 %h6 No One Guessed
                 %ul
@@ -41,6 +43,7 @@
                         %li= ans.value
             - unless q.reference_url.blank?
                 %p= raw("Reference: " + link_to(q.reference_url))
+                
 - content_for :footer_js do
     :javascript
         function showLastHiddenQuestion(delay_in_milliseconds) {
