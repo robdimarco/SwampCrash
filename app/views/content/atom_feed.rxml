@@ -1,18 +1,16 @@
 xml.instruct!  
-xml.urlset "xmlns" => "http://www.w3.org/2005/Atom" do
-  xml.feed do |f|
-    f.title "SwampCrash Atom Feed"
-    f.link(:rel=>"self", :href=>"http://www.swampcrash.com")
-    f.update Time.now.utc.xmlschema
-    f.id "tag:www.swampcrash.com,#{Date.today.strftime("%F")}:feed/atom.xml"
-    Quiz.where(:status=>["active", "complete"]).order("updated_at").reverse_order.each do |q|
-      f.entry do |e|
-        e.id q.id.to_s
-        e.title q.name
-        e.summary q.description
-        e.link quiz_url(q) 
-        e.updated q.updated_at.utc.xmlschema
-      end
+xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do |f|
+  f.title "SwampCrash Atom Feed"
+  f.link(:rel=>"self", :href=>"http://www.swampcrash.com")
+  f.update Time.now.utc.xmlschema
+  f.id "tag:www.swampcrash.com,#{Date.today.strftime("%F")}:feed/atom.xml"
+  Quiz.where(:status=>["active", "complete"]).order("updated_at").reverse_order.each do |q|
+    f.entry do |e|
+      e.id q.id.to_s
+      e.title q.name
+      e.summary q.description
+      e.link quiz_url(q) 
+      e.updated q.updated_at.utc.xmlschema
     end
   end
 end
