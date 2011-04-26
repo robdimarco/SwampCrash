@@ -19,7 +19,7 @@
             %dd= link_to 'Rules', content_path(:action=>'about')
             - unless @quiz.description.blank?
                 %dt Details
-                %dd= auto_link(@quiz.description)
+                %dd= raw auto_link(@quiz.description)
             %dt Categories
             %dd= @quiz.questions.collect(&:tags).flatten.uniq.collect( &:name).sort.join(", ")
             %dt Current Participants
