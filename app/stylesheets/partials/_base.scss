@@ -20,7 +20,11 @@ $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $b
 
 $correct-color : green;
 $incorrect-color : #A00;
-
+@mixin small-italic {
+	font-size:12px;
+	font-style: italic;
+	@include inline-block;
+}
 header {
     @include column($blueprint-grid-columns);
 }
@@ -87,12 +91,19 @@ table#GradeAnswers .correct {
 table#GradeAnswers .incorrect {
 	background-color: $incorrect-color;
 }
-#AboutThisCrash, #QuizMetaBox {
+.quiz_name {
+	font-size:110%;
+}
+.author_acknowledgement {
+	@include small-italic;
+}
+#QuizMetaBox {
 	@include display-box;
-	@include column($blueprint-grid-columns/2 - 3);
+	@include column($blueprint-grid-columns - 3);
 	@include box-shadow;
-	min-height:300px;
+	@include min-height(200px);
 	@include append-bottom(2);
+	padding:1em;
 }
 #header h1 {
 	padding-left: 1em;
@@ -100,4 +111,7 @@ table#GradeAnswers .incorrect {
 #FollowOnTwitter{
 	vertical-align:bottom;
 	height:24px;
+}
+.invite_more_lead{
+	font-weight:bold;
 }
