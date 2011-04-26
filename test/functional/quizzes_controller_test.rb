@@ -54,7 +54,7 @@ class QuizzesControllerTest < ActionController::TestCase
       post :create, :quiz => {:name=>'Bogus'}
     end
 
-    assert_redirected_to quiz_path(assigns(:quiz))
+    assert_redirected_to edit_quiz_path(assigns(:quiz))
   end
 
   test "should show quiz" do
