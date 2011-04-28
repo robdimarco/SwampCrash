@@ -1,0 +1,73 @@
+- q = qq.question
+- i = qq.position
+.question_results_box
+    .container
+        .content_no_margin
+            %h2 Question #{i + 1}
+            %h3= q.value
+            .answers_results_box
+                %h6 Correct Answers
+                - if @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.empty?
+                    None
+                - else
+                    %table.striped
+                        %thead
+                            %tr
+                                %th Points
+                                %th Answer
+                                %th Who Got It
+                        %tbody        
+                            - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
+                                %tr
+                                    %td= ca_hsh[:user_answers].count
+                                    %td= ca_hsh[:correct_answer].value
+                                    %td= ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user}.join(", ")
+            
+                %h6 Wrong Answers
+                - if @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.empty?
+                    None
+                - else
+                    %table.striped
+                        %thead
+                            %tr
+                                %th Points
+                                %th Answer
+                                %th Who Missed It
+                        %tbody
+                            - @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.each do |ua|
+                                %tr
+                                    %td= @quiz.scorecard.incorrect_points(q.id)
+                                    %td= ua.value
+                                    %td= ua.answer_sheet.user
+            
+                - unless @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.empty?
+                    %table.striped
+                        %thead
+                            %tr
+                                %th No One Guessed
+                        %tbody
+                            - @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.each do |ans|
+                                %tr
+                                    %td= ans.value
+                - unless q.reference_url.blank?
+                    %p= raw("Reference: " + link_to(q.reference_url, :target=>"_new"))
+
+            .score_by_question_box
+                %h6 #{i == (@quiz.questions.count - 1) ? "Final Scores" : "Scores After #{i + 1}"}
+                %table
+                    %thead
+                        %tr
+                            %th #
+                            %th Name
+                            %th Score
+                    %tbody
+                        - answers = @quiz.answer_sheets.collect{|as|{user:as.user,score:as.current_score(@quiz.quiz_questions.where(["position <= ?", i]).collect(&:id))}};
+                        - answers.sort{|a,b|a[:score]<=>b[:score]}.each_with_index do |as, i|
+                            %tr
+                                %td= i + 1
+                                %td= as[:user]
+                                %td= as[:score]
+
+    .results_navigation_bar
+        = link_to_function "Previous", "swap_result(#{i}, 'prev')", :class=>"button icon arrowleft" unless i == 0
+        = link_to_function "Next", "swap_result(#{i}, 'next')", :class=>"button icon arrowright" unless i == @quiz.questions.count - 1

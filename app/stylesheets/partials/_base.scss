@@ -41,10 +41,6 @@ footer ul {
 	@include inline-list;
 }
 
-.question_text {
-    $question-columns: ceil(2 * $blueprint-grid-columns / 3);
-    @include column($question-columns); 
-}
 .answer_box    {
     $answer-columns: floor($blueprint-grid-columns / 3);
     @include column($answer-columns, true); 
@@ -72,6 +68,10 @@ footer ul {
   @include last;
   @include append(2);
 }
+.content_no_margin {
+  @include column($blueprint-grid-columns - 2, true);
+  @include last;
+}
 
 .user_login {
     @include column(10, false);
@@ -84,11 +84,28 @@ footer ul {
 	height:18px;
 }
 .question_reveal {
+	@include box-shadow;	
 	@include display-box;
-	@include column(2*$blueprint-grid-columns/3);
-	@include box-shadow;
-	display:none;
 }
+.question_results_box h3 {
+	padding-left:.5em;
+	
+	@include last;
+}
+.question_results_box h2 {
+	padding-left:.5em;
+	background-color:$blueprint_background_color;
+	@include last;
+}
+.answers_results_box {
+	padding-left:.5em;
+	@include column($blueprint-grid-columns/2 - 2);
+}
+.score_by_question_box {
+  @include column($blueprint-grid-columns/2 - 2, true);
+  @include last;
+}
+
 .social-icons, .inline-list {@include inline-list;}
 textarea#quiz_description { height:100px;}
 select.correct_answer {
@@ -112,7 +129,8 @@ table#GradeAnswers .incorrect {
 	padding:1em;
 	@include info;
 }
-#QuizMetaBox {
+#QuizMetaBox, #QuizQuestionBox, #QuestionRevealBox {
+	margin-top:10px;
 	@include display-box;
 	@include column($blueprint-grid-columns - 3);
 	@include box-shadow;
@@ -136,4 +154,8 @@ table#GradeAnswers .incorrect {
 	color:$link-color;
 	padding-right:50px;
 	text-decoration:underline;
+}
+.results_navigation_bar {
+	padding-left:.5em;
+	padding-bottom:.5em;
 }

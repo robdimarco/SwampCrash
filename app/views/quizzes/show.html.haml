@@ -59,7 +59,7 @@
                }
             },
             style: {name: 'dark'},
-            content: '#{AnswerSheet.where(:quiz_id=>@quiz.id).collect(&:user).collect(&:to_s).join(", ")}',
+            content: '#{user_list_for_quiz}',
             show: 'mouseover',
             hide: 'mouseout'
         })});

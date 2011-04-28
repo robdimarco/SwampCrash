@@ -1,8 +1,21 @@
 class QuizzesController < ApplicationController
   before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new, :grade_answers, :delete_answer_sheet]
-  before_filter :quiz_from_params, :only=>[:edit, :update, :destroy, :grade_answers, :show, :answer, :delete_answer_sheet]
+  before_filter :quiz_from_params, :only=>[:edit, :update, :destroy, :grade_answers, :show, :answer, :delete_answer_sheet, :reveal_question]
   before_filter :must_be_owner!, :only=>[:edit, :update, :destroy, :grade_answers, :delete_answer_sheet]
+  helper_method :big_reveal_allowed?
   
+  def reveal_question
+    position = (params[:position].to_i || 0) + (params[:direction] == 'next' ? 1 : -1)
+    @quiz_question = @quiz.quiz_questions.where(:position=>position).first
+    redirect_to quiz_path(@quiz) and return unless big_reveal_allowed?(@quiz.complete?) or !@quiz_question.nil?
+    
+    respond_to do |format|
+      format.json{
+        content = render_to_string(partial:"quizzes/reveal_question.html", locals:{qq:@quiz_question})
+        render :json=>{content:content}.to_json
+      }
+    end
+  end
   def answer
     redirect_to quiz_path(@quiz) and return if @quiz.complete?
 
@@ -130,5 +143,8 @@ class QuizzesController < ApplicationController
   end
   def quiz_from_params
     @quiz = Quiz.find(params[:id])
+  end
+  def big_reveal_allowed?(quiz)
+    ((Rails.env == "development" and params.include?(:show_big_reveal)) or quiz.complete?)
   end
 end

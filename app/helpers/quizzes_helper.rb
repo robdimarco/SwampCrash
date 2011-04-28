@@ -17,10 +17,13 @@ module QuizzesHelper
   end
   
   def quiz_view_partial(quiz)
-    ((Rails.env == "development" and params.include?(:show_big_reveal)) or quiz.complete?) ? "big_reveal" : "answer_form"
+    big_reveal_allowed?(quiz) ? "big_reveal" : "answer_form"
   end
   
   def reveal_delay_in_milliseconds
     params.include?(:reveal_delay) ? params[:reveal_delay] : 5000
+  end
+  def user_list_for_quiz(join_with=", ")
+    User.joins(:answer_sheets).where(:answer_sheets=>{:quiz_id=>@quiz.id}).collect( &:to_s).join(join_with)
   end
 end

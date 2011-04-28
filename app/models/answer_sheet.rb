@@ -7,16 +7,19 @@ class AnswerSheet < ActiveRecord::Base
   validates_inclusion_of :status, :in => %w( pending graded )
   attr_accessible :quiz, :user
   
-  def current_score
-    score_by_question_id_hash.values.sum
+  def current_score(for_question_ids=nil)
+    for_question_ids = score_by_question_id_hash.keys if for_question_ids.nil?
+    for_question_ids.collect{|q|score_by_question_id_hash[q]}.sum
   end
-  
   def score_by_question_id_hash
-    scorecard = quiz.scorecard
-    self.answers.inject({}) do |hsh, ans|
-      hsh[ans.question.id] = ans.incorrect? ? scorecard.incorrect_points(ans.question.id) : scorecard.correct_points(ans.question.id, ans.correct_answer_id)
-      hsh
+    if @score_by_question_id_hash.nil?
+      scorecard = quiz.scorecard
+      @score_by_question_id_hash = self.answers.inject({}) do |hsh, ans|
+        hsh[ans.question.id] = ans.incorrect? ? scorecard.incorrect_points(ans.question.id) : scorecard.correct_points(ans.question.id, ans.correct_answer_id)
+        hsh
+      end
     end
+    @score_by_question_id_hash
   end
 
   def grade!

@@ -7,17 +7,32 @@ class QuizzesControllerTest < ActionController::TestCase
     @quiz = Factory.create :quiz, :owner=>@user
   end
 
+  test "reveal question requires completed quiz" do
+    q = Factory.create :quiz, :owner=>@user, :status=>"active"
+    qq  = Factory.create :quiz_question, :quiz=>q
+    qq2 = Factory.create :quiz_question, :quiz=>q
+    get :reveal_question, :id=>q.id, :position=>qq.position, :direction=>"next", :format=>:json
+    assert_redirected_to quiz_path(q)
+  end
+
+  test "reveal question shown for completed quiz" do
+    q = Factory.create :quiz, :owner=>@user, :status=>"complete"
+    qq = Factory.create :quiz_question, :quiz=>q
+    qq2 = Factory.create :quiz_question, :quiz=>q
+    get :reveal_question, :id=>q.id, :position=>qq.position, :direction=>"next", :format=>:json
+    assert_response :success
+  end
   test "no active quizzes so no current" do
     get :index
     assert_equal 0, Quiz.active.count
-    assert_select "#CurrentCrashBox table tr", false
+    assert_select "#CurrentCrashBox table tbody tr", false
   end
 
   test "active quizzes show as current" do
     Factory.create :quiz, :status=>'active'
     get :index
     assert_equal 1, Quiz.active.count
-    assert_select "#CurrentCrashBox table tr"
+    assert_select "#CurrentCrashBox table tbody tr"
   end
   
   test "no logged in user results in no owned quizzes" do
@@ -34,7 +49,7 @@ class QuizzesControllerTest < ActionController::TestCase
   test "logged in user results with owned quizzes" do
     sign_in @user
     get :index
-    assert_select "#OwnerCrashBox table tr"
+    assert_select "#OwnerCrashBox table tbody tr"
   end
 
   test "should get index" do

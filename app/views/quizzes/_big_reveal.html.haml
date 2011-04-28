@@ -1,58 +1,12 @@
 .content
-    .question_reveal
-        %h2 Final Scores
-        %table
-            %thead
-                %tr
-                    %th #
-                    %th Name
-                    %th Score
-            %tbody
-                - @quiz.answer_sheets.sort{|a,b|a.current_score <=> b.current_score}.each_with_index do |as, i|
-                    %tr
-                        %td= i + 1
-                        %td= as.user
-                        %td= as.current_score
-
-- @quiz.questions.reverse.each_with_index do |q,i|
-    .content
-        .question_reveal
-            %h2 Question #{@quiz.questions.count - i}
-            .question_text= q.value
-            
-            %h6 Correct Answers
-            - if @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.empty?
-                None
-            - else
-                %ul
-                    - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
-                        %li= [pluralize(ca_hsh[:user_answers].count, "point"), ca_hsh[:correct_answer].value, ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user}.join(",")].join " - "
-                        
-            %h6 Wrong Answers
-            - if @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.empty?
-                None
-            - else
-                %ul
-                    - @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.each do |ua|
-                        %li= [pluralize(@quiz.scorecard.incorrect_points(q.id), "point"), ua.value, ua.answer_sheet.user].join " - "
-                        
-            - unless @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.empty?
-                %h6 No One Guessed
-                %ul
-                    - @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.each do |ans|
-                        %li= ans.value
-            - unless q.reference_url.blank?
-                %p= raw("Reference: " + link_to(q.reference_url))
-                
+    #QuestionRevealBox
+        = render :partial=>"reveal_question", :locals=>{:qq=>params[:quiz_question_id].blank? ? @quiz.quiz_questions.first :  @quiz.quiz_questions.find(params[:quiz_question_id])}
 - content_for :footer_js do
     :javascript
-        function showLastHiddenQuestion(delay_in_milliseconds) {
-            if (delay_in_milliseconds == null) {
-                delay_in_milliseconds = #{reveal_delay_in_milliseconds};
-            }
-            $(".question_reveal:hidden:last").delay(delay_in_milliseconds).slideToggle(2000, showLastHiddenQuestion);
+        function swap_result(pos, dir) {
+            data = $.getJSON("#{reveal_question_quiz_path(:id=>@quiz.id, :format=>:json)}", {position: pos, direction: dir, show_big_reveal:'#{params[:show_big_reveal]}'}, function(data) {
+                $(".question_results_box").hide();
+                $("#QuestionRevealBox").html(data.content);
+                $(".question_results_box").hide().slideToggle('slow');
+            });
         }
-        $(document).ready(function(){
-            showLastHiddenQuestion(0);
-        });
-            
