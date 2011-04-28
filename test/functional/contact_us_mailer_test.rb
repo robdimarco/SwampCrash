@@ -6,7 +6,7 @@ class ContactUsMailerTest < ActionMailer::TestCase
     assert_difference "ActionMailer::Base.deliveries.length" do
       email = ContactUsMailer.contact_us(message).deliver
       # Test the body of the sent email contains what we expect it to
-      assert_equal ["contactus"<<"@"<<"swampcrash.com"], email.to
+      assert_equal [[%w(robdimarco swampcrash contactus).join("+"), %w(gmail com).join(".")].join(64.chr)], email.to
       assert_equal "Test", email.subject
     end    
   end

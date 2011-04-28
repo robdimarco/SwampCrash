@@ -1,5 +1,5 @@
 class ContactUsMailer < ActionMailer::Base
-  default :to => %w(contactus swampcrash.com).join("@")
+  default :to =>[%w(robdimarco swampcrash contactus).join("+"), %w(gmail com).join(".")].join(64.chr)
   
   def contact_us(message)
     @message = message
