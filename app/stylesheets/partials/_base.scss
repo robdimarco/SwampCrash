@@ -49,12 +49,15 @@ footer ul {
     $answer-columns: floor($blueprint-grid-columns / 3);
     @include column($answer-columns, true); 
 }
-.quiz_list_box {
+.about_summary, .quiz_list_box {
 	@include min-height(100px);
 	@include display-box;
 	@include box-shadow;
     @include prepend-top(1em);
-	@include column( $blueprint-grid-columns - 4,true);
+	@include column( $blueprint-grid-columns - 8);
+}
+.about_summary {
+	@include info;
 }
 .quiz_list_box h2 {
 	@include prepend(1);
