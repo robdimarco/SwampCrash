@@ -9,7 +9,7 @@ class Quiz < ActiveRecord::Base
   has_many :answer_sheets
   before_validation(:on=>:create) {self.status ||= 'pending'}
   validates_inclusion_of :status, :in => VALID_STATUS
-  attr_accessible :name, :description
+  attr_accessible :name, :description, :status
 
   VALID_STATUS.each do |st|
     define_method :"#{st}?" do
