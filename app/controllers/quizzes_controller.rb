@@ -7,7 +7,7 @@ class QuizzesController < ApplicationController
   def reveal_question
     position = (params[:position].to_i || 0) + (params[:direction] == 'next' ? 1 : -1)
     @quiz_question = @quiz.quiz_questions.where(:position=>position).first
-    redirect_to quiz_path(@quiz) and return unless big_reveal_allowed?(@quiz.complete?) or !@quiz_question.nil?
+    redirect_to quiz_path(@quiz) and return unless big_reveal_allowed?(@quiz) or !@quiz_question.nil?
     
     respond_to do |format|
       format.json{
@@ -145,6 +145,6 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.find(params[:id])
   end
   def big_reveal_allowed?(quiz)
-    ((Rails.env == "development" and params.include?(:show_big_reveal)) or @quiz.complete?)
+    ((Rails.env == "development" and params.include?(:show_big_reveal)) or quiz.complete?)
   end
 end
