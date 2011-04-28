@@ -102,9 +102,15 @@ table#GradeAnswers .incorrect {
 }
 .quiz_name {
 	font-size:110%;
+	background-color: $blueprint_background_color;
+	padding-left:1em;
 }
 .author_acknowledgement {
 	@include small-italic;
+}
+.quiz_description {
+	padding:1em;
+	@include info;
 }
 #QuizMetaBox {
 	@include display-box;
@@ -112,7 +118,9 @@ table#GradeAnswers .incorrect {
 	@include box-shadow;
 	@include min-height(200px);
 	@include append-bottom(2);
-	padding:1em;
+}
+#QuizMetaBox dl {
+	padding-left:1em;
 }
 #header h1 {
 	padding-left: 1em;
@@ -123,4 +131,9 @@ table#GradeAnswers .incorrect {
 }
 .invite_more_lead{
 	font-weight:bold;
+}
+.hoverable {
+	color:$link-color;
+	padding-right:50px;
+	text-decoration:underline;
 }
