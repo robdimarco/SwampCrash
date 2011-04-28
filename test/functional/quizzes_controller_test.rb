@@ -10,14 +10,14 @@ class QuizzesControllerTest < ActionController::TestCase
   test "no active quizzes so no current" do
     get :index
     assert_equal 0, Quiz.active.count
-    assert_select "#CurrentCrashBox ul li", false
+    assert_select "#CurrentCrashBox table tr", false
   end
 
   test "active quizzes show as current" do
     Factory.create :quiz, :status=>'active'
     get :index
     assert_equal 1, Quiz.active.count
-    assert_select "#CurrentCrashBox ul li"
+    assert_select "#CurrentCrashBox table tr"
   end
   
   test "no logged in user results in no owned quizzes" do
@@ -34,7 +34,7 @@ class QuizzesControllerTest < ActionController::TestCase
   test "logged in user results with owned quizzes" do
     sign_in @user
     get :index
-    assert_select "#OwnerCrashBox ul li"
+    assert_select "#OwnerCrashBox table tr"
   end
 
   test "should get index" do

@@ -1,32 +1,56 @@
 .content
+    .info
+        Foo bar
+.content
+    #CurrentCrashBox.quiz_list_box
+        %h2 Play Now!
+        %table.striped
+            %thead
+                %tr
+                    %th{:colspan=>2} Name
+            %tbody
+                - Quiz.active.each do |q|
+                    %tr
+                        %td= q.name
+                        %td= arrowright_button_link_to("Play Now!!!", quiz_path(q))
     #RecentCrashBox.quiz_list_box
         %h2 Just Completed
-        %ul.inline-list
-            - Quiz.completed.limit(3).each do |q|
-                %li{:class=>"quiz_#{q.id}"}
-                    = q.name
-                    = link_to("See who won", quiz_path(q))
-    #CurrentCrashBox.quiz_list_box
-        %h2 Ongoing
-        %ul.inline-list
-            - Quiz.active.each do |q|
-                %li{:class=>"quiz_#{q.id}"}
-                    = q.name
-                    = arrowright_button_link_to("Play Now!!!", quiz_path(q))
-
+        %table.striped
+            %thead
+                %tr
+                    %th{:colspan=>2} Name
+            %tbody
+                - Quiz.completed.limit(3).each do |q|
+                    %tr
+                        %td= q.name
+                        %td= arrowright_button_link_to("Who won?", quiz_path(q))
     - if user_signed_in?
         #YourAnswers.quiz_list_box
-            %h2 Your Crashes
-            %ul.inline-list
-                - unless current_user.answered_quizzes.empty?
-                    - current_user.answered_quizzes.each do |q|
-                        %li= arrowright_button_link_to(q.name, quiz_path(q))
-                - else
-                    %li No Crashes Played Yet....
+            %h2 Your Answered Crashes
+            
+            %table.striped
+                %thead
+                    %tr
+                        %th{:colspan=>2} Name
+                %tbody
+                    - unless current_user.answered_quizzes.empty?
+                        - current_user.answered_quizzes.each do |q|
+                            %tr
+                                %td= q.name
+                                %td= arrowright_button_link_to("Your Answers", quiz_path(q))
+                    - else
+                        %tr
+                            %td No Crashes Played Yet....
             
     - if owns_quizzes?(current_user)
         #OwnerCrashBox.quiz_list_box
             %h2 Your Authored Crashes
-            %ul.inline-list
-                - current_user.owned_quizzes.each do |q|
-                    %li= edit_button_link_to(q.name, edit_quiz_path(q))
+            %table.striped
+                %thead
+                    %tr
+                        %th{:colspan=>2} Name
+                %tbody
+                    - current_user.owned_quizzes.each do |q|
+                        %tr
+                            %td= q.name
+                            %td= edit_button_link_to("Edit", edit_quiz_path(q))

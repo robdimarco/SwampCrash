@@ -4,7 +4,6 @@
     %meta{:charset=>"UTF-8"}
     %meta{:"http-equiv"=>"X-UA-Compatible", :content=>"IE=edge,chrome=1"}
     %meta{:name=>"description", :content=>""}
-    %meta{:name=>"author", :content=>"Rob Di Marco, 416 Software, LLC"}
     %link{:rel=>"sitemap",:href=>"/sitemap.xml", :type=>"application/xml"}
     %link{:rel=>"alternate", :type=>"application/atom+xml", :title=>"SwampCrash Sitewide Atom feed", :href=>"/feed/atom.xml"}
     %title= page_title("SwampCrash...chomp")
@@ -14,7 +13,6 @@
     /[if IE]
         = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
     = csrf_meta_tag
-    = hoptoad_javascript_notifier
 %body.bp
     %div{:class=>blueprint_container}
         #header
@@ -22,7 +20,7 @@
             %nav
                 %ul.tabs
                     = menu_tab_link 'Home', root_path
-                    = menu_tab_link 'About', content_path(:action=>'about')
+                    = menu_tab_link 'What Is It', content_path(:action=>'about')
                     = menu_tab_link 'TODOs', content_path(:action=>'todos')
                     - if user_signed_in?
                         = menu_tab_link('Log Out', destroy_user_session_path)
