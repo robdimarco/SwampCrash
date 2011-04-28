@@ -1,7 +1,7 @@
 .content
     - [:error, :notice, :alert].each do |f|
         - if flash.include? f
-            %div{:class=>"notice", :id=>"flash_#{f}"}= flash[f]
+            %div{:class=>"error", :id=>"flash_#{f}"}= flash[f]
     %h2 Sign up
     = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html=>{:class=>"bp"}) do |f|
         = devise_error_messages!

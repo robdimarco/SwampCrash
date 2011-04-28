@@ -5,7 +5,9 @@ $blueprint-grid-columns: 24;
 $blueprint-container-size: 800px;
 $blueprint-grid-margin: 10px;
 $font-color             : #333;
-
+//$blueprint-background-color : #333;
+//$link-color: #b9001c;
+//
 // Use this to calculate the width based on the total width.
 // Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
 $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
@@ -24,6 +26,9 @@ $incorrect-color : #A00;
 	font-size:12px;
 	font-style: italic;
 	@include inline-block;
+}
+#error_explanation {
+	@include error;
 }
 header {
     @include column($blueprint-grid-columns);
