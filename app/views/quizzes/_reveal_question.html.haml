@@ -69,5 +69,6 @@
                                 %td= as[:score]
 
     .results_navigation_bar
-        = link_to_function "Previous", "swap_result(#{i}, 'prev')", :class=>"button icon arrowleft" unless i == 0
-        = link_to_function "Next", "swap_result(#{i}, 'next')", :class=>"button icon arrowright" unless i == @quiz.questions.count - 1
+        .button-group
+            = link_to_function "Previous", "swap_result(#{i}, 'prev')", :class=>"button icon arrowleft" unless i == 0
+            = link_to_function "Next", "swap_result(#{i}, 'next')", :class=>"button icon arrowright primary" unless i == @quiz.questions.count - 1
