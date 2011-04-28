@@ -7,6 +7,7 @@ class QuizQuestion < ActiveRecord::Base
   %w(value value= answers_str answers_str=).each do |m|
     delegate m.to_sym, :to=>:question
   end
+  attr_accessible :question, :quiz, :position
 end
 
 # == Schema Information

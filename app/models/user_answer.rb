@@ -4,6 +4,7 @@ class UserAnswer < ActiveRecord::Base
   belongs_to :correct_answer, :class_name=>'Answer'
   validates_presence_of :answer_sheet, :question
   validate :validate_answer_integrity
+  attr_accessible :value, :answer_sheet, :question
   def correct?
     !incorrect?
   end

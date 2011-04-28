@@ -5,7 +5,8 @@ class AnswerSheet < ActiveRecord::Base
   validates_presence_of :user, :quiz
   before_validation(:on=>:create) {self.status ||= 'pending'}
   validates_inclusion_of :status, :in => %w( pending graded )
-
+  attr_accessible :quiz, :user
+  
   def current_score
     score_by_question_id_hash.values.sum
   end
