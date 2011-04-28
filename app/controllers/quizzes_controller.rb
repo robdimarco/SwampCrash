@@ -145,6 +145,6 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.find(params[:id])
   end
   def big_reveal_allowed?(quiz)
-    ((Rails.env == "development" and params.include?(:show_big_reveal)) or quiz.complete?)
+    ((Rails.env == "development" and params.include?(:show_big_reveal)) or @quiz.complete?)
   end
 end
