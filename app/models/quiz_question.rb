@@ -10,15 +10,16 @@ class QuizQuestion < ActiveRecord::Base
   attr_accessible :question, :quiz, :position
 end
 
+
 # == Schema Information
 #
 # Table name: quiz_questions
 #
-#  id          :integer         not null, primary key
+#  id          :integer         primary key
 #  question_id :integer
 #  quiz_id     :integer
 #  position    :integer
-#  created_at  :datetime
-#  updated_at  :datetime
+#  created_at  :timestamp
+#  updated_at  :timestamp
 #
 

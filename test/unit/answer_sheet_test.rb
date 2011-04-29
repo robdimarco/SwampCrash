@@ -39,14 +39,16 @@ class AnswerSheetTest < ActiveSupport::TestCase
     
 end
 
+
 # == Schema Information
 #
 # Table name: answer_sheets
 #
-#  id         :integer         not null, primary key
+#  id         :integer         primary key
 #  quiz_id    :integer
 #  user_id    :integer
-#  created_at :datetime
-#  updated_at :datetime
+#  created_at :timestamp
+#  updated_at :timestamp
+#  status     :string(255)     default("pending"), not null
 #
 

@@ -34,14 +34,15 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: questions
 #
-#  id            :integer         not null, primary key
+#  id            :integer         primary key
 #  value         :text            not null
 #  reference_url :text
-#  created_at    :datetime
-#  updated_at    :datetime
+#  created_at    :timestamp
+#  updated_at    :timestamp
 #
 

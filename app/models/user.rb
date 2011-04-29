@@ -48,26 +48,29 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: users
 #
-#  id                   :integer         not null, primary key
+#  id                   :integer         primary key
 #  email                :string(255)
 #  encrypted_password   :string(128)
 #  reset_password_token :string(255)
-#  remember_created_at  :datetime
+#  remember_created_at  :timestamp
 #  sign_in_count        :integer         default(0)
-#  current_sign_in_at   :datetime
-#  last_sign_in_at      :datetime
+#  current_sign_in_at   :timestamp
+#  last_sign_in_at      :timestamp
 #  current_sign_in_ip   :string(255)
 #  last_sign_in_ip      :string(255)
 #  password_salt        :string(255)
 #  confirmation_token   :string(255)
-#  confirmed_at         :datetime
-#  confirmation_sent_at :datetime
+#  confirmed_at         :timestamp
+#  confirmation_sent_at :timestamp
 #  authentication_token :string(255)
-#  created_at           :datetime
-#  updated_at           :datetime
+#  created_at           :timestamp
+#  updated_at           :timestamp
+#  image_url            :text
+#  full_name            :string(255)
 #
 

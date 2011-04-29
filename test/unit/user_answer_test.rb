@@ -7,15 +7,17 @@ class UserAnswerTest < ActiveSupport::TestCase
   end
 end
 
+
 # == Schema Information
 #
 # Table name: user_answers
 #
-#  id              :integer         not null, primary key
-#  answer_sheet_id :integer
-#  question_id     :integer
-#  value           :string(255)
-#  created_at      :datetime
-#  updated_at      :datetime
+#  id                :integer         primary key
+#  answer_sheet_id   :integer
+#  question_id       :integer
+#  value             :string(255)
+#  created_at        :timestamp
+#  updated_at        :timestamp
+#  correct_answer_id :integer
 #
 
