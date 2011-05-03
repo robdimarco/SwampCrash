@@ -91,24 +91,26 @@ ActiveRecord::Schema.define(:version => 20110429163824) do
   end
 
   create_table "users", :force => true do |t|
-    t.string    "email"
-    t.string    "encrypted_password",   :limit => 128
-    t.string    "reset_password_token"
-    t.timestamp "remember_created_at"
-    t.integer   "sign_in_count",                       :default => 0
-    t.timestamp "current_sign_in_at"
-    t.timestamp "last_sign_in_at"
-    t.string    "current_sign_in_ip"
-    t.string    "last_sign_in_ip"
-    t.string    "password_salt"
-    t.string    "confirmation_token"
-    t.timestamp "confirmed_at"
-    t.timestamp "confirmation_sent_at"
-    t.string    "authentication_token"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.text      "image_url"
-    t.string    "full_name"
+    t.string   "email"
+    t.string   "encrypted_password",      :limit => 128
+    t.string   "reset_password_token"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "password_salt"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "authentication_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "image_url"
+    t.string   "full_name"
+    t.boolean  "notify_me_on_completion",                :default => true
+    t.boolean  "notify_me_on_new",                       :default => true
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
