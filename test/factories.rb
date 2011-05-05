@@ -8,6 +8,7 @@ end
 
 Factory.define :user do |u|
   u.email {Factory.next(:email)}
+  u.full_name 'Change Me'
   u.password 'changeme'
   u.password_confirmation 'changeme'
 end

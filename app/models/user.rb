@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
+  validates_presence_of :full_name
 
   def self.new_with_session(params, session)
     super.tap do |user|
@@ -38,11 +39,7 @@ class User < ActiveRecord::Base
     (user_tokens.empty? || !email.blank?) && super
   end
   def to_s
-    unless user_tokens.empty?
-      user_info_token = user_tokens.detect{|t|t.details.include?("user_info")}
-      return user_info_token.details["user_info"]["name"] unless user_info_token.nil?
-    end
-    email.split("@")[0] + "@..."
+    full_name
   end
 end
 
