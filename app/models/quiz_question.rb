@@ -4,7 +4,7 @@ class QuizQuestion < ActiveRecord::Base
   validates_uniqueness_of :position, :scope=>:question_id
   validates_numericality_of :position
   validates_presence_of :quiz, :question
-  %w(value value= answers_str answers_str=).each do |m|
+  %w(value value= reference_url reference_url= answers_str answers_str=).each do |m|
     delegate m.to_sym, :to=>:question
   end
   attr_accessible :question, :quiz, :position

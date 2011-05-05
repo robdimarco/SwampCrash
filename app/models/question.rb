@@ -2,7 +2,7 @@ class Question < ActiveRecord::Base
   acts_as_taggable
   has_many :answers
   accepts_nested_attributes_for :answers, :tags
-  attr_accessible :value, :reference_url, :answers_attributes
+  attr_accessible :value, :reference_url, :answers_attributes, :answers, :tag_list, :answers_str
   
   def answers_str
     answers.collect(&:value).join(",")

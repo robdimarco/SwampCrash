@@ -15,11 +15,16 @@ class QuizQuestionsControllerTest < ActionController::TestCase
   end
 
   test "should create quiz_question" do
-    assert_difference('QuizQuestion.count') do
-      post :create, :question => {:value=>'Test', :reference_url=>'ba'}, :id=>@quiz.id
+    assert_difference(['QuizQuestion.count', 'Question.count']) do
+      post :create, :question => {:value=>'Test', :reference_url=>'ba', :answers_str=>'a,b,c', :tag_list=>'boo,hoo'}, :id=>@quiz.id
     end
 
     assert_redirected_to edit_quiz_path(assigns(:quiz))
+    q = Question.last
+    assert_equal 'Test', q.value
+    assert_equal 'ba', q.reference_url
+    assert_equal 'a,b,c', q.answers_str
+    assert_equal ["boo", "hoo"], q.tag_list
   end
 
   test "should show quiz_question" do
