@@ -14,4 +14,9 @@ class ApplicationController < ActionController::Base
       super
     end
   end
+  def on_post(&block)
+    if request.post?
+      yield
+    end
+  end
 end

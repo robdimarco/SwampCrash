@@ -49,15 +49,16 @@ class QuizzesController < ApplicationController
   def grade_answers
     @answer_sheet = AnswerSheet.find(params[:answer_sheet_id])
     raise "Invalid ID" if @answer_sheet.nil? or @answer_sheet.quiz != @quiz
-    if request.post?
+
+    on_post do
       @answer_sheet.status = 'graded'
       @answer_sheet.answers.each do |a|
         a.update_attributes :correct_answer_id => params[:"question_#{a.question.id}_correct_answer_id"]
       end
         
       @answer_sheet.save
-      redirect_to(edit_quiz_path(@quiz), :notice => "Answers for #{@answer_sheet.user} have been graded") 
     end
+    redirect_to(edit_quiz_path(@quiz), :notice => "Answers for #{@answer_sheet.user} have been graded") 
   end
   
   def delete_answer_sheet
