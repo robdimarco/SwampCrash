@@ -1,12 +1,13 @@
 class QuizzesController < ApplicationController
   before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new, :grade_answers, :delete_answer_sheet]
-  before_filter :quiz_from_params, :only=>[:edit, :update, :destroy, :grade_answers, :show, :answer, :delete_answer_sheet, :reveal_question]
-  before_filter :must_be_owner!, :only=>[:edit, :update, :destroy, :grade_answers, :delete_answer_sheet]
+  before_filter :quiz_from_params,   :only => [:edit, :update, :destroy, :grade_answers, :show, :answer, :delete_answer_sheet, :reveal_question]
+  before_filter :must_be_owner!,     :only => [:edit, :update, :destroy, :grade_answers, :delete_answer_sheet]
   helper_method :big_reveal_allowed?
   
   def reveal_question
     position = (params[:position].to_i || 0) + (params[:direction] == 'next' ? 1 : -1)
     @quiz_question = @quiz.quiz_questions.where(:position=>position).first
+    
     redirect_to quiz_path(@quiz) and return if (!big_reveal_allowed?(@quiz) or @quiz_question.nil?)
     
     respond_to do |format|
@@ -16,29 +17,33 @@ class QuizzesController < ApplicationController
       }
     end
   end
+  
   def answer
     redirect_to quiz_path(@quiz) and return if @quiz.complete?
 
     params_to_use = (session[:answer_sheet] || {}).merge(params)
     params_to_use.symbolize_keys!
     Rails.logger.debug "Using params #{params_to_use.inspect} have id of #{params_to_use[:id]}"
-
-    if user_signed_in?
-      @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user.id, @quiz.id
-      @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id.to_i] = params_to_use[:"answer_#{q.id}"];hsh}
-      Rails.logger.debug @answer_sheet.inspect
-      @answer_sheet.grade!
-      session.delete(:answer_sheet)
-
-      respond_to do |format|
-        format.html { redirect_to(@quiz, :notice => 'Your answers have been saved.  We will let you know when everyone has entered and your score is ready.')}
-        format.js  { render :text => "OK".to_json }
-      end
-    else
+  
+    unless user_signed_in?
       session[:answer_sheet] = params_to_use
       session[:redirect_after_sign_in_url] = answer_quiz_path
-      redirect_to new_user_session_path
+      redirect_to new_user_session_path and return
     end
+
+    session.delete(:answer_sheet) # No longer should keep this in session...
+
+    @answer_sheet = AnswerSheet.find_or_initialize_by_user_id_and_quiz_id current_user.id, @quiz.id
+    @answer_sheet.answers_hash=@quiz.questions.inject({}){|hsh,q|hsh[q.id.to_i] = params_to_use[:"answer_#{q.id}"];hsh}
+
+    Rails.logger.debug "Answer sheet submitted #{@answer_sheet.inspect}"
+    @answer_sheet.grade!
+
+    respond_to do |format|
+      format.html { redirect_to(@quiz, :notice => 'Your answers have been saved.  We will let you know when everyone has entered and your score is ready.')}
+      format.js  { render :text => "OK".to_json }
+    end
+
   end
   
   def grade_answers
