@@ -5,8 +5,7 @@
                 - @quiz.questions.each_with_index do |qq, i|
                     = content_tag_for :p, qq do
                         %p
-                            %label
-                                = qq.value
+                            %label= qq.value
                         = answer_text_field(qq)
                         .correct_answer_count= pluralize(qq.answers.count, "correct answer")
-                %input{:type => "submit", :value => "Save My Answers"}
+                = positive_primary_button_submit_tag "Save My Answers"
