@@ -12,6 +12,8 @@ Swampcrash::Application.routes.draw do
   end
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  match 'me', :as=>:current_user, :controller=>:user, :action=>:index, :via=>:get
+  match 'me', :as=>:current_user, :controller=>:user, :action=>:update, :via=>[:post, :put]
   match 'content/:action', :as=>:content, :controller=>:content
   match 'sitemap.xml' => "content#sitemap"
   match 'feed/atom.xml' => "content#atom_feed"

@@ -23,6 +23,7 @@
                     = menu_tab_link 'What Is It', content_path(:action=>'about')
                     = menu_tab_link 'TODOs', content_path(:action=>'todos')
                     - if user_signed_in?
+                        = menu_tab_link('Me!', current_user_path)
                         = menu_tab_link('Log Out', destroy_user_session_path)
                     - else 
                         = menu_tab_link('Sign In', new_user_session_path)
