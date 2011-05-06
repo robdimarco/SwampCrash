@@ -57,8 +57,8 @@ class QuizzesController < ApplicationController
       end
         
       @answer_sheet.save
+      redirect_to(edit_quiz_path(@quiz), :notice => "Answers for #{@answer_sheet.user} have been graded") 
     end
-    redirect_to(edit_quiz_path(@quiz), :notice => "Answers for #{@answer_sheet.user} have been graded") 
   end
   
   def delete_answer_sheet
