@@ -1,7 +1,6 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def method_missing(provider)
-    if !User.omniauth_providers.index(provider).nil?
-      #omniauth = request.env["omniauth.auth"]
+    unless User.omniauth_providers.index(provider).nil?
       omniauth = env["omniauth.auth"]
     
       if current_user #or User.find_by_email(auth.recursive_find_by_key("email"))
