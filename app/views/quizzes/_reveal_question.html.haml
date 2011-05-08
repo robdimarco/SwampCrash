@@ -67,8 +67,8 @@
                                 %td= i + 1
                                 %td= as[:user]
                                 %td= as[:score]
-
-    .results_navigation_bar
-        .button-group
-            = link_to_function "Previous", "swap_result(#{i}, 'prev')", :class=>"button icon arrowleft" unless i == 0
-            = link_to_function "Next", "swap_result(#{i}, 'next')", :class=>"button icon arrowright primary" unless i == @quiz.questions.count - 1
+    - if defined?(show_next) and show_next
+        .results_navigation_bar
+            .button-group
+                = link_to_function "Previous", "swap_result(#{i}, 'prev')", :class=>"button icon arrowleft" unless i == 0
+                = link_to_function "Next", "swap_result(#{i}, 'next')", :class=>"button icon arrowright primary" unless i == @quiz.questions.count - 1
