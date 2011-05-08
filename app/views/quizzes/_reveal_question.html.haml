@@ -67,7 +67,7 @@
                                 %td= i + 1
                                 %td= as[:user]
                                 %td= as[:score]
-    - if defined?(show_next) and show_next
+    - unless defined?(hide_navigation) and hide_navigation
         .results_navigation_bar
             .button-group
                 = link_to_function "Previous", "swap_result(#{i}, 'prev')", :class=>"button icon arrowleft" unless i == 0
