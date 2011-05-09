@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
     Rails.logger.debug "Applying omniauth: #{omniauth.inspect}"
     #add some info about the user
     self.full_name = omniauth['user_info']['name'] if self.full_name.blank?
-    self.full_name = omniauth['user_info']['nickname'] if self.full_namet.blank?
+    self.full_name = omniauth['user_info']['nickname'] if self.full_name.blank?
     
     user_tokens.build(:provider => omniauth['provider'], :uid => omniauth['uid'], :details=>omniauth)
   end
