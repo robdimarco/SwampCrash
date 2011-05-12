@@ -4,7 +4,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do |f|
   f.link(:rel=>"self", :href=>"http://www.swampcrash.com")
   f.update Time.now.utc.xmlschema
   f.id "tag:www.swampcrash.com,#{Date.today.strftime("%F")}:feed/atom.xml"
-  Quiz.where(:status=>["active", "complete"]).order("updated_at").reverse_order.each do |q|
+  Quiz.released_publicly.each do |q|
     f.entry do |e|
       e.id q.id.to_s
       e.title q.name

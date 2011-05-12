@@ -4,7 +4,7 @@ xml.urlset "xmlns" => "http://www.sitemaps.org/schemas/sitemap/0.9" do
     xml.loc root_url
     xml.lastmod Date.today.to_s('%Y-%m-%d')
   end
-  Quiz.where(:status=>["active", "complete"]).each do |q|
+  Quiz.released_publicly.each do |q|
     xml.url do  
       xml.loc quiz_url(q)  
       xml.lastmod q.updated_at.xmlschema
