@@ -50,7 +50,7 @@
                                 %tr
                                     %td= ans.value
                 - unless q.reference_url.blank?
-                    %p= raw("Reference: " + link_to(q.reference_url, :target=>"_new"))
+                    %p= raw("Reference: " + link_to(q.reference_url, q.reference_url, :target=>"_new"))
 
             .score_by_question_box
                 %h6 #{i == (@quiz.questions.count - 1) ? "Final Scores" : "Scores After #{i + 1}"}
