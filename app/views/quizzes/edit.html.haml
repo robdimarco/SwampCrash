@@ -7,7 +7,12 @@
 .content
     %hr
 .content
-    %p  #{add_button_link_to "Add Question", new_quiz_question_path(@quiz)}
+    %p  
+        - if @quiz.pending?
+            #{arrowright_button_link_to "Publish", publish_quiz_path(@quiz), :method=>:put}
+        - elsif @quiz.active?
+            #{arrowright_button_link_to "Complete", complete_quiz_path(@quiz), :method=>:put}
+        #{add_button_link_to "Add Question", new_quiz_question_path(@quiz)}
     %table
         %thead
             %tr

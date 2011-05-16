@@ -1,7 +1,7 @@
 class QuizzesController < ApplicationController
-  before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new, :grade_answers, :delete_answer_sheet]
-  before_filter :quiz_from_params,   :only => [:edit, :update, :destroy, :grade_answers, :show, :answer, :delete_answer_sheet, :reveal_question]
-  before_filter :must_be_owner!,     :only => [:edit, :update, :destroy, :grade_answers, :delete_answer_sheet]
+  before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new, :grade_answers, :delete_answer_sheet, :publish, :complete]
+  before_filter :quiz_from_params,   :only => [:edit, :update, :destroy, :grade_answers, :show, :answer, :delete_answer_sheet, :reveal_question, :publish, :complete]
+  before_filter :must_be_owner!,     :only => [:edit, :update, :destroy, :grade_answers, :delete_answer_sheet, :publish, :complete]
   helper_method :big_reveal_allowed?
   
   def reveal_question
@@ -131,7 +131,22 @@ class QuizzesController < ApplicationController
       end
     end
   end
-
+  
+  %w(publish complete).each do |action|
+    define_method action.to_sym do
+      redirect_to root_path and return unless @quiz and @quiz.owner == current_user
+      Rails.logger.debug "Processing action #{action}!"
+      respond_to do |format|
+        if @quiz.send :"#{action}!"
+          format.html { redirect_to(@quiz, :notice => "Quiz was successfully #{action}ed.") }
+          format.xml  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @quiz.errors, :status => :unprocessable_entity }
+        end
+      end
+    end
+  end
   # DELETE /quizzes/1
   # DELETE /quizzes/1.xml
   def destroy
