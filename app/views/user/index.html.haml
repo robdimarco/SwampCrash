@@ -1,3 +1,8 @@
+- unless flash[:notice].blank?
+    .content
+        .info
+            = flash[:notice]
+
 - if current_user.errors.any?
     .content
         #error_explanation
