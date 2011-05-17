@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class QuizTest < ActiveSupport::TestCase
+  test "Quizzes can be published" do
+    quiz = Factory.create :quiz
+    assert quiz.pending?
+    assert quiz.publish!
+    assert quiz.active?
+    assert quiz.complete!
+    assert quiz.complete?
+  end
+  
   test "can create scorecard" do
     quiz = Factory.create :quiz
     qq   = Factory.create :quiz_question, :quiz=>quiz
