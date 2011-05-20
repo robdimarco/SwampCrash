@@ -6,6 +6,9 @@ class QuizStatusChangeMailer < ActionMailer::Base
     raise "No Email found for user #{user.id}...no create notification sent" if user.email.blank?
     mail( :subject =>"New SwampCrash Released!...#{quiz.name}", :to=>user.email)    
   end
-  def crash_completed(quiz)
+  def crash_completed(user, quiz)
+    @user, @quiz = user, quiz
+    raise "No Email found for user #{user.id}...no create notification sent" if user.email.blank?
+    mail( :subject =>"SwampCrash #{quiz.name} is all over", :to=>user.email)    
   end
 end

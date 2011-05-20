@@ -1,5 +1,10 @@
-%p
-    Good news!  A new crash has been published
+%p Dear #{@user.to_s},
 
-%p
-    You can see it at #{link_to @quiz.name, quiz_url(@quiz)}
+%p Good news!  A new crash has been released into the wild.
+
+%p You can see it at #{link_to @quiz.name, quiz_url(@quiz)}.
+    
+%p= @quiz.description
+
+%p Brought to you by #{@quiz.owner}
+    

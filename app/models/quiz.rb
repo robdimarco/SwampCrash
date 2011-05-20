@@ -32,6 +32,9 @@ class Quiz < ActiveRecord::Base
           end
         end
         def after_complete
+          self.answer_sheets.collect(&:user).select{|u|!u.nil? and !u.email.blank? and u.notify_me_on_completion?}.each do |u|
+            QuizStatusChangeMailer.crash_completed(u,self).deliver
+          end
         end
       end
     end
