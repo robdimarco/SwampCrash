@@ -17,6 +17,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, u.answered_quizzes.count
     assert_equal q, u.answered_quizzes.first
   end
+  test "Can find users who want new notifications" do
+    assert_difference ["User.count","User.notify_on_new.count"] do
+      u = Factory.create :user, :notify_me_on_new=>true
+      assert u.valid?, "user has errors #{u.errors.to_xml}"
+    end
+  end
+  test "Users who do not want new notifications are not chosen" do
+    assert_difference "User.count" do
+      assert_no_difference "User.notify_on_new.count" do
+        u = Factory.create :user, :notify_me_on_new=>false
+      end
+    end
+  end
 end
 
 

@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :notify_me_on_completion, :notify_me_on_new, :full_name
+  
+  scope :notify_on_new, where(:notify_me_on_new =>true).where("email != '' and email is not null")
 
   def self.new_with_session(params, session)
     super.tap do |user|

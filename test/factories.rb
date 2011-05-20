@@ -11,6 +11,8 @@ Factory.define :user do |u|
   u.full_name 'Change Me'
   u.password 'changeme'
   u.password_confirmation 'changeme'
+  u.notify_me_on_completion true
+  u.notify_me_on_new true
 end
 
 Factory.define :quiz do |q|
