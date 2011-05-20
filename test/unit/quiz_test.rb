@@ -10,6 +10,15 @@ class QuizTest < ActiveSupport::TestCase
     assert quiz.complete?
   end
   
+  test "Publishing a quiz creates emails" do
+    u = Factory.create :user, :notify_me_on_new=>true
+      quiz = Factory.create :quiz
+      assert quiz.pending?
+      assert_difference "ActionMailer::Base.deliveries.length", User.notify_on_new.count do
+        assert quiz.publish!
+      end    
+  end
+  
   test "can create scorecard" do
     quiz = Factory.create :quiz
     qq   = Factory.create :quiz_question, :quiz=>quiz

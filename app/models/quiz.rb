@@ -27,6 +27,9 @@ class Quiz < ActiveRecord::Base
           transitions :to=>:complete, :from=>:active
         end
         def after_publish
+          User.notify_on_new.each do |u|
+            QuizStatusChangeMailer.crash_published(u,self).deliver
+          end
         end
         def after_complete
         end
