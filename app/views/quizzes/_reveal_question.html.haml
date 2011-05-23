@@ -21,7 +21,7 @@
                                 %tr
                                     %td= ca_hsh[:user_answers].count
                                     %td= ca_hsh[:correct_answer].value
-                                    %td= ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user}.join(", ")
+                                    %td= ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user.to_s}.join(", ")
             
                 %h6 Wrong Answers
                 - if @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.empty?

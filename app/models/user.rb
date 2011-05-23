@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
     (user_tokens.empty? || !email.blank?) && super
   end
   def to_s
-    full_name
+    full_name.blank? ? "?" : full_name
   end
 end
 
