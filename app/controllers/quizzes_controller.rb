@@ -137,7 +137,7 @@ class QuizzesController < ApplicationController
       redirect_to root_path and return unless @quiz and @quiz.owner == current_user
       Rails.logger.debug "Processing action #{action}!"
       respond_to do |format|
-        if @quiz.send :"#{action}!"
+        if (@quiz.send(:"#{action}?") ? @quiz.save : @quiz.send(:"#{action}!"))
           format.html { redirect_to(@quiz, :notice => "Quiz was successfully #{action}ed.") }
           format.xml  { head :ok }
         else
