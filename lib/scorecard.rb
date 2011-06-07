@@ -5,7 +5,7 @@ class Scorecard
     question_user_answers = @quiz.questions.inject({}){|hsh,q|hsh[q.id]=[];hsh}
     @quiz.answer_sheets.each do |as|
       as.answers.each do |ua|
-        question_user_answers[ua.question_id] << ua
+        question_user_answers[ua.question_id] << ua if question_user_answers.include?(ua.question_id)
       end
     end
     @scoring_details_by_question = @quiz.questions.inject({}){|hsh, q| hsh[q.id] = ScoreForQuestion.new(@quiz, q, question_user_answers[q.id]);hsh}
