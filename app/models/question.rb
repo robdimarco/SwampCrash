@@ -1,6 +1,7 @@
 class Question < ActiveRecord::Base
   acts_as_taggable
-  has_many :answers
+  has_many :answers, :dependent=>:destroy
+  has_many :quiz_questions, :dependent=>:destroy
   accepts_nested_attributes_for :answers, :tags
   attr_accessible :value, :reference_url, :answers_attributes, :answers, :tag_list, :answers_str
   

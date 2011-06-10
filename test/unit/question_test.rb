@@ -29,6 +29,20 @@ class QuestionTest < ActiveSupport::TestCase
     q.reload
     assert_equal "blah,bags,buff".split(",").sort, q.answers.collect(&:value).sort
   end
+  test "User answers are deleted when question is deleted" do
+    q = Question.create! :value=>'Test', :answers_attributes=>%w(Foo Bar Baz Bat).collect{|k|{value: k}}
+    qq = Factory.create :quiz_question, :question=>q
+    as = Factory.create :answer_sheet, :quiz => qq.quiz
+    assert_difference "UserAnswer.count" do
+      as.answers_hash= {qq.id=>"Foo"}
+      as.grade!
+    end
+    assert_difference ["Question.count", "QuizQuestion.count", "UserAnswer.count"], -1 do
+      assert_difference ["Answer.count"], -4 do
+        q.destroy
+      end
+    end
+  end
 end
 
 
