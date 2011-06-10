@@ -6,7 +6,7 @@ class QuizzesController < ApplicationController
   
   def reveal_question
     position = (params[:position].to_i || 0) + (params[:direction] == 'next' ? 1 : -1)
-    @quiz_question = @quiz.quiz_questions.where(:position=>position).first
+    @quiz_question = @quiz.quiz_questions[position]
     
     redirect_to quiz_path(@quiz) and return if (!big_reveal_allowed?(@quiz) or @quiz_question.nil?)
     
