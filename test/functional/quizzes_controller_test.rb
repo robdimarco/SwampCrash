@@ -19,7 +19,7 @@ class QuizzesControllerTest < ActionController::TestCase
     q = Factory.create :quiz, :owner=>@user, :status=>"complete"
     qq = Factory.create :quiz_question, :quiz=>q
     qq2 = Factory.create :quiz_question, :quiz=>q
-    get :reveal_question, :id=>q.id, :position=>qq.position, :direction=>"next", :format=>:json
+    get :reveal_question, :id=>q.id, :position=>0, :direction=>"next", :format=>:json
     assert_response :success
   end
   test "no active quizzes so no current" do
@@ -87,6 +87,24 @@ class QuizzesControllerTest < ActionController::TestCase
     sign_in @user
     put :update, :id => @quiz.to_param, :quiz => @quiz.attributes
     assert_redirected_to quiz_path(assigns(:quiz))
+  end
+
+  test "can publish quiz" do
+    sign_in @user
+    assert @quiz.pending?
+    put :publish, :id => @quiz.to_param
+    @quiz.reload
+    assert @quiz.active?
+  end
+  
+  test "can complete quiz" do
+    sign_in @user
+    assert @quiz.pending?
+    @quiz.publish!
+    assert @quiz.active?
+    put :complete, :id => @quiz.to_param
+    @quiz.reload
+    assert @quiz.complete?
   end
 
   test "should destroy quiz" do
