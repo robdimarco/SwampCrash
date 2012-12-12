@@ -40,7 +40,13 @@ class User < ActiveRecord::Base
     (user_tokens.empty? || !email.blank?) && super
   end
   def to_s
-    full_name.blank? ? "?" : full_name
+    if full_name.present?
+      full_name
+    elsif email.present?
+      email.split("@")[0..5] + "..."
+    else
+      "?"
+    end
   end
 end
 
