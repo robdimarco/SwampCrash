@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
     if full_name.present?
       full_name
     elsif email.present?
-      email.split("@")[0..5] + "..."
+      email.split("@")[0][0..5] + "..."
     else
       "?"
     end
