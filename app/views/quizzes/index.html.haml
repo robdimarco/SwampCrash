@@ -14,7 +14,7 @@
                 - Quiz.active.each do |q|
                     %tr
                         %td= q.name
-                        %td= arrowright_button_link_to("Play Now!!!", quiz_path(q))
+                        -# %td= arrowright_button_link_to("Play Now!!!", quiz_path(q))
     #RecentCrashBox.quiz_list_box
         %h2 Just Completed
         %table.striped
@@ -25,7 +25,7 @@
                 - Quiz.completed.limit(3).each do |q|
                     %tr
                         %td= q.name
-                        %td= arrowright_button_link_to("Who won?", quiz_path(q))
+                        -# %td= arrowright_button_link_to("Who won?", quiz_path(q))
     - if user_signed_in?
         #YourAnswers.quiz_list_box
             %h2 Your Answered Crashes
