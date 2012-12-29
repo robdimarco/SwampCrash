@@ -52,10 +52,12 @@
           = yield
       %footer
         %h6 Copyright &copy; 2011 - 416 Software, LLC
-        %ul.link_list
-          %li= link_to "Mail", content_path(:action=>'contact_us')
-          %li= link_to "RSS", '/feed/atom.xml'
-          %li= link_to(image_tag('social-icons/twitter_32.png', :alt=>"Follow on Twitter", :id=>'FollowOnTwitter'), 'https://www.twitter.com/swampcrash', :target=>'_new')
+        %a{href: content_path(:action=>'contact_us')}
+          %i.icon-envelope
+        %a{href: '/feed/atom.xml'}
+          %i.icon-rss
+        %a{href:'https://www.twitter.com/swampcrash', target:'_new'}
+          %i.icon-twitter
     / /container
     /
       Javascripts
