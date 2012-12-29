@@ -1,58 +1,67 @@
-.content
-    .about_summary
-        %h2 What Is It?
-        SwampCrash is a multi-player trivia game where the goal is not only to guess the right answer, but to get the correct answer that no one else is getting.
+.row
+  %h2 What Is It?
+  %p.lead SwampCrash is a multi-player trivia game where the goal is not only to guess the right answer, but to get the correct answer that no one else is getting.
     
-.content
-    #CurrentCrashBox.quiz_list_box
-        %h2 Play Now!
-        %table.striped
-            %thead
-                %tr
-                    %th{:colspan=>2} Name
-            %tbody
-                - Quiz.active.each do |q|
-                    %tr
-                        %td= q.name
-                        -# %td= arrowright_button_link_to("Play Now!!!", quiz_path(q))
-    #RecentCrashBox.quiz_list_box
-        %h2 Just Completed
-        %table.striped
-            %thead
-                %tr
-                    %th{:colspan=>2} Name
-            %tbody
-                - Quiz.completed.limit(3).each do |q|
-                    %tr
-                        %td= q.name
-                        -# %td= arrowright_button_link_to("Who won?", quiz_path(q))
-    - if user_signed_in?
-        #YourAnswers.quiz_list_box
-            %h2 Your Answered Crashes
-            
-            %table.striped
-                %thead
-                    %tr
-                        %th{:colspan=>2} Name
-                %tbody
-                    - unless current_user.answered_quizzes.empty?
-                        - current_user.answered_quizzes.each do |q|
-                            %tr
-                                %td= q.name
-                                %td= arrowright_button_link_to("Your Answers", quiz_path(q))
-                    - else
-                        %tr
-                            %td No Crashes Played Yet....
-            
-    - if owns_quizzes?(current_user)
-        #OwnerCrashBox.quiz_list_box
-            %h2 Your Authored Crashes
-            %table.striped
-                %thead
-                    %tr
-                        %th{:colspan=>2} Name
-                %tbody
-                    - current_user.owned_quizzes.each do |q|
-                        %tr
-                            %td= q.name
-                            %td= edit_button_link_to("Edit", edit_quiz_path(q))
+.row
+  .span7
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th.alert{:colspan=>2} Playing Now!
+      %tbody
+        - Quiz.active.each do |q|
+          %tr
+            %td.span5= q.name
+            %td
+              %a.btn.btn-info{href: quiz_path(q)}
+                %i.icon-play
+                Play Now!!!
+.row
+  .span7
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th.alert.alert-info{:colspan=>2} Just Finished
+      %tbody
+        - Quiz.completed.limit(3).each do |q|
+          %tr
+            %td.span5= q.name
+            %td
+              %a.btn{href: quiz_path(q)}
+                %i.icon-play
+                Who Won?
+
+- if user_signed_in?
+  .row
+    .span7
+      %table.table.table-bordered
+        %thead
+          %tr
+            %th.alert.alert-info{:colspan=>2} Your Answered Crashes
+        %tbody
+          - unless current_user.answered_quizzes.empty?
+            - current_user.answered_quizzes.each do |q|
+              %tr
+                %td.span5= q.name
+                %td
+                  %a.btn{href: quiz_path(q)}
+                    %i.icon-play
+                    Your Answers
+          - else
+            %tr
+              %td No Crashes Played Yet...
+  - if owns_quizzes?(current_user)
+    .row
+      .span7
+        %table.table.table-bordered
+          %thead
+            %tr
+              %th.alert.alert-info{:colspan=>2} Your Authored Crashes
+          %tbody
+            - current_user.owned_quizzes.each do |q|
+              %tr
+                %td.span5= q.name
+                %td
+                  %a.btn{href: edit_quiz_path(q)}
+                    %i.icon-edit
+                    Edit
