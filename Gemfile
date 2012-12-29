@@ -1,27 +1,58 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.2.9'
 gem 'devise'
 gem 'acts-as-taggable-on'
 gem "cancan"
-gem 'hoptoad_notifier'
+
+gem "airbrake"
 gem "jquery-rails"
+
 gem "oa-oauth", :require => "omniauth/oauth"
 gem 'oa-openid', :require => 'omniauth/openid'
-gem 'compass'
 gem 'haml'
-gem 'css3buttons'
 gem 'aasm'
 
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
+gem "twitter-bootstrap-rails"
+
+# Bundle edge Rails instead:
+# gem 'rails', :git => 'git://github.com/rails/rails.git'
+
+gem "airbrake"
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  # gem 'therubyracer', :platforms => :ruby
+
+  gem 'uglifier', '>= 1.0.3'
+end
+
 group :development do
-	gem 'sqlite3'
-	gem 'annotate'
+  gem 'sqlite3'
+  gem 'annotate'
 end
 group :test do
-	gem 'sqlite3'
-	gem 'factory_girl'
-	gem 'factory_girl_rails'
+  gem 'sqlite3'
+  gem 'factory_girl'
+  gem 'factory_girl_rails'
 end
+
+# To use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.0.0'
+
+# To use Jbuilder templates for JSON
+# gem 'jbuilder'
+
+# Use unicorn as the app server
+# gem 'unicorn'
+
+# Deploy with Capistrano
+# gem 'capistrano'
+
+# To use debugger
+# gem 'debugger'
