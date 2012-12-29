@@ -51,18 +51,14 @@
         .span12
           = yield
       %footer
-        %h6 Copyright &copy; 2011 - 416 Software, LLC
+        %hr
+        %b Copyright &copy; 2011 - 416 Software, LLC
         %a{href: content_path(:action=>'contact_us')}
           %i.icon-envelope
         %a{href: '/feed/atom.xml'}
           %i.icon-rss
         %a{href:'https://www.twitter.com/swampcrash', target:'_new'}
           %i.icon-twitter
-    / /container
-    /
-      Javascripts
-      \==================================================
-    / Placed at the end of the document so the pages load faster
     = javascript_include_tag "application"
     = content_for :footer_js
     - if Rails.env == "production"
