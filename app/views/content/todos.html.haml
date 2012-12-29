@@ -1,5 +1,9 @@
+- require 'net/https'
+- uri = URI.parse("https://api.github.com/repos/robdimarco/SwampCrash/issues")
+- http = Net::HTTP.new(uri.host, uri.port); http.use_ssl = true; http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+- rsp  = http.request(Net::HTTP::Get.new(uri.request_uri))
 .content
-    %h1 Current Open Issues
-    %ul
-        - JSON.parse(Net::HTTP.get(URI.parse("http://github.com/api/v2/json/issues/list/robdimarco/SwampCrash/open")))["issues"].each do |i|
-            %li= link_to i["title"], i["html_url"]
+  %h1 Current Open Issues
+  %ul
+    - JSON.parse(rsp.body).each do |i|
+      %li= link_to i["title"], i["html_url"]
