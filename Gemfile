@@ -8,8 +8,10 @@ gem "cancan"
 gem "airbrake"
 gem "jquery-rails"
 
-gem "oa-oauth", :require => "omniauth/oauth"
-gem 'oa-openid', :require => 'omniauth/openid'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'omniauth-google-apps'
 gem 'haml'
 gem 'aasm'
 
@@ -19,6 +21,7 @@ gem "twitter-bootstrap-rails"
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem "airbrake"
+gem "twitter-bootstrap-rails"
 
 # Gems used only for assets and not required
 # in production environments by default.
