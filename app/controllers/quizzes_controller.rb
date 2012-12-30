@@ -89,7 +89,8 @@ class QuizzesController < ApplicationController
   # GET /quizzes/new
   # GET /quizzes/new.xml
   def new
-    @quiz = Quiz.new(:owner=>current_user)
+    @quiz = Quiz.new
+    @quiz.owner = current_user
 
     respond_to do |format|
       format.html # new.html.erb

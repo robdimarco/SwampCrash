@@ -1,4 +1,4 @@
-.content
-    %h1 Editing #{link_to @quiz.name, edit_quiz_path(@quiz)}
-    = form_for(@question, :url=>quiz_questions_path, :html=>{class:"bp"}) do |f|
-        = render 'form', :f=>f
+.row
+  %h2 Editing #{link_to @quiz.name, edit_quiz_path(@quiz)}
+  = simple_form_for(@question, :url=>quiz_questions_path, :html=>{class: "form-vertical"}) do |f|
+    = render 'form', :f=>f

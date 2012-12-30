@@ -1,55 +1,50 @@
-.content
-    %h2 Editing #{@quiz.name} #{arrowright_button_link_to "View", quiz_path(@quiz)}
-    - [:error, :notice, :alert].each do |f|
-        - if flash.include? f
-            %div{:class=>"notice", :id=>"flash_#{f}"}= flash[f]
-    = render 'form'
-.content
-    %hr
-.content
-    %p  
-        - if @quiz.pending?
-            #{arrowright_button_link_to "Publish", publish_quiz_path(@quiz), :method=>:put}
-        - elsif @quiz.active?
-            #{arrowright_button_link_to "Complete", complete_quiz_path(@quiz), :method=>:put}
-        #{add_button_link_to "Add Question", new_quiz_question_path(@quiz)}
-    %table
-        %thead
-            %tr
-                %th #
-                %th Question
-                %th Answers
-                %th Tags
-                %th Actions
-        %tbody
-            - @quiz.quiz_questions.each_with_index do |q,i|
-                %tr
-                    %td= i + 1
-                    %td= q.question.value[0..100]
-                    %td= q.question.answers_str
-                    %td= q.question.tag_list
-                    %td
-                        .button-group
-                            = edit_button_link_to "Edit", edit_quiz_question_path(q)
-                            = negative_remove_button_link_to "Delete", quiz_question_path(q), :method=>:delete, :confirm=>"Do you really want to delete question #{i+1}"
-    - unless @quiz.answer_sheets.empty?
-        %table
-            %caption Submissions
-            %thead
-                %tr
-                    %th User
-                    %th Total Score
-                    %th Breakdown
-                    %th Status
-                    %th Actions
-            %tbody
-                - @quiz.answer_sheets.each do |a,i|
-                    %tr
-                        %td= a.user
-                        %td= a.current_score
-                        %td= a.score_by_question_id_hash.inspect
-                        %td= a.status.capitalize
-                        %td
-                            .button-group
-                                = positive_edit_button_link_to "Grade", grade_answers_quiz_path(@quiz, :answer_sheet_id=>a.id)
-                                = negative_remove_button_link_to "Delete", delete_answer_sheet_quiz_path(@quiz, :answer_sheet_id=>a.id), :method=>:delete, :confirm=>"Do you really want to delete the answer sheet for user #{a.user}"
+.row
+  = render 'form'
+.row
+  %hr
+.row
+  - if @quiz.pending?
+    = link_to 'Publish', publish_quiz_path(@quiz), method: :put, class: 'btn btn-primary'
+  - elsif @quiz.active?
+    = link_to 'Complete', complete_quiz_path(@quiz), method: :put, class: 'btn btn-primary'
+  = link_to "Add Question", new_quiz_question_path(@quiz), class: 'btn'
+  %table.table.table-bordered.table-striped
+    %thead
+      %tr
+        %th.span1 #
+        %th.span3 Question
+        %th.span4 Answers
+        %th.span2 Tags
+        %th.span2 Actions
+    %tbody
+      - @quiz.quiz_questions.each_with_index do |q,i|
+        %tr
+          %td= i + 1
+          %td= q.question.value[0..100]
+          %td= q.question.answers_str
+          %td= q.question.tag_list
+          %td
+            .btn-group
+              = link_to "Edit", edit_quiz_question_path(q), class: "btn"
+              = link_to "Delete", quiz_question_path(q), class: "btn btn-danger", :method=>:delete, :confirm=>"Do you really want to delete question #{i+1}"
+  / - unless @quiz.answer_sheets.empty?
+  /     %table
+  /         %caption Submissions
+  /         %thead
+  /             %tr
+  /                 %th User
+  /                 %th Total Score
+  /                 %th Breakdown
+  /                 %th Status
+  /                 %th Actions
+  /         %tbody
+  /             - @quiz.answer_sheets.each do |a,i|
+  /                 %tr
+  /                     %td= a.user
+  /                     %td= a.current_score
+  /                     %td= a.score_by_question_id_hash.inspect
+  /                     %td= a.status.capitalize
+  /                     %td
+  /                         .button-group
+  /                             = positive_edit_button_link_to "Grade", grade_answers_quiz_path(@quiz, :answer_sheet_id=>a.id)
+  /                             = negative_remove_button_link_to "Delete", delete_answer_sheet_quiz_path(@quiz, :answer_sheet_id=>a.id), :method=>:delete, :confirm=>"Do you really want to delete the answer sheet for user #{a.user}"

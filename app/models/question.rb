@@ -10,16 +10,11 @@ class Question < ActiveRecord::Base
   end
   def answers_str=(a_str)
     self.answers.destroy_all
-    self.answers = a_str.split(/\s*,\s*/).collect{|a|Answer.find_or_initialize_by_question_id_and_value(:question_id=>self, :value=>a)}
+    self.answers = a_str.split(/\s*,\s*/).map{ |a|
+      Answer.find_or_initialize_by_question_id_and_value(:question_id=>self.id, :value=>a)
+    }
   end
   def self.import_from_file!(file_name, options={})
-    require 'csv'
-    options = options.merge({col_sep: "\t", headers: true, header_converters: :symbol, skip_blanks: true})
-    CSV.foreach(file_name, options) do |row|
-      q = Question.create!(value: row[:question], reference_url: row[:url], answers_attributes: row[:answers].split(/\s*,\s*/).collect{|a|{value: a}})
-      q.tag_list = row[:tags]
-      q.save!
-    end
   end
 end
 
