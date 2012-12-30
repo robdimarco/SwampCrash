@@ -24,9 +24,11 @@ gem "twitter-bootstrap-rails"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+gem "thin"
 gem "airbrake"
 gem 'pg'
 gem "twitter-bootstrap-rails"
+gem 'newrelic_rpm'
 
 # Gems used only for assets and not required
 # in production environments by default.
