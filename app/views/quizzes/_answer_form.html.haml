@@ -1,11 +1,13 @@
-.content
-    #QuizQuestionBox
-        = form_tag answer_quiz_path, :class=>"bp" do |f|
-            %fieldset#QuestionBox
-                - @quiz.questions.each_with_index do |qq, i|
-                    = content_tag_for :p, qq do
-                        %p
-                            %label= qq.value
-                        = answer_text_field(qq)
-                        .correct_answer_count= pluralize(qq.answers.count, "correct answer")
-                = positive_primary_button_submit_tag "Save My Answers"
+.row
+  .span10
+    = form_tag answer_quiz_path, :class=>"form-horizontal" do |f|
+      %fieldset#QuestionBox
+        %table.table.table-striped
+          %tbody
+            - @quiz.questions.each_with_index do |qq, i|
+              %tr
+                %td
+                  %label= qq.value
+                  = answer_text_field(qq)
+                  .correct_answer_count= pluralize(qq.answers.count, "correct answer")
+        = submit_tag "Save My Answers"

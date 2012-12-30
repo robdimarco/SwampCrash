@@ -15,8 +15,11 @@ gem 'omniauth-google-apps'
 gem 'haml'
 gem 'aasm'
 
+gem 'rinku', require: 'rails_rinku'
+
 gem 'simple_form'
 gem "twitter-bootstrap-rails"
+gem 'jquery-qtip2-rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

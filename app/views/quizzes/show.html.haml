@@ -5,28 +5,27 @@
   .alert.alert-info
     %p Like a Royal Rumble, SwampCrash gets better the more challengers enter the ring.  Share!
     = render 'shared/share_this'
-                
-/ .content
-/     #QuizMetaBox
-/         %h1.quiz_name
-/             = @quiz.name
-/             .author_acknowledgement Brought to you by #{@quiz.owner}
-/         - unless @quiz.description.blank?
-/             .quiz_description= raw auto_link(@quiz.description)
-/         %dl
-/             - categories = @quiz.questions.collect(&:tags).flatten.uniq.collect( &:name).sort.join(", ")
-/             - unless categories.blank?
-/                 %dt Categories
-/                 %dd= categories 
-/             %dt Current Participants
-/             %dd
-/                 =AnswerSheet.where(:quiz_id=>@quiz.id).count
-/                 %span#WhoIsPlaying.hoverable (who?)
-/             %dt Rules To Play
-/             %dd= link_to 'Rules', content_path(:action=>'about')
-/ 
-/ = render quiz_view_partial(@quiz)
-/ 
+
+.row
+  .well
+    %h1= @quiz.name
+    .author_acknowledgement Brought to you by #{@quiz.owner}
+    - unless @quiz.description.blank?
+      = raw auto_link(@quiz.description)
+    %dl
+      - categories = @quiz.questions.collect(&:tags).flatten.uniq.collect( &:name).sort.join(", ")
+      - unless categories.blank?
+        %dt Categories
+        %dd= categories 
+      %dt Current Participants
+      %dd
+        =AnswerSheet.where(:quiz_id=>@quiz.id).count
+        %span.who-is-playing{data: {tooltip: user_list_for_quiz}} (who?)
+      %dt Rules To Play
+      %dd= link_to 'Rules', content_path(:action=>'about')
+
+= render quiz_view_partial(@quiz)
+
 / .content
 /     #disqus_thread
 /         :javascript
@@ -40,24 +39,6 @@
 /             })();
 /     %noscript Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
 /     %p <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-/ - content_for :footer_js do
 %script{:type=>"text/javascript"}> var switchTo5x=true;
 %script{:type=>"text/javascript", :src=>"http://w.sharethis.com/button/buttons.js"}>
 %script{:type=>"text/javascript"} stLight.options({publisher:'6578be69-23fb-4ca9-bab7-03f2915856d7'});
-/     = javascript_include_tag "jquery.qtip-1.0.0-rc3.min"
-/     
-/     :javascript
-/         $(document).ready(function(){
-/         $("#WhoIsPlaying").qtip({
-/             position: {
-/                 target: 'mouse',
-/                 corner: {
-/                   target: 'topRight',
-/                   tooltip: 'topLeft'
-/                }
-/             },
-/             style: {name: 'dark'},
-/             content: '#{user_list_for_quiz}',
-/             show: 'mouseover',
-/             hide: 'mouseout'
-/         })});
