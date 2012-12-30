@@ -1,4 +1,4 @@
-= simple_form_for(@quiz, :html=>{class: "form-vertical"}) do |f|
-  = f.input :name
-  = f.input :description, input_html: {rows: 5, class: 'span7'}
+= simple_form_for(@quiz, :html=>{class: "form-inline"}) do |f|
+  = f.input :name, input_html:{class: 'span5'}
+  = f.input :description, input_html: {rows: 5, class: 'span5'}
   = f.button :submit, class: "btn btn-primary"

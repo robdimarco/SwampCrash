@@ -1,12 +1,9 @@
-.content
-    #QuestionRevealBox
-        = render :partial=>"reveal_question", :locals=>{:qq=>params[:quiz_question_id].blank? ? @quiz.quiz_questions.first :  @quiz.quiz_questions.find(params[:quiz_question_id])}
-- content_for :footer_js do
-    :javascript
-        function swap_result(pos, dir) {
-            data = $.getJSON("#{reveal_question_quiz_path(:id=>@quiz.id, :format=>:json)}", {position: pos, direction: dir, show_big_reveal:'#{params[:show_big_reveal]}'}, function(data) {
-                $(".question_results_box").hide();
-                $("#QuestionRevealBox").html(data.content);
-                $(".question_results_box").hide().slideToggle('slow');
-            });
-        }
+.row= render :partial=>"reveal_question", :locals=>{:qq=>params[:quiz_question_id].blank? ? @quiz.quiz_questions.first :  @quiz.quiz_questions.find(params[:quiz_question_id])}
+:javascript
+  function swap_result(pos, dir) {
+      data = $.getJSON("#{reveal_question_quiz_path(:id=>@quiz.id, :format=>:json)}", {position: pos, direction: dir, show_big_reveal:'#{params[:show_big_reveal]}'}, function(data) {
+          $(".question_results_box").hide();
+          $("#QuestionRevealBox").html(data.content);
+          $(".question_results_box").hide().slideToggle('slow');
+      });
+  }
