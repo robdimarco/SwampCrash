@@ -46,6 +46,7 @@ end
 group :development do
   gem 'sqlite3'
   gem 'annotate'
+  gem 'debugger'
 end
 group :test do
   gem 'sqlite3'

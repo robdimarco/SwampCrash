@@ -47,8 +47,16 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    columnize (0.3.6)
     connection_pool (0.9.3)
     daemons (1.1.9)
+    debugger (1.2.3)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.5)
+    debugger-linecache (1.1.2)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.6)
     devise (2.1.2)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -198,6 +206,7 @@ DEPENDENCIES
   annotate
   cancan
   coffee-rails (~> 3.2.1)
+  debugger
   devise
   factory_girl
   factory_girl_rails
