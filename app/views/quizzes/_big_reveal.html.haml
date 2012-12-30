@@ -1,9 +1,14 @@
-.row= render :partial=>"reveal_question", :locals=>{:qq=>params[:quiz_question_id].blank? ? @quiz.quiz_questions.first :  @quiz.quiz_questions.find(params[:quiz_question_id])}
-:javascript
-  function swap_result(pos, dir) {
-      data = $.getJSON("#{reveal_question_quiz_path(:id=>@quiz.id, :format=>:json)}", {position: pos, direction: dir, show_big_reveal:'#{params[:show_big_reveal]}'}, function(data) {
-          $(".question_results_box").hide();
-          $("#QuestionRevealBox").html(data.content);
-          $(".question_results_box").hide().slideToggle('slow');
-      });
-  }
+.row
+  .span4
+    %a.btn.prev-question{href: "#big-reveal", data:{slide:"prev"}, style: "display:none"}
+      %i.icon-hand-left
+      Previous
+    %a.btn.btn-primary.next-question{href: "#big-reveal", data:{slide:"next"}}
+      Next
+      %i.icon-hand-right
+.row
+  #big-reveal.carousel.slide
+    .carousel-inner
+      - @quiz.quiz_questions.each_with_index do |qq, idx|
+        %div{class: "item #{idx == 0 ? 'active' : ''}"}
+          = render :partial=>"reveal_question", :locals=>{:qq=>qq, }

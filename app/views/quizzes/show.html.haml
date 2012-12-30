@@ -20,25 +20,12 @@
       %dt Current Participants
       %dd
         =AnswerSheet.where(:quiz_id=>@quiz.id).count
-        %span.who-is-playing{data: {tooltip: user_list_for_quiz}} (who?)
+        %a.hover-popover{data: {content: user_list_for_quiz}} who?
       %dt Rules To Play
       %dd= link_to 'Rules', content_path(:action=>'about')
 
 = render quiz_view_partial(@quiz)
 
-/ .content
-/     #disqus_thread
-/         :javascript
-/             var disqus_shortname = 'swampcrash'; // required: replace example with your forum shortname
-/             var disqus_url = '#{request.url}';
-/             /* * * DON'T EDIT BELOW THIS LINE * * */
-/             (function() {
-/                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-/                 dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-/                 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-/             })();
-/     %noscript Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-/     %p <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 %script{:type=>"text/javascript"}> var switchTo5x=true;
 %script{:type=>"text/javascript", :src=>"http://w.sharethis.com/button/buttons.js"}>
 %script{:type=>"text/javascript"} stLight.options({publisher:'6578be69-23fb-4ca9-bab7-03f2915856d7'});

@@ -12,23 +12,16 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.qtip.js
 //= require twitter/bootstrap
 //= require_tree .
 $(function() {
-  $("[data-tooltip]").qtip({
-  		content: {attr: 'data-tooltip'},
-  		position: {
-  			my: 'top left',
-  			target: 'mouse',
-  			viewport: $(window), // Keep it on-screen at all times if possible
-  			adjust: {
-  				x: 10,  y: 10
-  			}
-  		},
-  		hide: {
-  			fixed: true // Helps to prevent the tooltip from hiding ocassionally when tracking!
-  		},
-  		style: {classes: 'ui-tooltip-bootstrap'}
-  	});
+  $(".hover-popover").popover({trigger: 'hover'});
+  $('.carousel').carousel({interval: false})
+  $(document).on('slide', function(e){
+    if ($(e.relatedTarget).find(".slide-position").val() == 0) {
+      $(".prev-question").hide();
+    } else {
+      $(".prev-question").show();
+    }
+  });
 });

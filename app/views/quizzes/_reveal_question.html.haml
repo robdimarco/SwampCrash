@@ -1,73 +1,71 @@
 - q = qq.question
 - i = qq.position
-  .row
-      .content_no_margin
-          %h2 Question #{i + 1}
-          %h3= q.value
-          .answers_results_box
-              %h6 Correct Answers
-              - if @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.empty?
-                  None
-              - else
-                  %table.striped
-                      %thead
-                          %tr
-                              %th Points
-                              %th Answer
-                              %th Who Got It
-                      %tbody        
-                          - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
-                              %tr
-                                  %td= ca_hsh[:user_answers].count
-                                  %td= ca_hsh[:correct_answer].value
-                                  %td= ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user.to_s}.join(", ")
+%input.slide-position{type: 'hidden', value: i}
+.row
+  .span12.well
+    .progress
+      .bar{style:"width:#{(i + 1) * 100 / (qq.quiz.quiz_questions.last.position + 1)}%"}
+    %h2 Question #{i + 1}
+    %h3= q.value
+.row
+  .span7
+    .answers_results_box
+      %h6 Correct Answers
+      - if @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.empty?
+        None
+      - else
+        %table.table.table-striped.table-bordered
+          %thead
+            %tr
+              %th Points
+              %th Answer
+              %th Who Got It
+          %tbody        
+            - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
+              %tr
+                %td= ca_hsh[:user_answers].count
+                %td= ca_hsh[:correct_answer].value
+                %td= ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user.to_s}.join(", ")
           
-              %h6 Wrong Answers
-              - if @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.empty?
-                  None
-              - else
-                  %table.striped
-                      %thead
-                          %tr
-                              %th Points
-                              %th Answer
-                              %th Who Missed It
-                      %tbody
-                          - @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.each do |ua|
-                              %tr
-                                  %td= @quiz.scorecard.incorrect_points(q.id)
-                                  %td= ua.value
-                                  %td= ua.answer_sheet.user
-          
-              - unless @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.empty?
-                  %table.striped
-                      %thead
-                          %tr
-                              %th No One Guessed
-                      %tbody
-                          - @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.each do |ans|
-                              %tr
-                                  %td= ans.value
-              - unless q.reference_url.blank?
-                  %p= raw("Reference: " + q.reference_url.split(/\s+/).map{|ru| link_to(ru, ru, :target=>"_new")}.join("<br />"))
+      %h6 Wrong Answers
+      - if @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.empty?
+        None
+      - else
+        %table.table.table-striped.table-bordered
+          %thead
+            %tr
+              %th Points
+              %th Answer
+              %th Who Missed It
+          %tbody
+            - @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.each do |ua|
+              %tr
+                %td= @quiz.scorecard.incorrect_points(q.id)
+                %td= ua.value
+                %td= ua.answer_sheet.user
+         
+      - unless @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.empty?
+        %h6 No One Guessed
+        %table.table.table-bordered.table-striped
+          %tbody
+            - @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.each do |ans|
+              %tr
+                %td= ans.value
+      - unless q.reference_url.blank?
+        %p= raw("Reference: " + q.reference_url.split(/\s+/).map{|ru| link_to(ru, ru, :target=>"_new")}.join("<br />"))
 
-          .score_by_question_box
-              %h6 #{i == (@quiz.questions.count - 1) ? "Final Scores" : "Scores After #{i + 1}"}
-              %table
-                  %thead
-                      %tr
-                          %th #
-                          %th Name
-                          %th Score
-                  %tbody
-                      - answers = @quiz.answer_sheets.collect{|as|{user:as.user,score:as.current_score(@quiz.quiz_questions.where(["position <= ?", i]).collect(&:id))}};
-                      - answers.sort{|a,b|a[:score]<=>b[:score]}.each_with_index do |as, i|
-                          %tr
-                              %td= i + 1
-                              %td= as[:user]
-                              %td= as[:score]
-  - unless defined?(hide_navigation) and hide_navigation
-      .results_navigation_bar
-          .button-group
-              = link_to_function "Previous", "swap_result(#{i}, 'prev')", :class=>"button icon arrowleft" unless i == 0
-              = link_to_function "Next", "swap_result(#{i}, 'next')", :class=>"button icon arrowright primary" unless i == @quiz.quiz_questions[-1].position
+  .span5
+    %h6 #{i == (@quiz.questions.count - 1) ? "Final Scores" : "Scores After #{i + 1}"}
+    %table.table.table-bordered.table-striped
+      %thead
+        %tr
+          %th #
+          %th Name
+          %th Score
+      %tbody
+        - answers = @quiz.answer_sheets.collect{|as|{user:as.user,score:as.current_score(@quiz.quiz_questions.where(["position <= ?", i]).collect(&:id))}};
+        - answers.sort{|a,b|a[:score]<=>b[:score]}.each_with_index do |as, i|
+          %tr
+            %td= i + 1
+            %td= as[:user]
+            %td= as[:score]

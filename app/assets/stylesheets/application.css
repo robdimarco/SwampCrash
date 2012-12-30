@@ -10,8 +10,4 @@
  *
  *= require_self
  *= require_tree .
- *= require jquery.qtip.css
  */
-.who-is-playing {
-  text-decoration: underline;
-}
