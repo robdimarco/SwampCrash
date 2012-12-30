@@ -15,6 +15,7 @@ gem 'omniauth-google-apps'
 gem 'haml'
 gem 'aasm'
 
+gem 'simple_form'
 gem "twitter-bootstrap-rails"
 
 # Bundle edge Rails instead:
