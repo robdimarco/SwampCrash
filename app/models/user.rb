@@ -29,7 +29,10 @@ class User < ActiveRecord::Base
     self.full_name = omniauth['user_info']['name'] if self.full_name.blank?
     self.full_name = omniauth['user_info']['nickname'] if self.full_name.blank?
     
-    user_tokens.build(:provider => omniauth['provider'], :uid => omniauth['uid'], :details=>omniauth)
+    ut = user_tokens.build
+    ut.provider = omniauth['provider']
+    ut.uid = omniauth['uid']
+    ut.details = omniauth
   end
 
   def password_required?

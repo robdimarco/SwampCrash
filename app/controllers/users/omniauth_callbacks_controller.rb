@@ -17,8 +17,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         else
           
           #create a new user
-          unless omniauth.recursive_find_by_key("email").blank?
-            user = User.find_or_initialize_by_email(:email => omniauth.recursive_find_by_key("email"))
+          unless omniauth.info.nil? || omniauth.info.email.blank?
+            user = User.find_or_initialize_by_email(:email => omniauth.info.email)
           else
             user = User.new
           end
