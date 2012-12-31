@@ -58,19 +58,20 @@ class Quiz < ActiveRecord::Base
   end
 end
 
-
-
-
 # == Schema Information
 #
 # Table name: quizzes
 #
-#  id          :integer         primary key
-#  name        :string(255)     not null
+#  id          :integer          not null, primary key
+#  name        :string(255)      not null
 #  description :text
-#  owner_id    :integer         not null
-#  created_at  :timestamp
-#  updated_at  :timestamp
-#  status      :string(255)     default("pending")
+#  owner_id    :integer          not null
+#  created_at  :datetime
+#  updated_at  :datetime
+#  status      :string(255)      default("pending")
+#
+# Indexes
+#
+#  index_quizzes_on_name  (name) UNIQUE
 #
 

@@ -7,12 +7,12 @@ end
 #
 # Table name: user_tokens
 #
-#  id         :integer         primary key
+#  id         :integer          not null, primary key
 #  user_id    :integer
 #  provider   :string(255)
 #  uid        :string(255)
-#  created_at :timestamp
-#  updated_at :timestamp
+#  created_at :datetime
+#  updated_at :datetime
 #  details    :text
 #
 

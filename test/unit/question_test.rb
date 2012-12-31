@@ -39,18 +39,17 @@ class QuestionTest < ActiveSupport::TestCase
   end
 end
 
-
-
-
-
 # == Schema Information
 #
 # Table name: questions
 #
-#  id            :integer         primary key
-#  value         :text            not null
+#  id            :integer          not null, primary key
+#  value         :text             not null
 #  reference_url :text
-#  created_at    :timestamp
-#  updated_at    :timestamp
+#  created_at    :datetime
+#  updated_at    :datetime
+#  position      :integer
+#  quiz_id       :integer
+#  answers       :text
 #
 
