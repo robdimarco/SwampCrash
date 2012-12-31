@@ -11,4 +11,4 @@
     .carousel-inner
       - @quiz.questions.each_with_index do |qq, idx|
         %div{class: "item #{idx == 0 ? 'active' : ''}"}
-          = render :partial=>"reveal_question", :locals=>{:qq=>qq, }
+          = render :partial=>"reveal_question", :locals=>{:qq=>qq}
