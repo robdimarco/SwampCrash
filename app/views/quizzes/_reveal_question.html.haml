@@ -2,7 +2,7 @@
 .row
   .span12.well
     .progress
-      .bar{style:"width:#{(qq.position + 1) * 100 / (qq.quiz.questions.last.position + 1)}%"}
+      .bar{style:"width:#{((qq.position + 1) * 100 / (qq.quiz.questions.last.position + 1)).to_s}%"}
     %h2 Question #{qq.position + 1}
     %h3= qq.value
 .row
