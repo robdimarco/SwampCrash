@@ -15,5 +15,3 @@ CSV.foreach(File.join(File.dirname(__FILE__), "base_questions.tsv"), {col_sep: "
 end
 
 q = Quiz.create! :owner=>u, :name=>'Initial One'
-
-Question.all.each_with_index{|qq, i| q.quiz_questions << QuizQuestion.new(:question=>qq, :position=>i)}
