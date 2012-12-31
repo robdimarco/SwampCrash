@@ -4,7 +4,7 @@
     %p.lead SwampCrash is a multi-player trivia game where the goal is not only to guess the right answer, but to get the correct answer that no one else is getting.
     
 .row
-  .span7
+  .span7#CurrentCrashBox
     %table.table.table-bordered
       %thead
         %tr
@@ -53,7 +53,7 @@
               %td No Crashes Played Yet...
   - if owns_quizzes?(current_user)
     .row
-      .span7
+      .span7#OwnerCrashBox
         %table.table.table-bordered
           %thead
             %tr

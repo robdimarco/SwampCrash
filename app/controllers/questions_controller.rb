@@ -37,7 +37,7 @@ class QuestionsController < ApplicationController
   # POST /questions
   # POST /questions.xml
   def create
-    @question = Question.new(params[:question].merge(position: @quiz.questions.count))
+    @question = Question.new(params[:question])
     @question.quiz = @quiz
 
     respond_to do |format|

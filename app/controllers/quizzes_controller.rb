@@ -1,22 +1,8 @@
 class QuizzesController < ApplicationController
   before_filter :authenticate_user!, :only => [:edit, :update, :destroy, :create, :new, :grade_answers, :delete_answer_sheet, :publish, :complete]
-  before_filter :quiz_from_params,   :only => [:edit, :update, :destroy, :grade_answers, :show, :answer, :delete_answer_sheet, :reveal_question, :publish, :complete]
+  before_filter :quiz_from_params,   :only => [:edit, :update, :destroy, :grade_answers, :show, :answer, :delete_answer_sheet, :publish, :complete]
   before_filter :must_be_owner!,     :only => [:edit, :update, :destroy, :grade_answers, :delete_answer_sheet, :publish, :complete]
   helper_method :big_reveal_allowed?
-  
-  def reveal_question
-    position = (params[:position].to_i || 0) + (params[:direction] == 'next' ? 1 : -1)
-    @question = @quiz.questions[position]
-    
-    redirect_to quiz_path(@quiz) and return if (!big_reveal_allowed?(@quiz) or @question.nil?)
-    
-    respond_to do |format|
-      format.json{
-        content = render_to_string(partial:"quizzes/reveal_question.html", locals:{qq:@question})
-        render :json=>{content:content}.to_json
-      }
-    end
-  end
   
   def answer
     redirect_to quiz_path(@quiz) and return if @quiz.complete?

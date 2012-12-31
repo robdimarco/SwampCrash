@@ -7,7 +7,6 @@ Swampcrash::Application.routes.draw do
       get :grade_answers
       post :grade_answers
       delete :delete_answer_sheet
-      get :reveal_question
       put :publish
       put :complete
     end
