@@ -9,6 +9,6 @@
 .row
   #big-reveal.carousel.slide
     .carousel-inner
-      - @quiz.quiz_questions.each_with_index do |qq, idx|
+      - @quiz.questions.each_with_index do |qq, idx|
         %div{class: "item #{idx == 0 ? 'active' : ''}"}
           = render :partial=>"reveal_question", :locals=>{:qq=>qq, }

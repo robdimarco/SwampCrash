@@ -1,17 +1,15 @@
-- q = qq.question
-- i = qq.position
-%input.slide-position{type: 'hidden', value: i}
+%input.slide-position{type: 'hidden', value: qq.position}
 .row
   .span12.well
     .progress
-      .bar{style:"width:#{(i + 1) * 100 / (qq.quiz.quiz_questions.last.position + 1)}%"}
-    %h2 Question #{i + 1}
-    %h3= q.value
+      .bar{style:"width:#{(qq.position + 1) * 100 / (qq.quiz.questions.last.position + 1)}%"}
+    %h2 Question #{qq.position + 1}
+    %h3= qq.value
 .row
   .span7
     .answers_results_box
       %h6 Correct Answers
-      - if @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.empty?
+      - if @quiz.scorecard.scoring_details_for_question(qq).correct_answers.empty?
         None
       - else
         %table.table.table-striped.table-bordered
@@ -21,14 +19,14 @@
               %th Answer
               %th Who Got It
           %tbody        
-            - @quiz.scorecard.scoring_details_for_question(q.id).correct_answers.each do |ca_hsh|
+            - @quiz.scorecard.scoring_details_for_question(qq).correct_answers.each do |ca_hsh|
               %tr
                 %td= ca_hsh[:user_answers].count
                 %td= ca_hsh[:correct_answer].value
                 %td= ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user.to_s}.join(", ")
           
       %h6 Wrong Answers
-      - if @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.empty?
+      - if @quiz.scorecard.scoring_details_for_question(qq).incorrect_user_answers.empty?
         None
       - else
         %table.table.table-striped.table-bordered
@@ -38,24 +36,24 @@
               %th Answer
               %th Who Missed It
           %tbody
-            - @quiz.scorecard.scoring_details_for_question(q.id).incorrect_user_answers.each do |ua|
+            - @quiz.scorecard.scoring_details_for_question(qq).incorrect_user_answers.each do |ua|
               %tr
-                %td= @quiz.scorecard.incorrect_points(q.id)
+                %td= @quiz.scorecard.incorrect_points(qq)
                 %td= ua.value
                 %td= ua.answer_sheet.user
          
-      - unless @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.empty?
+      - unless @quiz.scorecard.scoring_details_for_question(qq).missed_answers.empty?
         %h6 No One Guessed
         %table.table.table-bordered.table-striped
           %tbody
-            - @quiz.scorecard.scoring_details_for_question(q.id).missed_answers.each do |ans|
+            - @quiz.scorecard.scoring_details_for_question(qq).missed_answers.each do |ans|
               %tr
                 %td= ans.value
-      - unless q.reference_url.blank?
-        %p= raw("Reference: " + q.reference_url.split(/\s+/).map{|ru| link_to(ru, ru, :target=>"_new")}.join("<br />"))
+      - unless qq.reference_url.blank?
+        %p= raw("Reference: " + qq.reference_url.split(/\s+/).map{|ru| link_to(ru, ru, :target=>"_new")}.join("<br />"))
 
   .span5
-    %h6 #{i == (@quiz.questions.count - 1) ? "Final Scores" : "Scores After #{i + 1}"}
+    %h6 #{qq.position == (@quiz.questions.count - 1) ? "Final Scores" : "Scores After #{qq.position + 1}"}
     %table.table.table-bordered.table-striped
       %thead
         %tr
@@ -63,7 +61,7 @@
           %th Name
           %th Score
       %tbody
-        - answers = @quiz.answer_sheets.collect{|as|{user:as.user,score:as.current_score(@quiz.quiz_questions.where(["position <= ?", i]).collect(&:id))}};
+        - answers = @quiz.answer_sheets.collect{|as|{user:as.user,score:as.current_score(@quiz.questions.where(["position <= ?", qq.position]).collect(&:id))}};
         - answers.sort{|a,b|a[:score]<=>b[:score]}.each_with_index do |as, i|
           %tr
             %td= i + 1

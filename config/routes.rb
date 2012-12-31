@@ -3,7 +3,7 @@ Swampcrash::Application.routes.draw do
     member do
       get :answer
       post :answer
-      resources :quiz_questions
+      resources :questions
       get :grade_answers
       post :grade_answers
       delete :delete_answer_sheet

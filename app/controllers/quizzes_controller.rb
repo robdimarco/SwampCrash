@@ -6,13 +6,13 @@ class QuizzesController < ApplicationController
   
   def reveal_question
     position = (params[:position].to_i || 0) + (params[:direction] == 'next' ? 1 : -1)
-    @quiz_question = @quiz.quiz_questions[position]
+    @question = @quiz.questions[position]
     
-    redirect_to quiz_path(@quiz) and return if (!big_reveal_allowed?(@quiz) or @quiz_question.nil?)
+    redirect_to quiz_path(@quiz) and return if (!big_reveal_allowed?(@quiz) or @question.nil?)
     
     respond_to do |format|
       format.json{
-        content = render_to_string(partial:"quizzes/reveal_question.html", locals:{qq:@quiz_question})
+        content = render_to_string(partial:"quizzes/reveal_question.html", locals:{qq:@question})
         render :json=>{content:content}.to_json
       }
     end

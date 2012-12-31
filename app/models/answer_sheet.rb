@@ -32,9 +32,9 @@ class AnswerSheet < ActiveRecord::Base
 
   def answer_for_question(q)
     q = q.id if q.is_a?(Question)
-    q = q.question.id if q.is_a?(QuizQuestion)
     self.answers.detect{|a|a.question_id.to_s==q.to_s}
   end
+  
   def answers_hash(args=nil)
     if args.nil?
       answers.inject({}){|hsh, a| hsh[a.question_id] = a.value;hsh}

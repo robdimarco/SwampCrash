@@ -1,27 +1,27 @@
-class QuizQuestionsController < ApplicationController
+class QuestionsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :quiz_from_id, :only=>[:index, :new, :create]
-  before_filter :quiz_question_from_id, :only=>[:show, :edit, :update, :destroy]
-  # GET /quiz_questions
-  # GET /quiz_questions.xml
+  before_filter :question_from_id, :only=>[:show, :edit, :update, :destroy]
+  # GET /questions
+  # GET /questions.xml
   def index
     respond_to do |format|
       format.html {redirect_to edit_quiz_path(@quiz)}
-      format.xml  { render :xml => @quiz.quiz_questions }
+      format.xml  { render :xml => @quiz.questions }
     end
   end
 
-  # GET /quiz_questions/1
-  # GET /quiz_questions/1.xml
+  # GET /questions/1
+  # GET /questions/1.xml
   def show
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @quiz_question }
+      format.xml  { render :xml => @question }
     end
   end
 
-  # GET /quiz_questions/new
-  # GET /quiz_questions/new.xml
+  # GET /questions/new
+  # GET /questions/new.xml
   def new
     @question = Question.new
     
@@ -31,21 +31,19 @@ class QuizQuestionsController < ApplicationController
     end
   end
 
-  # GET /quiz_questions/1/edit
-  def edit
-    @question = @quiz_question.question
-  end
+  # GET /questions/1/edit
+  def edit; end
 
-  # POST /quiz_questions
-  # POST /quiz_questions.xml
+  # POST /questions
+  # POST /questions.xml
   def create
-    @question = Question.new(params[:question])
+    @question = Question.new(params[:question].merge(position: @quiz.questions.count))
+    @question.quiz = @quiz
 
     respond_to do |format|
       if @question.save
-        @quiz_question = QuizQuestion.create!(:quiz=>@quiz, :position=>@quiz.questions.count, :question=>@question)
         format.html { redirect_to(edit_quiz_path(@quiz), :notice => 'Question was successfully created.') }
-        format.xml  { render :xml => @quiz_question, :status => :created, :location => @quiz_question }
+        format.xml  { render :xml => @question, :status => :created, :location => @question }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @question.errors, :status => :unprocessable_entity }
@@ -53,13 +51,13 @@ class QuizQuestionsController < ApplicationController
     end
   end
 
-  # PUT /quiz_questions/1
-  # PUT /quiz_questions/1.xml
+  # PUT /questions/1
+  # PUT /questions/1.xml
   def update
-    @quiz_question = QuizQuestion.find(params[:id])
+    @question = Question.find(params[:id])
 
     respond_to do |format|
-      if @quiz_question.question.update_attributes(params[:question])
+      if @question.update_attributes(params[:question])
         format.html { redirect_to(edit_quiz_path(@quiz), :notice => 'Question was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -69,14 +67,11 @@ class QuizQuestionsController < ApplicationController
     end
   end
 
-  # DELETE /quiz_questions/1
-  # DELETE /quiz_questions/1.xml
+  # DELETE /questions/1
+  # DELETE /questions/1.xml
   def destroy
-    @quiz_question = QuizQuestion.find(params[:id])
-    @question = @quiz_question.question
-    @quiz_question.destroy
-    
-    @question.destroy if QuizQuestion.where(:question_id=>@question.id).count == 0
+    @question = Question.find(params[:id])
+    @question.destroy
 
     respond_to do |format|
       format.html { redirect_to(edit_quiz_url(@quiz)) }
@@ -89,10 +84,9 @@ class QuizQuestionsController < ApplicationController
       @quiz = Quiz.find(params[:id])
       valid_quiz?      
     end
-    def quiz_question_from_id
-      @quiz_question = QuizQuestion.find(params[:id])
-      raise "Doh" if @quiz_question.nil?
-      @quiz = @quiz_question.quiz
+    def question_from_id
+      @question = Question.find(params[:id])
+      @quiz = @question.quiz
       valid_quiz?
     end
     def valid_quiz?

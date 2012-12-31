@@ -8,7 +8,7 @@
       = link_to 'Publish', publish_quiz_path(@quiz), method: :put, class: 'btn btn-primary'
     - elsif @quiz.active?
       = link_to 'Complete', complete_quiz_path(@quiz), method: :put, class: 'btn btn-primary'
-    = link_to "Add Question", new_quiz_question_path(@quiz), class: 'btn'
+    = link_to "Add Question", new_question_path(@quiz), class: 'btn'
 .row
   %table.table.table-bordered.table-striped
     %thead
@@ -19,16 +19,16 @@
         %th.span2 Tags
         %th.span2 Actions
     %tbody
-      - @quiz.quiz_questions.each_with_index do |q,i|
+      - @quiz.questions.each_with_index do |q,i|
         %tr
           %td= i + 1
-          %td= q.question.value[0..100]
-          %td= q.question.answers_str
-          %td= q.question.tag_list
+          %td= q.value[0..100]
+          %td= q.answers_str
+          %td= q.tag_list
           %td
             .btn-group
-              = link_to "Edit", edit_quiz_question_path(q), class: "btn"
-              = link_to "Delete", quiz_question_path(q), class: "btn btn-danger", :method=>:delete, :confirm=>"Do you really want to delete question #{i+1}"
+              = link_to "Edit", edit_question_path(q), class: "btn"
+              = link_to "Delete", question_path(q), class: "btn btn-danger", :method=>:delete, :confirm=>"Do you really want to delete question #{i+1}"
   - unless @quiz.answer_sheets.empty?
     %h2 Submissions
     %table.table.table-bordered.table-striped
