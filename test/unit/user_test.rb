@@ -2,15 +2,15 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   test "User can get at their owned quizzes" do
-    u = Factory.create :user
-    q = Factory.create :quiz, :owner=>u
+    u = FactoryGirl.create :user
+    q = FactoryGirl.create :quiz, :owner=>u
     u.reload
     assert_equal 1, u.owned_quizzes.count
     assert_equal q, u.owned_quizzes.first
   end
   test "User can get at their answered quizzes" do
-    q = Factory.create :quiz
-    u = Factory.create :user
+    q = FactoryGirl.create :quiz
+    u = FactoryGirl.create :user
     AnswerSheet.create :quiz=>q, :user=>u
     
     u.reload
@@ -19,14 +19,14 @@ class UserTest < ActiveSupport::TestCase
   end
   test "Can find users who want new notifications" do
     assert_difference ["User.count","User.notify_on_new.count"] do
-      u = Factory.create :user, :notify_me_on_new=>true
+      u = FactoryGirl.create :user, :notify_me_on_new=>true
       assert u.valid?, "user has errors #{u.errors.to_xml}"
     end
   end
   test "Users who do not want new notifications are not chosen" do
     assert_difference "User.count" do
       assert_no_difference "User.notify_on_new.count" do
-        u = Factory.create :user, :notify_me_on_new=>false
+        u = FactoryGirl.create :user, :notify_me_on_new=>false
       end
     end
   end

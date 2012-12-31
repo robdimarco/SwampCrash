@@ -2,13 +2,13 @@ require 'test_helper'
 
 class AnswerSheetTest < ActiveSupport::TestCase
   test "Can set answers from hash" do
-    q = Factory.create :quiz
-    5.times {Factory.create(:quiz_question, :quiz=>q)}
+    q = FactoryGirl.create :quiz
+    5.times {FactoryGirl.create(:question, :quiz=>q)}
     q.reload
     
     assert_difference 'AnswerSheet.count' do
       assert_difference 'UserAnswer.count', 5 do
-        as = AnswerSheet.new(:quiz=>q, :user=>Factory.create(:user))
+        as = AnswerSheet.new(:quiz=>q, :user=>FactoryGirl.create(:user))
         assert_equal 0, as.answers.count
         assert_equal Hash.new, as.answers_hash
         as.answers_hash = q.questions.inject({}){|hsh,qq|hsh[qq.id]='Foobar';hsh}
@@ -19,10 +19,10 @@ class AnswerSheetTest < ActiveSupport::TestCase
   end
   
   test "Can grade answer sheet" do
-    q = Factory.create :quiz
-    qq = Factory.create :quiz_question, :quiz=>q
-    a = Factory.create :answer, :value=>'Test', :question=>qq.question
-    as = AnswerSheet.new(:quiz=>q, :user=>Factory.create(:user))
+    q = FactoryGirl.create :quiz
+    qq = FactoryGirl.create :question, :quiz=>q
+    a = FactoryGirl.create :answer, :value=>'Test', :question=>qq
+    as = AnswerSheet.new(:quiz=>q, :user=>FactoryGirl.create(:user))
     as.answers_hash(a.question.id=>'Bar')
     assert_equal 'Bar', as.answers_hash[a.question_id]
     assert_difference ["AnswerSheet.count", "UserAnswer.count"] do

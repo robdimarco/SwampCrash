@@ -7,13 +7,13 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_path
   end
   test "Logged in user can see edit page" do
-    u = Factory.create :user
+    u = FactoryGirl.create :user
     sign_in u
     get :index
     assert_response :success
   end
   test "Logged in user can save changes" do
-    u = Factory.create :user
+    u = FactoryGirl.create :user
     sign_in u
     put :update, :user=>{:full_name=>'New Bogus Name'}
     assert_redirected_to current_user_path
