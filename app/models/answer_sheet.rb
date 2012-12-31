@@ -15,7 +15,7 @@ class AnswerSheet < ActiveRecord::Base
     if @score_by_question_id_hash.nil?
       scorecard = quiz.scorecard
       @score_by_question_id_hash = self.answers.inject({}) do |hsh, ans|
-        hsh[ans.question.id] = ans.incorrect? ? scorecard.incorrect_points(ans.question.id) : scorecard.correct_points(ans.question.id, ans.correct_answer_id)
+        hsh[ans.question_id] = ans.incorrect? ? scorecard.incorrect_points(ans.question) : scorecard.correct_points(ans.question, ans.correct_answer)
         hsh
       end
     end
@@ -25,14 +25,14 @@ class AnswerSheet < ActiveRecord::Base
   def grade!
     self.save!
     self.answers.each do |a|
-      a.correct_answer = a.question.answers.detect{|ans|ans.matches?(a.value)} if a.correct_answer.nil?
+      a.correct_answer = a.question.valid_answer(a.value) if a.correct_answer.nil?
       a.save!
     end
   end  
 
   def answer_for_question(q)
     q = q.id if q.is_a?(Question)
-    self.answers.detect{|a|a.question_id.to_s==q.to_s}
+    self.answers.detect{|a|a.question_id == q.to_i}
   end
   
   def answers_hash(args=nil)

@@ -28,11 +28,6 @@ FactoryGirl.define do
     q.association :quiz
   end
 
-  factory :answer do |a|
-    a.value 'Bar'
-    a.association :question
-  end
-
   factory :answer_sheet do |a|
     a.association :user, :factory=>:user
     a.association :quiz, :factory=>:quiz

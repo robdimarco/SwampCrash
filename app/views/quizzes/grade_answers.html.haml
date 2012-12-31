@@ -13,5 +13,5 @@
           %tr
             %td= q.value
             %td{:class=>a.correct_answer.nil? ? "incorrect" : "correct"}= a.value
-            %td= correct_answer_select(q, a.correct_answer_id)
+            %td= correct_answer_select(q, a.correct_answer)
     %input{:type => "submit", :value => "Grade", class: 'btn btn-primary'}    

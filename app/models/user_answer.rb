@@ -1,26 +1,18 @@
 class UserAnswer < ActiveRecord::Base
   belongs_to :answer_sheet
   belongs_to :question
-  belongs_to :correct_answer, :class_name=>'Answer'
+
   validates_presence_of :answer_sheet, :question
-  validate :validate_answer_integrity
-  attr_accessible :value, :answer_sheet, :question, :correct_answer, :correct_answer_id
+  attr_accessible :value, :answer_sheet, :question, :correct_answer
   def correct?
     !incorrect?
   end
   def incorrect?
-    correct_answer.nil?
+    correct_answer.blank?
   end
   def value=(v)
-    unless v == read_attribute(:value)
-      correct_answer = nil 
-      write_attribute(:correct_answer_id, nil)
-    end
+    correct_answer = nil unless v == read_attribute(:value)
     write_attribute(:value, v)
-  end
-  private
-  def validate_answer_integrity
-    correct_answer.nil? or correct_answer.question = self.question
   end
 end
 

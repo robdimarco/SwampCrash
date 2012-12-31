@@ -4,35 +4,28 @@ class QuestionTest < ActiveSupport::TestCase
   # Replace this with your real tests.
   test "can create question from hash" do
     assert_difference "Question.count" do 
-      assert_difference "Answer.count", 4 do
-        q = Question.new :value=>'Test', :answers_attributes=>%w(Foo Bar Baz Bat).collect{|k|{value: k}}
-        q.quiz = FactoryGirl.create(:quiz)
-        q.save!
-      end
+      q = Question.new :value=>'Test', answers_str: "Foo, Bar, Baz, Bat"
+      q.quiz = FactoryGirl.create(:quiz)
+      q.save!
     end
   end
   test "can save answers from hash" do 
     q = FactoryGirl.create :question
-    assert_difference 'Answer.count', 3 do
-      q.answers_str="foo,bar,baz"
-      q.save!
-    end
+    q.answers_str="foo,bar,baz"
+    assert_equal(%w[foo bar baz].sort, q.answers.sort)
   end
   test "can update answers from hash" do 
     q = FactoryGirl.create :question
-    assert_difference 'Answer.count', 3 do
-      q.answers_str="foo,bar,baz"
-      q.save!
-    end
-    assert_no_difference 'Answer.count' do
-      q.answers_str="blah,bags,buff"
-      q.save!
-    end
+    q.answers_str="foo,bar,baz"
+    assert_equal(%w[foo bar baz].sort, q.answers.sort)
+    q.answers_str="blah,bags,buff"
+    q.save!
+
     q.reload
-    assert_equal "blah,bags,buff".split(",").sort, q.answers.collect(&:value).sort
+    assert_equal %w[blah bags buff].sort, q.answers.sort
   end
   test "User answers are deleted when question is deleted" do
-    q = Question.new :value=>'Test', :answers_attributes=>%w(Foo Bar Baz Bat).collect{|k|{value: k}}
+    q = Question.new :value=>'Test', answers_str: "Foo, Bar, Baz, Bat"
     q.quiz = FactoryGirl.create(:quiz)
     q.save!
     as = FactoryGirl.create :answer_sheet, :quiz => q.quiz
@@ -41,9 +34,7 @@ class QuestionTest < ActiveSupport::TestCase
       as.grade!
     end
     assert_difference ["Question.count", "UserAnswer.count"], -1 do
-      assert_difference ["Answer.count"], -4 do
-        q.destroy
-      end
+      q.destroy
     end
   end
 end

@@ -22,7 +22,7 @@
             - @quiz.scorecard.scoring_details_for_question(qq).correct_answers.each do |ca_hsh|
               %tr
                 %td= ca_hsh[:user_answers].count
-                %td= ca_hsh[:correct_answer].value
+                %td= ca_hsh[:correct_answer]
                 %td= ca_hsh[:user_answers].collect{|ua|ua.answer_sheet.user.to_s}.join(", ")
           
       %h6 Wrong Answers
@@ -48,7 +48,9 @@
           %tbody
             - @quiz.scorecard.scoring_details_for_question(qq).missed_answers.each do |ans|
               %tr
-                %td= ans.value
+                %td= ans
+      - else
+        %h6= @quiz.scorecard.scoring_details_for_question(qq).inspect
       - unless qq.reference_url.blank?
         %p= raw("Reference: " + qq.reference_url.split(/\s+/).map{|ru| link_to(ru, ru, :target=>"_new")}.join("<br />"))
 

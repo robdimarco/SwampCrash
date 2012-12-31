@@ -23,8 +23,6 @@ class QuizTest < ActiveSupport::TestCase
     u = FactoryGirl.create :user, :notify_me_on_completion=>true
     quiz = FactoryGirl.create :quiz
     qq   = FactoryGirl.create :question, :quiz=>quiz
-    answer = FactoryGirl.create :answer, :question=>qq
-    answer2 = FactoryGirl.create :answer, :question=>qq
     assert quiz.pending?
     assert quiz.publish!
 
@@ -36,15 +34,13 @@ class QuizTest < ActiveSupport::TestCase
   
   test "can create scorecard" do
     quiz = FactoryGirl.create :quiz
-    qq   = FactoryGirl.create :question, :quiz=>quiz
-    answer = FactoryGirl.create :answer, :question=>qq
-    answer2 = FactoryGirl.create :answer, :question=>qq
+    qq   = FactoryGirl.create :question, :quiz=>quiz, answers_str: 'Foo,bar'
     as = FactoryGirl.create :answer_sheet, :quiz=>quiz
-    as.answers_hash={answer.question.id=>answer.value} # set a correct answer
+    as.answers_hash={qq.id=>'Foo'} # set a correct answer
     as.grade!
 
     as2 = FactoryGirl.create :answer_sheet, :quiz=>quiz
-    as2.answers_hash={answer.question.id=>'WRONG ANSWER'} # set up a correct answer
+    as2.answers_hash={qq.id=>'WRONG ANSWER'} # set up a correct answer
     as2.grade!
     
     sc = quiz.scorecard
@@ -54,15 +50,15 @@ class QuizTest < ActiveSupport::TestCase
     
     assert_equal 6, sc.incorrect_points(qq.id)
     assert_equal 1, sc.max_points_for_question(qq.id)
-    assert_equal 1, sc.correct_points(qq.id, answer.id)
+    assert_equal 1, sc.correct_points(qq, 'Foo')
     
     assert_equal 1, q_res.correct_answers.length
-    assert_equal answer, q_res.correct_answers.first[:correct_answer]
+    assert_equal 'Foo', q_res.correct_answers.first[:correct_answer]
     
     assert_equal 1, q_res.correct_answers.first[:user_answers].length
     assert_equal as.answers.first, q_res.correct_answers.first[:user_answers].first
     assert_equal 1, q_res.missed_answers.length
-    assert_equal answer2, q_res.missed_answers.first
+    assert_equal 'bar', q_res.missed_answers.first
     assert_equal 1, q_res.incorrect_user_answers.length
     assert_equal as2.answers.first, q_res.incorrect_user_answers.first
   end

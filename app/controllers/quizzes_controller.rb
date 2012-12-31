@@ -39,7 +39,7 @@ class QuizzesController < ApplicationController
     on_post do
       @answer_sheet.status = 'graded'
       @answer_sheet.answers.each do |a|
-        a.update_attributes :correct_answer_id => params[:"question_#{a.question.id}_correct_answer_id"]
+        a.update_attributes :correct_answer => params[:"question_#{a.question.id}_correct_answer"]
       end
         
       @answer_sheet.save

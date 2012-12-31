@@ -20,21 +20,21 @@ class AnswerSheetTest < ActiveSupport::TestCase
   
   test "Can grade answer sheet" do
     q = FactoryGirl.create :quiz
-    qq = FactoryGirl.create :question, :quiz=>q
-    a = FactoryGirl.create :answer, :value=>'Test', :question=>qq
+    qq = FactoryGirl.create :question, :quiz=>q, answers_str: 'Test'
+
     as = AnswerSheet.new(:quiz=>q, :user=>FactoryGirl.create(:user))
-    as.answers_hash(a.question.id=>'Bar')
-    assert_equal 'Bar', as.answers_hash[a.question_id]
+    as.answers_hash(qq.id=>'Bar')
+    assert_equal 'Bar', as.answers_hash[qq.id]
     assert_difference ["AnswerSheet.count", "UserAnswer.count"] do
       as.grade!
     end
-    assert_nil as.answer_for_question(a.question.id).correct_answer
+    assert_nil as.answer_for_question(qq.id).correct_answer
     
-    as.answers_hash(a.question.id=>'Test')
+    as.answers_hash(qq.id=>'Test')
     as.grade!
     
-    assert_equal 'Test', as.answers_hash[a.question_id]
-    assert_equal a, as.answer_for_question(a.question.id).correct_answer
+    assert_equal 'Test', as.answers_hash[qq.id]
+    assert_equal 'Test', as.answer_for_question(qq.id).correct_answer
   end
     
 end

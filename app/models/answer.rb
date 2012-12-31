@@ -1,9 +1,6 @@
 class Answer < ActiveRecord::Base
   belongs_to :question
   attr_accessible :value, :question_id
-  def matches?(v)
-    self.value.downcase.strip == v.to_s.downcase.strip
-  end
 end
 
 
