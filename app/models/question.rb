@@ -14,8 +14,6 @@ class Question < ActiveRecord::Base
       Answer.find_or_initialize_by_question_id_and_value(:question_id=>self.id, :value=>a)
     }
   end
-  def self.import_from_file!(file_name, options={})
-  end
 end
 
 
