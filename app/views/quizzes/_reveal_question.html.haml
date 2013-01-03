@@ -1,4 +1,5 @@
 %input.slide-position{type: 'hidden', value: qq.position}
+%input.max-position{type: 'hidden', value: @quiz.questions.last.position}
 .row
   .span12.well
     .progress
@@ -55,7 +56,7 @@
         %p= raw("Reference: " + qq.reference_url.split(/\s+/).map{|ru| link_to(ru, ru, :target=>"_new")}.join("<br />"))
 
   .span5
-    %h6 #{qq.position == (@quiz.questions.count - 1) ? "Final Scores" : "Scores After #{qq.position + 1}"}
+    %h6 #{qq.position == @quiz.questions.last.position ? "Final Scores" : "Scores After #{qq.position + 1}"}
     %table.table.table-bordered.table-striped
       %thead
         %tr

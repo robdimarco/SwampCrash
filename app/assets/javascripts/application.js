@@ -23,5 +23,10 @@ $(function() {
     } else {
       $(".prev-question").show();
     }
+    if ($(e.relatedTarget).find(".slide-position").val() == $(e.relatedTarget).find(".max-position").val() ) {
+      $(".next-question").hide();
+    } else {
+      $(".next-question").show();
+    }
   });
 });
