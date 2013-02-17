@@ -43,15 +43,12 @@
                 %td= ua.value
                 %td= ua.answer_sheet.user
          
-      - unless @quiz.scorecard.scoring_details_for_question(qq).missed_answers.empty?
-        %h6 No One Guessed
-        %table.table.table-bordered.table-striped
-          %tbody
-            - @quiz.scorecard.scoring_details_for_question(qq).missed_answers.each do |ans|
-              %tr
-                %td= ans
-      - else
-        %h6= @quiz.scorecard.scoring_details_for_question(qq).inspect
+      %h6 No One Guessed
+      %table.table.table-bordered.table-striped
+        %tbody
+          - @quiz.scorecard.scoring_details_for_question(qq).missed_answers.each do |ans|
+            %tr
+              %td= ans
       - unless qq.reference_url.blank?
         %p= raw("Reference: " + qq.reference_url.split(/\s+/).map{|ru| link_to(ru, ru, :target=>"_new")}.join("<br />"))
 
