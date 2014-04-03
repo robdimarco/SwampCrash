@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "1.9.3"
+ruby "2.0.0"
 
 gem 'rails', '3.2.15'
 gem 'devise'
@@ -25,9 +25,7 @@ gem "twitter-bootstrap-rails"
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem "thin"
-gem "airbrake"
 gem 'pg'
-gem "twitter-bootstrap-rails"
 gem 'newrelic_rpm'
 
 
@@ -44,12 +42,10 @@ group :assets do
 end
 
 group :development do
-  gem 'sqlite3'
   gem 'annotate'
   gem 'debugger'
 end
 group :test do
-  gem 'sqlite3'
   gem 'factory_girl'
   gem 'factory_girl_rails'
 end
