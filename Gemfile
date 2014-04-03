@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 ruby "2.0.0"
+gem 'bundler', '>= 1.5.0'
 
 gem 'rails', '3.2.15'
 gem 'devise'
